@@ -1,0 +1,1416 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --canvas: #f7f8fb;
+  --surface: #ffffff;
+  --surface-raised: #f1f4f8;
+  --surface-border: #d9e1ec;
+  --surface-border-strong: #c2cede;
+  --node-surface: #ffffff;
+
+  --text-primary: #111827;
+  --text-secondary: #526071;
+  --text-muted: #8a95a6;
+
+  --grid-line: #d8deea;
+  --connection-line: #c2cede;
+  --connection-active: #315dff;
+
+  --blue: #315dff;
+  --blue-glow: #315dff15;
+  --blue-dim: #e8eeff;
+
+  --green: #008f5d;
+  --green-glow: #008f5d15;
+  --green-dim: #e6f5ef;
+
+  --cyan: #008fb3;
+  --cyan-glow: #008fb315;
+  --cyan-dim: #e6f4f8;
+
+  --amber: #b87500;
+  --amber-glow: #b8750015;
+  --amber-dim: #fdf3e3;
+
+  --purple: #7c5cff;
+  --purple-glow: #7c5cff15;
+  --purple-dim: #f0ecff;
+
+  --selection: #315dff30;
+  --scrollbar-track: #ffffff;
+  --scrollbar-thumb: #c2cede;
+  --scrollbar-thumb-hover: #315dff;
+  --panel-shadow-strong: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
+  --center-blue-shadow: 0 0 0 1px #315dff20, 0 4px 24px #315dff12;
+  --center-green-shadow: 0 0 0 1px #008f5d20, 0 4px 24px #008f5d12;
+  --orbit-node-base-shadow: 0 12px 32px rgba(17, 24, 39, 0.08);
+  --proof-strip-background: color-mix(in srgb, var(--canvas) 95%, transparent);
+}
+
+.dark {
+  color-scheme: dark;
+  --canvas: #0a0a0f;
+  --surface: #111118;
+  --surface-raised: #16161f;
+  --surface-border: #1e1e2e;
+  --surface-border-strong: #2a2a3a;
+  --node-surface: #0e0e16;
+
+  --text-primary: #f0f0f5;
+  --text-secondary: #8b8fa8;
+  --text-muted: #4a4a6a;
+
+  --grid-line: #1a1a2e;
+  --connection-line: #2a2a3a;
+  --connection-active: #4a7bff;
+
+  --blue: #4a7bff;
+  --blue-glow: #4a7bff20;
+  --blue-dim: #1a2a4a;
+
+  --green: #00d084;
+  --green-glow: #00d08420;
+  --green-dim: #003d26;
+
+  --cyan: #00b8d9;
+  --cyan-glow: #00b8d920;
+  --cyan-dim: #003d4a;
+
+  --amber: #f5a623;
+  --amber-glow: #f5a62320;
+  --amber-dim: #3d2a00;
+
+  --purple: #a78bfa;
+  --purple-glow: #a78bfa20;
+  --purple-dim: #2a1a4a;
+
+  --selection: #4a7bff40;
+  --scrollbar-track: #111118;
+  --scrollbar-thumb: #2a2a3a;
+  --scrollbar-thumb-hover: #4a7bff;
+  --panel-shadow-strong: 0 24px 64px #00000060;
+  --center-blue-shadow: 0 0 0 1px #4a7bff70, 0 0 28px #4a7bff90, 0 0 88px #315dff42, inset 0 0 42px #4a7bff12;
+  --center-green-shadow: 0 0 0 1px #00d08465, 0 0 28px #00d08470, 0 0 88px #00d08432, inset 0 0 42px #00d08412;
+  --orbit-node-base-shadow: 0 22px 60px rgba(0, 0, 0, 0.46);
+  --proof-strip-background: color-mix(in srgb, var(--canvas) 90%, transparent);
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--canvas);
+}
+
+body {
+  min-height: 100vh;
+  background: var(--canvas);
+  color: var(--text-primary);
+  font-family: var(--font-body), 'Instrument Sans', sans-serif;
+}
+
+::selection {
+  background: var(--selection);
+  color: var(--text-primary);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+.dot-grid,
+.canvas-grid {
+  background-color: var(--canvas);
+  background-image: radial-gradient(
+    circle,
+    var(--grid-line) 1px,
+    transparent 1px
+  );
+  background-size: 32px 32px;
+}
+
+.dark .dot-grid,
+.dark .canvas-grid {
+  background-size: 28px 28px;
+}
+
+.header-resume-button {
+  height: auto;
+  border: 1px solid var(--blue);
+  border-radius: 999px;
+  background: transparent;
+  padding: 8px 20px;
+  color: var(--blue);
+  font-family: var(--font-body), 'Instrument Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.header-resume-button:hover {
+  border-color: var(--blue);
+  background: var(--blue-glow);
+}
+
+.panel-shadow {
+  box-shadow: var(--panel-shadow-strong);
+}
+
+.dark .panel-shadow {
+  box-shadow: none;
+}
+
+.theme-node-border {
+  border-width: 1px;
+}
+
+.dark .theme-node-border {
+  border-width: 0.5px;
+}
+
+.theme-toggle {
+  border-color: color-mix(in srgb, var(--blue) 22%, var(--surface-border));
+  background: color-mix(in srgb, var(--surface) 74%, transparent);
+  color: var(--text-secondary);
+}
+
+.dark .theme-toggle {
+  background: color-mix(in srgb, var(--canvas) 54%, transparent);
+  box-shadow: inset 0 0 20px color-mix(in srgb, var(--blue) 8%, transparent);
+}
+
+.proof-strip {
+  border-top-width: 1px;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--blue) 10%, transparent),
+    0 18px 60px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 color-mix(in srgb, var(--text-primary) 7%, transparent);
+  isolation: isolate;
+}
+
+.dark .proof-strip {
+  border-top-width: 0.5px;
+  background: color-mix(in srgb, var(--canvas) 68%, transparent) !important;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--blue) 16%, transparent),
+    0 0 46px color-mix(in srgb, var(--blue) 9%, transparent),
+    0 18px 60px rgba(0, 0, 0, 0.46),
+    inset 0 1px 0 color-mix(in srgb, var(--blue) 16%, transparent);
+}
+
+.proof-strip::before {
+  background:
+    radial-gradient(circle at 14% 50%, color-mix(in srgb, var(--blue) 14%, transparent), transparent 22%),
+    radial-gradient(circle at 82% 50%, color-mix(in srgb, var(--cyan) 10%, transparent), transparent 22%);
+  content: '';
+  inset: 0;
+  opacity: 0.72;
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+}
+
+.proof-strip__scan {
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--blue) 48%, transparent), transparent);
+  height: 1px;
+  left: 8%;
+  opacity: 0.78;
+  pointer-events: none;
+  position: absolute;
+  right: 8%;
+  top: 0;
+}
+
+.proof-strip__track {
+  gap: 0;
+  letter-spacing: -0.01em;
+}
+
+.proof-strip-item {
+  color: var(--text-muted);
+  gap: 7px;
+}
+
+.proof-strip-item__text:hover {
+  color: var(--text-secondary);
+}
+
+.proof-strip-item__dot {
+  background: var(--blue);
+  border-radius: 999px;
+  box-shadow: 0 0 10px var(--blue), 0 0 24px color-mix(in srgb, var(--blue) 64%, transparent);
+  height: 4px;
+  opacity: 0.86;
+  width: 4px;
+}
+
+.proof-strip-item__divider {
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--surface-border-strong) 84%, transparent), transparent);
+  height: 1px;
+  margin-inline: clamp(8px, 1vw, 14px);
+  opacity: 0.86;
+  width: clamp(10px, 1.1vw, 18px);
+}
+
+.orbit-reference-canvas {
+  isolation: isolate;
+  position: relative;
+}
+
+.orbit-reference-canvas::before {
+  background:
+    radial-gradient(circle at 50% 44%, color-mix(in srgb, var(--blue) 12%, transparent), transparent 32%),
+    radial-gradient(circle at 12% 20%, color-mix(in srgb, var(--cyan) 7%, transparent), transparent 28%),
+    radial-gradient(circle at 82% 18%, color-mix(in srgb, var(--blue) 6%, transparent), transparent 30%);
+  content: '';
+  inset: 0;
+  opacity: 0.45;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+}
+
+.dark .orbit-reference-canvas::before {
+  background:
+    radial-gradient(circle at 50% 48%, color-mix(in srgb, var(--blue) 20%, transparent), transparent 29%),
+    radial-gradient(circle at 22% 24%, color-mix(in srgb, var(--cyan) 8%, transparent), transparent 26%),
+    radial-gradient(circle at 82% 18%, color-mix(in srgb, var(--blue) 10%, transparent), transparent 28%),
+    radial-gradient(circle at 50% 100%, color-mix(in srgb, var(--blue) 7%, transparent), transparent 32%),
+    linear-gradient(90deg, color-mix(in srgb, var(--canvas) 92%, #000 8%), var(--canvas) 45%, color-mix(in srgb, var(--blue) 6%, var(--canvas)));
+  opacity: 1;
+}
+
+.orbit-center-node {
+  background:
+    radial-gradient(circle at 50% 36%, color-mix(in srgb, var(--blue) 18%, transparent), transparent 48%),
+    radial-gradient(circle at 50% 90%, color-mix(in srgb, var(--blue) 7%, transparent), transparent 60%),
+    var(--surface);
+  overflow: visible;
+}
+
+.orbit-center-node::before,
+.orbit-center-node::after {
+  border-radius: inherit;
+  content: '';
+  pointer-events: none;
+  position: absolute;
+}
+
+.orbit-center-node::before {
+  border: 1px solid color-mix(in srgb, var(--blue) 36%, transparent);
+  inset: -12px;
+  opacity: 0.75;
+}
+
+.orbit-center-node::after {
+  border: 1px solid color-mix(in srgb, var(--blue) 20%, transparent);
+  inset: 30px;
+  opacity: 0.48;
+}
+
+.orbit-center-node[data-orbit-mode='projects'] {
+  background:
+    radial-gradient(circle at 50% 36%, color-mix(in srgb, var(--green) 12%, transparent), transparent 44%),
+    var(--surface);
+}
+
+.orbit-center-node[data-orbit-mode='projects']::before {
+  border-color: color-mix(in srgb, var(--green) 38%, transparent);
+}
+
+.orbit-center-node[data-orbit-mode='projects']::after {
+  border-color: color-mix(in srgb, var(--green) 22%, transparent);
+}
+
+.dark .orbit-center-node::before {
+  box-shadow:
+    0 0 34px color-mix(in srgb, var(--blue) 56%, transparent),
+    inset 0 0 34px color-mix(in srgb, var(--blue) 20%, transparent);
+}
+
+.dark .orbit-center-node[data-orbit-mode='projects']::before {
+  box-shadow: 0 0 34px color-mix(in srgb, var(--green) 42%, transparent);
+}
+
+.orbit-center-node > * {
+  position: relative;
+  z-index: 1;
+}
+
+.orbit-identity-lockup {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  width: min(216px, 100%);
+}
+
+.orbit-identity-lockup__name {
+  font-family: var(--font-body), 'Instrument Sans', sans-serif;
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  white-space: nowrap;
+}
+
+.orbit-identity-lockup__role {
+  font-family: var(--font-body), 'Instrument Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.orbit-identity-lockup__extended {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+}
+
+.orbit-identity-lockup--intro {
+  gap: 12px;
+  width: min(300px, 100%);
+}
+
+.orbit-identity-lockup--intro .orbit-identity-lockup__name {
+  font-size: 50px;
+}
+
+.orbit-identity-lockup--intro .orbit-identity-lockup__role {
+  font-size: 16px;
+}
+
+.orbit-identity-lockup--mobile-intro {
+  gap: 6px;
+  width: 178px;
+}
+
+.orbit-identity-lockup--mobile-intro .orbit-identity-lockup__name {
+  font-size: 25px;
+  letter-spacing: -0.045em;
+}
+
+.orbit-identity-lockup--mobile-intro .orbit-identity-lockup__role {
+  font-size: 9.4px;
+}
+
+.orbit-identity-lockup--mobile-intro .orbit-identity-lockup__extended {
+  gap: 5px;
+}
+
+.orbit-identity-lockup__divider {
+  align-items: center;
+  display: flex;
+  gap: 5px;
+  height: 8px;
+  justify-content: center;
+  margin-block: 1px;
+  width: 118px;
+}
+
+.orbit-identity-lockup__divider::before,
+.orbit-identity-lockup__divider::after {
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--blue) 34%, transparent));
+  content: '';
+  height: 1px;
+  width: 42px;
+}
+
+.orbit-identity-lockup__divider::after {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--blue) 34%, transparent), transparent);
+}
+
+.orbit-identity-lockup__divider span {
+  background: var(--blue);
+  border-radius: 999px;
+  box-shadow: 0 0 8px var(--blue);
+  height: 3px;
+  opacity: 0.86;
+  width: 3px;
+}
+
+.orbit-identity-lockup__domains {
+  align-items: center;
+  color: var(--blue);
+  display: inline-flex;
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  gap: 10px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.orbit-identity-lockup__domains span {
+  align-items: center;
+  display: inline-flex;
+  gap: 10px;
+}
+
+.orbit-identity-lockup__domains span::before {
+  background: color-mix(in srgb, var(--blue) 78%, transparent);
+  border-radius: 999px;
+  box-shadow: 0 0 7px var(--blue);
+  content: '';
+  height: 2px;
+  width: 2px;
+}
+
+.orbit-identity-lockup--mobile-intro .orbit-identity-lockup__divider {
+  height: 5px;
+  margin-block: 0;
+  width: 76px;
+}
+
+.orbit-identity-lockup--mobile-intro .orbit-identity-lockup__divider::before,
+.orbit-identity-lockup--mobile-intro .orbit-identity-lockup__divider::after {
+  width: 25px;
+}
+
+.orbit-identity-lockup--mobile-intro .orbit-identity-lockup__divider span {
+  height: 2px;
+  width: 2px;
+}
+
+.orbit-identity-lockup--mobile-intro .orbit-identity-lockup__domains {
+  font-size: 7px;
+  gap: 5px;
+}
+
+.orbit-identity-lockup--mobile-intro .orbit-identity-lockup__domains span {
+  gap: 5px;
+}
+
+.orbit-live-status {
+  align-items: center;
+  border: 1px solid;
+  border-radius: 999px;
+  display: inline-flex;
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  font-weight: 500;
+  gap: 8px;
+  line-height: 1;
+  margin-top: 1px;
+  padding: 7px 15px;
+  text-transform: uppercase;
+}
+
+.orbit-live-status__dot {
+  animation: orbit-status-dot-pulse 3s ease-in-out infinite;
+  border-radius: 999px;
+  height: 6px;
+  width: 6px;
+}
+
+.orbit-identity-lockup--mobile-intro .orbit-live-status {
+  font-size: 6.7px;
+  gap: 5px;
+  padding: 4px 8px;
+}
+
+.orbit-identity-lockup--mobile-intro .orbit-live-status__dot {
+  height: 4px;
+  width: 4px;
+}
+
+.orbit-ta-mark {
+  align-items: center;
+  border: 1px solid;
+  border-radius: 999px;
+  display: inline-grid;
+  font-family: var(--font-display), 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  height: 54px;
+  justify-items: center;
+  line-height: 1;
+  position: relative;
+  width: 54px;
+}
+
+.orbit-ta-mark--intro {
+  font-size: 17px;
+  height: 68px;
+  width: 68px;
+}
+
+.orbit-ta-mark--intro .orbit-ta-mark__ring {
+  inset: -10px;
+}
+
+.orbit-ta-mark--intro .orbit-ta-mark__dot {
+  height: 6px;
+  width: 6px;
+}
+
+.orbit-ta-mark--intro .orbit-ta-mark__dot--top {
+  top: -14px;
+}
+
+.orbit-ta-mark--intro .orbit-ta-mark__dot--right {
+  right: -14px;
+}
+
+.orbit-ta-mark--intro .orbit-ta-mark__dot--bottom {
+  bottom: -14px;
+}
+
+.orbit-ta-mark--intro .orbit-ta-mark__dot--left {
+  left: -14px;
+}
+
+.orbit-ta-mark--mobile-intro {
+  font-size: 11px;
+  height: 42px;
+  width: 42px;
+}
+
+.orbit-ta-mark--mobile-intro .orbit-ta-mark__ring {
+  inset: -6px;
+}
+
+.orbit-ta-mark--mobile-intro .orbit-ta-mark__dot {
+  height: 3.5px;
+  width: 3.5px;
+}
+
+.orbit-ta-mark--mobile-intro .orbit-ta-mark__dot--top {
+  top: -8px;
+}
+
+.orbit-ta-mark--mobile-intro .orbit-ta-mark__dot--right {
+  right: -8px;
+}
+
+.orbit-ta-mark--mobile-intro .orbit-ta-mark__dot--bottom {
+  bottom: -8px;
+}
+
+.orbit-ta-mark--mobile-intro .orbit-ta-mark__dot--left {
+  left: -8px;
+}
+
+.orbit-nav-identity {
+  display: grid;
+  gap: 7px;
+  justify-items: center;
+  width: min(190px, 100%);
+}
+
+.orbit-nav-identity__name {
+  font-family: var(--font-body), 'Instrument Sans', sans-serif;
+  font-size: 33px;
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  white-space: nowrap;
+}
+
+.orbit-nav-identity__role {
+  font-family: var(--font-body), 'Instrument Sans', sans-serif;
+  font-size: 12.5px;
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.orbit-nav-identity--mobile {
+  gap: 4px;
+  width: 124px;
+}
+
+.orbit-nav-identity--mobile .orbit-nav-identity__name {
+  font-size: 20px;
+  letter-spacing: -0.04em;
+}
+
+.orbit-nav-identity--mobile .orbit-nav-identity__role {
+  font-size: 8px;
+  max-width: 112px;
+}
+
+.orbit-ta-mark__ring {
+  animation: orbit-ta-ring-spin 12s linear infinite;
+  border: 1px solid color-mix(in srgb, currentColor 58%, transparent);
+  border-left-color: transparent;
+  border-radius: inherit;
+  border-right-color: transparent;
+  inset: -8px;
+  opacity: 0.82;
+  position: absolute;
+}
+
+.orbit-ta-mark__dot {
+  background: currentColor;
+  border-radius: 999px;
+  box-shadow: 0 0 10px currentColor;
+  height: 5px;
+  position: absolute;
+  width: 5px;
+}
+
+.orbit-ta-mark__dot--top {
+  top: -11px;
+}
+
+.orbit-ta-mark__dot--right {
+  right: -11px;
+}
+
+.orbit-ta-mark__dot--bottom {
+  bottom: -11px;
+}
+
+.orbit-ta-mark__dot--left {
+  left: -11px;
+}
+
+.orbit-ta-mark__text {
+  text-shadow: 0 0 14px currentColor;
+}
+
+.orbit-identity-lockup--compact {
+  gap: 3.5px;
+  width: 132px;
+}
+
+.orbit-identity-lockup--compact .orbit-identity-lockup__name {
+  font-size: 22px;
+}
+
+.orbit-identity-lockup--compact .orbit-identity-lockup__role {
+  font-size: 8.5px;
+  max-width: 118px;
+}
+
+.orbit-identity-lockup--compact .orbit-identity-lockup__divider {
+  height: 5px;
+  margin-block: 0;
+  width: 72px;
+}
+
+.orbit-identity-lockup--compact .orbit-identity-lockup__divider::before,
+.orbit-identity-lockup--compact .orbit-identity-lockup__divider::after {
+  width: 24px;
+}
+
+.orbit-identity-lockup--compact .orbit-identity-lockup__divider span {
+  height: 2px;
+  width: 2px;
+}
+
+.orbit-identity-lockup--compact .orbit-identity-lockup__domains {
+  font-size: 6.8px;
+  gap: 5px;
+}
+
+.orbit-identity-lockup--compact .orbit-identity-lockup__domains span {
+  gap: 5px;
+}
+
+.orbit-identity-lockup--compact .orbit-live-status {
+  font-size: 6.6px;
+  gap: 5px;
+  padding: 4px 7px;
+}
+
+.orbit-identity-lockup--compact .orbit-live-status__dot {
+  height: 4px;
+  width: 4px;
+}
+
+.orbit-ta-mark--compact {
+  font-size: 10px;
+  height: 34px;
+  width: 34px;
+}
+
+.orbit-ta-mark--compact .orbit-ta-mark__ring {
+  inset: -5px;
+}
+
+.orbit-ta-mark--compact .orbit-ta-mark__dot {
+  height: 3.5px;
+  width: 3.5px;
+}
+
+.orbit-ta-mark--compact .orbit-ta-mark__dot--top {
+  top: -7px;
+}
+
+.orbit-ta-mark--compact .orbit-ta-mark__dot--right {
+  right: -7px;
+}
+
+.orbit-ta-mark--compact .orbit-ta-mark__dot--bottom {
+  bottom: -7px;
+}
+
+.orbit-ta-mark--compact .orbit-ta-mark__dot--left {
+  left: -7px;
+}
+
+.dark .orbit-identity-lockup__name {
+  text-shadow:
+    0 0 18px color-mix(in srgb, var(--blue) 32%, transparent),
+    0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.dark .orbit-identity-lockup__role {
+  color: color-mix(in srgb, var(--text-secondary) 88%, var(--blue) 12%);
+}
+
+.orbit-icon-node {
+  backdrop-filter: blur(14px);
+  background: var(--node-surface);
+}
+
+.dark .orbit-icon-node {
+  background: color-mix(in srgb, var(--node-surface) 92%, transparent);
+}
+
+.orbit-atmosphere {
+  opacity: 0.42;
+}
+
+.dark .orbit-atmosphere {
+  opacity: 0.62;
+}
+
+.orbit-core-hud {
+  --orbit-core-accent: var(--blue);
+  border-radius: 999px;
+  filter: drop-shadow(0 0 24px color-mix(in srgb, var(--orbit-core-accent) 44%, transparent));
+  pointer-events: none;
+}
+
+.orbit-core-hud[data-orbit-mode='projects'] {
+  --orbit-core-accent: var(--green);
+}
+
+.orbit-core-hud > span {
+  border-radius: inherit;
+  inset: 0;
+  position: absolute;
+}
+
+.orbit-core-hud__halo {
+  background:
+    radial-gradient(circle, color-mix(in srgb, var(--orbit-core-accent) 12%, transparent) 0 31%, transparent 49%),
+    radial-gradient(circle, transparent 0 40%, color-mix(in srgb, var(--orbit-core-accent) 16%, transparent) 41% 43%, transparent 46%),
+    radial-gradient(circle, color-mix(in srgb, var(--orbit-core-accent) 7%, transparent) 0 58%, transparent 74%);
+  opacity: 0.76;
+}
+
+.orbit-core-hud__outer {
+  animation: orbit-core-spin 12s linear infinite;
+  background:
+    conic-gradient(
+      from 0deg,
+      transparent 0deg 34deg,
+      color-mix(in srgb, var(--orbit-core-accent) 80%, transparent) 36deg 55deg,
+      transparent 58deg 118deg,
+      color-mix(in srgb, var(--orbit-core-accent) 50%, transparent) 121deg 135deg,
+      transparent 138deg 238deg,
+      color-mix(in srgb, var(--orbit-core-accent) 70%, transparent) 241deg 259deg,
+      transparent 262deg 360deg
+    );
+  mask: radial-gradient(circle, transparent 0 35%, #000 36% 41%, transparent 42%);
+  opacity: 0.88;
+}
+
+.orbit-core-hud__ticks {
+  animation: orbit-core-counter-spin 22s linear infinite;
+  background:
+    repeating-conic-gradient(
+      from 0deg,
+      color-mix(in srgb, var(--orbit-core-accent) 70%, transparent) 0deg 1.4deg,
+      transparent 1.4deg 7.5deg
+    );
+  mask: radial-gradient(circle, transparent 0 44%, #000 45% 49%, transparent 50%);
+  opacity: 0.74;
+}
+
+.orbit-core-hud__scan {
+  animation: orbit-core-spin 6s linear infinite;
+  background:
+    conic-gradient(
+      from 0deg,
+      transparent 0deg 300deg,
+      color-mix(in srgb, var(--orbit-core-accent) 12%, transparent) 306deg,
+      color-mix(in srgb, var(--orbit-core-accent) 95%, transparent) 325deg,
+      transparent 344deg 360deg
+    );
+  mask: radial-gradient(circle, transparent 0 31%, #000 32% 38%, transparent 39%);
+  opacity: 0.88;
+}
+
+.orbit-core-hud__pulse {
+  animation: orbit-core-pulse 3.2s ease-in-out infinite;
+  border: 1px solid color-mix(in srgb, var(--orbit-core-accent) 34%, transparent);
+  inset: 48px !important;
+  opacity: 0.65;
+}
+
+.orbit-core-hud__spark-ring {
+  animation: orbit-core-flicker 2.6s ease-in-out infinite;
+  background:
+    repeating-conic-gradient(
+      from 4deg,
+      color-mix(in srgb, var(--orbit-core-accent) 74%, transparent) 0deg 0.7deg,
+      transparent 0.7deg 14deg
+    );
+  mask: radial-gradient(circle, transparent 0 51%, #000 52% 54%, transparent 55%);
+  opacity: 0.5;
+}
+
+.orbit-anchor-points circle {
+  filter: drop-shadow(0 0 9px var(--blue));
+}
+
+.orbit-core-hud--still .orbit-core-hud__outer,
+.orbit-core-hud--still .orbit-core-hud__ticks,
+.orbit-core-hud--still .orbit-core-hud__scan,
+.orbit-core-hud--still .orbit-core-hud__pulse,
+.orbit-core-hud--still .orbit-core-hud__spark-ring {
+  animation: none;
+}
+
+.orbit-ring-rotate {
+  animation: orbit-ring-spin 60s linear infinite;
+  transform-box: view-box;
+}
+
+.orbit-line-flow {
+  animation: orbit-line-dash 1.4s linear infinite;
+}
+
+.orbit-proof-copy {
+  display: none;
+}
+
+.recognition-primary-prompt {
+  animation: recognition-primary-breathe 5s ease-in-out infinite;
+}
+
+.recognition-line-flow {
+  animation: recognition-line-dash 1.8s linear infinite;
+}
+
+.recognition-primary-prompt::after {
+  border: 1px solid color-mix(in srgb, var(--amber) 34%, transparent);
+  border-radius: inherit;
+  content: '';
+  inset: -10px;
+  opacity: 0.5;
+  pointer-events: none;
+  position: absolute;
+}
+
+@keyframes orbit-ring-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes recognition-primary-breathe {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--amber) 16%, transparent),
+      0 0 18px color-mix(in srgb, var(--amber) 10%, transparent);
+  }
+
+  50% {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--amber) 34%, transparent),
+      0 0 34px color-mix(in srgb, var(--amber) 20%, transparent);
+  }
+}
+
+@keyframes recognition-line-dash {
+  to {
+    stroke-dashoffset: -22;
+  }
+}
+
+@keyframes orbit-line-dash {
+  to {
+    stroke-dashoffset: -18;
+  }
+}
+
+@keyframes orbit-core-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-core-counter-spin {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes orbit-core-pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.96);
+  }
+
+  50% {
+    opacity: 0.68;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes orbit-core-flicker {
+  0%,
+  100% {
+    opacity: 0.34;
+  }
+
+  50% {
+    opacity: 0.62;
+  }
+}
+
+@keyframes orbit-ta-ring-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-status-dot-pulse {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: scale(0.92);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.18);
+  }
+}
+
+@keyframes orbit-proof-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 767px) {
+  .orbit-proof-track {
+    animation: orbit-proof-marquee 24s linear infinite;
+    animation-delay: 2s;
+    justify-content: flex-start;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .proof-strip {
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+
+  .orbit-proof-copy {
+    display: inline-flex;
+  }
+}
+
+.dark .kudo-image-wrapper {
+  filter: brightness(0.88) saturate(0.92);
+}
+
+.vertical-flow {
+  animation: vertical-dash 2.8s linear infinite;
+}
+
+@keyframes vertical-dash {
+  to {
+    background-position: 0 16px;
+  }
+}
+
+/* ─── Architecture page — ReactFlow overrides ─────────────────────────── */
+
+.react-flow__attribution {
+  display: none !important;
+}
+
+.react-flow {
+  background: var(--canvas) !important;
+}
+
+.react-flow__handle {
+  transition: opacity 0.15s;
+}
+
+.react-flow__node:focus-within .react-flow__handle,
+.react-flow__node:hover .react-flow__handle {
+  opacity: 1;
+}
+
+.react-flow__edge path {
+  transition: stroke-opacity 0.2s;
+}
+
+/* ─────────────────────────────────────────────────────────────────────── */
+
+/* ─── Star field ─────────────────────────────────────────────────────────── */
+
+.star-field {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: #ffffff;
+  animation: star-twinkle var(--star-dur, 7s) ease-in-out infinite var(--star-delay, 0s);
+}
+
+.dark .star {
+  background: #ffffff;
+}
+
+@keyframes star-twinkle {
+  0%, 100% { opacity: var(--star-min-opacity, 0.08); transform: scale(1); }
+  50% { opacity: var(--star-max-opacity, 0.58); transform: scale(1.26); }
+}
+
+/* ─── Header animated border glow ────────────────────────────────────────── */
+
+.header-glow-border {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
+  background: conic-gradient(
+    from var(--header-glow-angle, 0deg),
+    transparent 0deg 70deg,
+    color-mix(in srgb, var(--blue) 90%, transparent) 72deg 95deg,
+    transparent 97deg 200deg,
+    color-mix(in srgb, var(--purple) 70%, transparent) 202deg 220deg,
+    transparent 222deg 300deg,
+    color-mix(in srgb, var(--cyan) 60%, transparent) 302deg 318deg,
+    transparent 320deg 360deg
+  );
+  animation: header-border-rotate 18s linear infinite;
+  opacity: 0.72;
+  mask: linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  -webkit-mask: linear-gradient(#000 0 0) content-box,
+                linear-gradient(#000 0 0);
+  -webkit-mask-composite: destination-out;
+  padding: 1px;
+}
+
+@keyframes header-border-rotate {
+  to { --header-glow-angle: 360deg; }
+}
+
+@property --header-glow-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* ─── Bento card shimmer ─────────────────────────────────────────────────── */
+
+.bento-shimmer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    color-mix(in srgb, var(--blue) 4%, transparent) 40%,
+    color-mix(in srgb, var(--blue) 8%, transparent) 50%,
+    color-mix(in srgb, var(--blue) 4%, transparent) 60%,
+    transparent 80%
+  );
+  background-size: 200% 100%;
+  animation: bento-shimmer-slide 9s ease-in-out infinite;
+  opacity: 0.68;
+}
+
+@keyframes bento-shimmer-slide {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── Stat number pulse ──────────────────────────────────────────────────── */
+
+.stat-pulse {
+  animation: stat-number-glow 6s ease-in-out infinite;
+}
+
+@keyframes stat-number-glow {
+  0%, 100% { text-shadow: 0 0 18px color-mix(in srgb, currentColor 34%, transparent); }
+  50% { text-shadow: 0 0 34px color-mix(in srgb, currentColor 62%, transparent), 0 0 56px color-mix(in srgb, currentColor 20%, transparent); }
+}
+
+/* ─── Scan line for bento hero cards ────────────────────────────────────── */
+
+.scan-line {
+  position: absolute;
+  inset-inline: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--blue) 60%, transparent), transparent);
+  animation: scan-sweep 8s ease-in-out infinite;
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+@keyframes scan-sweep {
+  0% { top: 0%; opacity: 0; }
+  5% { opacity: 1; }
+  95% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* ─── Project page: tech badge ───────────────────────────────────────────── */
+
+.tech-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--surface-border-strong);
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  backdrop-filter: blur(8px);
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-secondary);
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.tech-badge:hover {
+  border-color: color-mix(in srgb, var(--blue) 40%, transparent);
+  color: var(--text-primary);
+}
+
+/* ─── Bento grid layout helpers ─────────────────────────────────────────── */
+
+.bento-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.bento-card {
+  border-radius: 20px;
+  border: 1px solid var(--surface-border);
+  background: var(--surface);
+  overflow: hidden;
+  position: relative;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.dark .bento-card {
+  border-color: var(--surface-border);
+  background: var(--surface);
+}
+
+.bento-card:hover {
+  border-color: color-mix(in srgb, var(--blue) 28%, var(--surface-border));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--blue) 10%, transparent),
+              0 8px 40px rgba(0, 0, 0, 0.25);
+}
+
+.dark .bento-card:hover {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--blue) 14%, transparent),
+              0 16px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* ─── Recognition hero quote ─────────────────────────────────────────────── */
+
+.quote-hero-text {
+  font-family: var(--font-display), 'Syne', sans-serif;
+  font-size: clamp(1.65rem, 3.8vw, 3.1rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.028em;
+}
+
+/* ─── Contact card glow ──────────────────────────────────────────────────── */
+
+.contact-glow-card {
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.22s;
+}
+
+.contact-glow-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--blue) 30%, transparent),
+              0 12px 40px color-mix(in srgb, var(--blue) 10%, transparent),
+              0 24px 60px rgba(0, 0, 0, 0.3);
+}
+
+/* ─── Available dot pulse ────────────────────────────────────────────────── */
+
+.available-pulse {
+  animation: available-dot-pulse 3.6s ease-in-out infinite;
+}
+
+@keyframes available-dot-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--green) 60%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--green) 0%, transparent);
+  }
+}
+
+/* ─── About stats strip ──────────────────────────────────────────────────── */
+
+.about-stat-number {
+  font-family: var(--font-display), 'Syne', sans-serif;
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+/* ─── Orbit glow boost (dark mode) ──────────────────────────────────────── */
+
+.dark .orbit-core-hud__scan {
+  opacity: 1;
+}
+
+.dark .orbit-core-hud__outer {
+  opacity: 1;
+}
+
+.dark .orbit-atmosphere {
+  opacity: 0.85;
+}
+
+.dark .orbit-anchor-points circle {
+  filter: drop-shadow(0 0 12px var(--blue)) drop-shadow(0 0 24px var(--blue));
+}
+
+/* ─── Flowing data lines for project pages ───────────────────────────────── */
+
+.data-flow-line {
+  position: absolute;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--blue), transparent);
+  animation: data-flow-drop 4s ease-in-out infinite;
+}
+
+@keyframes data-flow-drop {
+  0% { top: -20%; height: 30%; opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { top: 100%; height: 30%; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-ring-rotate,
+  .orbit-line-flow,
+  .recognition-line-flow,
+  .recognition-primary-prompt,
+  .orbit-core-hud__outer,
+  .orbit-core-hud__ticks,
+  .orbit-core-hud__scan,
+  .orbit-core-hud__pulse,
+  .orbit-core-hud__spark-ring,
+  .orbit-ta-mark__ring,
+  .orbit-live-status__dot,
+  .orbit-proof-track,
+  .vertical-flow,
+  .star-field-drift,
+  .header-border-glow,
+  .bento-shimmer,
+  .stat-pulse,
+  .star,
+  .scan-line,
+  .data-flow-line,
+  .available-pulse {
+    animation: none;
+  }
+}
+
+@layer utilities {
+  .section-label {
+    font-family: var(--font-display), 'Syne', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ─── Cinematic hero title — project pages, major callouts ──────────────── */
+  .text-hero {
+    font-family: var(--font-display), 'Syne', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.045em;
+  }
+
+  /* ─── Page-level h1 — About, Contact, Recognition ───────────────────────── */
+  .text-page-title {
+    font-family: var(--font-display), 'Syne', sans-serif;
+    font-size: clamp(1.75rem, 3vw, 2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+  }
+
+  /* ─── Card / section h2 ──────────────────────────────────────────────────── */
+  .text-section-heading {
+    font-family: var(--font-display), 'Syne', sans-serif;
+    font-size: clamp(1.2rem, 2vw, 1.375rem);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.018em;
+  }
+
+  /* ─── Rich body paragraphs — About chapters, case study copy ────────────── */
+  .text-body-editorial {
+    font-family: var(--font-body), 'Instrument Sans', sans-serif;
+    font-size: clamp(0.9375rem, 1.4vw, 1.0625rem);
+    font-weight: 400;
+    line-height: 1.82;
+    letter-spacing: 0.003em;
+  }
+
+  .rounded-panel {
+    border-radius: 20px;
+  }
+
+  .rounded-node {
+    border-radius: 16px;
+  }
+}
