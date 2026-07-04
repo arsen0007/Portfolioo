@@ -46,7 +46,7 @@ const certs: Cert[] = [
     level: 'Intermediate',
     status: 'completed',
     color: 'blue',
-    file: null,
+    file: '/certificates/AI Product Management Certification.png',
     issuer: 'Product School',
   },
   {
@@ -71,9 +71,9 @@ const certs: Cert[] = [
     id: 'vibe-coding',
     title: 'Vibe Coding',
     level: 'Advanced',
-    status: 'in-progress',
+    status: 'completed',
     color: 'blue',
-    file: null,
+    file: '/certificates/Vibe Coding Certification.png',
     issuer: 'Product School',
   },
   {
@@ -98,9 +98,9 @@ const certs: Cert[] = [
     id: 'claude-code',
     title: 'Claude Code',
     level: 'Advanced',
-    status: 'in-progress',
+    status: 'completed',
     color: 'green',
-    file: null,
+    file: '/certificates/Claude Code Certification.png',
     issuer: 'Product School',
   },
 ];
