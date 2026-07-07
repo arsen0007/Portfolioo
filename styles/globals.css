@@ -13,7 +13,7 @@
 
   --text-primary: #111827;
   --text-secondary: #526071;
-  --text-muted: #8a95a6;
+  --text-muted: #5f6b7d;
 
   --grid-line: #d8deea;
   --connection-line: #c2cede;
@@ -61,7 +61,7 @@
 
   --text-primary: #f0f0f5;
   --text-secondary: #8b8fa8;
-  --text-muted: #4a4a6a;
+  --text-muted: #767b96;
 
   --grid-line: #1a1a2e;
   --connection-line: #2a2a3a;
@@ -113,6 +113,36 @@ body {
 ::selection {
   background: var(--selection);
   color: var(--text-primary);
+}
+
+/* ─── Keyboard focus — visible ring on every interactive element ────────── */
+
+:focus-visible {
+  outline: 2px solid var(--blue) !important;
+  outline-offset: 3px !important;
+  border-radius: 6px;
+}
+
+/* ─── Skip link for keyboard / screen-reader users ──────────────────────── */
+
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 100;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--blue);
+  background: var(--surface);
+  color: var(--text-primary);
+  font-family: var(--font-body), 'Instrument Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  transition: top 0.15s ease-out;
+}
+
+.skip-link:focus-visible {
+  top: 16px;
 }
 
 * {
@@ -167,9 +197,17 @@ body {
   line-height: 1;
 }
 
+.header-resume-button {
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
 .header-resume-button:hover {
   border-color: var(--blue);
   background: var(--blue-glow);
+}
+
+.header-resume-button:active {
+  transform: scale(0.97);
 }
 
 .panel-shadow {
@@ -192,6 +230,11 @@ body {
   border-color: color-mix(in srgb, var(--blue) 22%, var(--surface-border));
   background: color-mix(in srgb, var(--surface) 74%, transparent);
   color: var(--text-secondary);
+  transition: transform 0.15s ease, border-color 0.2s ease;
+}
+
+.theme-toggle:active {
+  transform: scale(0.92);
 }
 
 .dark .theme-toggle {
@@ -410,7 +453,7 @@ body {
 }
 
 .orbit-identity-lockup--mobile-intro .orbit-identity-lockup__role {
-  font-size: 9.4px;
+  font-size: 10.5px;
 }
 
 .orbit-identity-lockup--mobile-intro .orbit-identity-lockup__extended {
@@ -492,7 +535,7 @@ body {
 }
 
 .orbit-identity-lockup--mobile-intro .orbit-identity-lockup__domains {
-  font-size: 7px;
+  font-size: 8.5px;
   gap: 5px;
 }
 
@@ -523,9 +566,9 @@ body {
 }
 
 .orbit-identity-lockup--mobile-intro .orbit-live-status {
-  font-size: 6.7px;
+  font-size: 8.5px;
   gap: 5px;
-  padding: 4px 8px;
+  padding: 5px 10px;
 }
 
 .orbit-identity-lockup--mobile-intro .orbit-live-status__dot {
@@ -644,8 +687,8 @@ body {
 }
 
 .orbit-nav-identity--mobile .orbit-nav-identity__role {
-  font-size: 8px;
-  max-width: 112px;
+  font-size: 9.5px;
+  max-width: 124px;
 }
 
 .orbit-ta-mark__ring {
@@ -1033,6 +1076,11 @@ body {
     margin-right: 0;
   }
 
+  .proof-strip:active .orbit-proof-track,
+  .proof-strip:focus-within .orbit-proof-track {
+    animation-play-state: paused;
+  }
+
   .proof-strip {
     bottom: max(0.75rem, env(safe-area-inset-bottom));
   }
@@ -1300,6 +1348,7 @@ body {
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ─── Orbit glow boost (dark mode) ──────────────────────────────────────── */

@@ -418,7 +418,7 @@ export default function RecognitionPage() {
             </blockquote>
             <p className="mt-6 font-body text-base leading-[1.7] text-textSecondary max-w-[500px] mx-auto">
               Validated by leadership, peers, and public record.
-              This is what happens when you go 200% on every problem.
+              Not praise for effort — a response to shipped systems.
             </p>
           </div>
         </div>

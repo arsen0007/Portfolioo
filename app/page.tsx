@@ -7,7 +7,7 @@ const proofMetrics = [
   '433 hours/month saved',
   'Global Hackathon Winner',
   'Public Company Innovation Feature',
-  'CEO Sponsored · CTO Integrated',
+  'CEO-sponsored · CTO-integrated',
 ] as const;
 
 const STAR_FIELD = [
@@ -119,6 +119,10 @@ export default function HomePage() {
         aria-label="Home systems map"
         className="orbit-reference-canvas dot-grid relative min-h-screen overflow-hidden"
       >
+        <h1 className="sr-only">
+          Tousif Ali — AI Product &amp; Systems Builder. I build AI systems that replace manual
+          work: 100K+ leads sourced, 433 hours saved per month, Global Hackathon Winner.
+        </h1>
         <StarField />
         <Suspense fallback={null}>
           <OrbitCanvas />

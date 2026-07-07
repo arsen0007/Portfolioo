@@ -28,7 +28,7 @@ export type NavigationItem = {
 
 export const navigationItems: NavigationItem[] = [
   { href: '/about', label: 'About', section: 'about' },
-  { href: '/?orbit=projects', label: 'Projects', section: 'projects' },
+  { href: '/projects', label: 'Projects', section: 'projects' },
   { href: '/architecture', label: 'Architecture', section: 'architecture' },
   { href: '/recognition', label: 'Recognition', section: 'recognition' },
   { href: '/contact', label: 'Contact', section: 'contact' },

@@ -23,7 +23,7 @@ export default function FhonemanPage() {
       />
       <div className="relative z-10 mx-auto max-w-5xl px-6 pt-28">
         <motion.div {...fadeUp(0)}>
-          <Link href="/?orbit=projects" className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em] text-textMuted transition-colors hover:text-textPrimary">
+          <Link href="/projects" className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em] text-textMuted transition-colors hover:text-textPrimary">
             <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 14 14" aria-hidden="true"><path d="M9 2.5 4.5 7 9 11.5" /></svg>
             All projects
           </Link>
@@ -71,7 +71,7 @@ export default function FhonemanPage() {
         </motion.div>
 
         <motion.div className="mt-8 flex gap-3" {...fadeUp(0.24)}>
-          <Link href="/?orbit=projects" className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] text-textMuted transition-colors hover:text-textPrimary" style={{ borderColor: 'var(--surface-border)' }}>
+          <Link href="/projects" className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] text-textMuted transition-colors hover:text-textPrimary" style={{ borderColor: 'var(--surface-border)' }}>
             See other projects
           </Link>
         </motion.div>

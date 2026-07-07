@@ -154,7 +154,7 @@ export const projects: Project[] = [
       { value: '96%', label: 'Time reduction' },
       { value: '433h', label: 'Saved per month (Legal)' },
       { value: '2,700', label: 'Cases monthly' },
-      { value: '1,254%', label: 'Estimated ROI' },
+      { value: '~12x', label: 'Estimated ROI' },
     ],
     proof: [
       'Awarded $5,000 Product School scholarship by CEO Alan King.',

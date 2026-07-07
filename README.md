@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# tousifali.com — Portfolio
 
-## Getting Started
+Personal portfolio of **Tousif Ali**, AI Product & Systems Builder. Live at [tousifali.com](https://tousifali.com).
 
-First, run the development server:
+The homepage is an interactive orbit — a systems map of my work — built from scratch with SVG, CSS conic gradients, and Framer Motion. Every project featured runs in production with real users: [BarHunter](https://tousifali.com/projects/barhunter) (100K+ legal leads sourced), [CaseWise](https://tousifali.com/projects/casewise) (AI legal intake, 96% time reduction, CTO-integrated), and more.
+
+## Stack
+
+Next.js 14 (App Router, fully static output) · TypeScript · Tailwind CSS · Framer Motion · @xyflow/react (architecture diagrams) · deployed on Vercel.
+
+## Notable details
+
+- **Design system in CSS variables** — dual light/dark themes via `color-mix()`, one token set in `styles/globals.css`, zero runtime theme flash (inline script applies theme before paint).
+- **Accessibility** — WCAG AA contrast tokens, global `:focus-visible` rings, skip link, `prefers-reduced-motion` coverage for every animation, `aria-current` navigation.
+- **SEO** — static prerender of all routes, JSON-LD Person schema, OG images, sitemap + robots.
+- **Content as data** — case studies live in `lib/data/projects.ts` with typed problem/decisions/constraints/outcome models.
+
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Contact
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+tousifarsen@gmail.com · [LinkedIn](https://www.linkedin.com/in/tousif-ali--/) · [GitHub](https://github.com/arsen0007)

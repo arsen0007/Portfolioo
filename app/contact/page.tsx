@@ -3,6 +3,7 @@
 import type { ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
+import { trackEvent } from '@/lib/analytics';
 import { colorMix, themeColors } from '@/lib/constants/colors';
 
 type ContactCard = {
@@ -96,7 +97,7 @@ export default function ContactPage() {
               CONTACT
             </p>
             <h1 className="mt-4 font-display text-[32px] font-medium leading-tight text-textPrimary">
-              Let&apos;s Build Something
+              Let&apos;s build something.
             </h1>
             <p className="mx-auto mt-4 max-w-[420px] font-body text-base font-normal leading-[1.7] text-textSecondary">
               Have a problem worth solving? I&apos;d like to hear about it.
@@ -111,6 +112,13 @@ export default function ContactPage() {
                 href={card.href}
                 initial={{ opacity: 0, y: 20 }}
                 key={card.label}
+                onClick={
+                  card.label === 'LinkedIn'
+                    ? () => trackEvent('linkedin_click', { location: 'contact_page' })
+                    : card.label === 'Resume'
+                    ? () => trackEvent('resume_download', { location: 'contact_page' })
+                    : undefined
+                }
                 rel={card.href.startsWith('http') ? 'noreferrer' : undefined}
                 style={{ borderColor: colorMix(themeColors.blue, 22) }}
                 target={card.href.startsWith('http') ? '_blank' : undefined}

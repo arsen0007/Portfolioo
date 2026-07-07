@@ -419,10 +419,10 @@ export default function AboutPage() {
                 CREDENTIALS · PRODUCT SCHOOL
               </p>
               <h2 className="mt-3 font-display text-[26px] font-medium leading-tight text-textPrimary md:text-[30px]">
-                4 certifications earned.
+                6 certifications earned.
               </h2>
               <p className="mt-2 font-body text-[14px] leading-[1.7] text-textSecondary">
-                CEO sponsored. 5 more in progress.
+                CEO sponsored. 3 more in progress.
               </p>
             </div>
             <Link

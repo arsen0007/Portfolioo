@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { trackEvent } from '@/lib/analytics';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
@@ -132,6 +133,7 @@ export function Header() {
 
                 return (
                   <Link
+                    aria-current={isActive ? 'page' : undefined}
                     className={cn(
                       'border-b-2 border-transparent pb-1 font-body text-[13px] font-normal text-textSecondary transition-all duration-200 ease-in-out hover:text-textPrimary lg:text-[14px]',
                       isActive && 'text-textPrimary',
@@ -153,6 +155,7 @@ export function Header() {
               className="header-resume-button hidden sm:inline-flex"
               download
               href="/resume.pdf"
+              onClick={() => trackEvent('resume_download', { location: 'header_desktop' })}
             >
               Resume
             </a>
@@ -210,7 +213,7 @@ export function Header() {
               }}
               transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
             >
-              <ul className="flex flex-col divide-y">
+              <ul className="flex flex-col">
                 {navigationItems.map((item, i) => {
                   const isProjectsActive =
                     item.section === 'projects' &&
@@ -231,6 +234,7 @@ export function Header() {
                       transition={{ delay: i * 0.04, duration: 0.2, ease: 'easeOut' }}
                     >
                       <Link
+                        aria-current={isActive ? 'page' : undefined}
                         className="flex items-center justify-between px-5 py-4"
                         href={item.href}
                         style={{ borderBottom: '1px solid var(--surface-border)' }}
@@ -278,6 +282,7 @@ export function Header() {
                     className="flex items-center justify-between px-5 py-4"
                     download
                     href="/resume.pdf"
+                    onClick={() => trackEvent('resume_download', { location: 'header_mobile' })}
                   >
                     <span className="font-body text-[15px] font-medium" style={{ color: themeColors.blue }}>
                       Resume

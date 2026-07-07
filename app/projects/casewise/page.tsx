@@ -15,7 +15,7 @@ const stats = [
   { value: '96%', label: 'Time reduction', color: themeColors.blue, glow: themeColors.blueGlow },
   { value: '433h', label: 'Saved per month (Legal)', color: themeColors.purple, glow: themeColors.purpleGlow },
   { value: '2,700', label: 'Cases monthly', color: themeColors.amber, glow: themeColors.amberGlow },
-  { value: '1,254%', label: 'Estimated ROI', color: themeColors.green, glow: themeColors.greenGlow },
+  { value: '~12x', label: 'Estimated ROI', color: themeColors.green, glow: themeColors.greenGlow },
 ];
 
 const aiPipeline = [
@@ -74,7 +74,7 @@ export default function CaseWisePage() {
         {/* Back */}
         <motion.div {...fadeUp(0)}>
           <Link
-            href="/?orbit=projects"
+            href="/projects"
             className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em] text-textMuted transition-colors hover:text-textPrimary"
           >
             <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 14 14" aria-hidden="true">
@@ -321,7 +321,7 @@ export default function CaseWisePage() {
             See the recognition
           </Link>
           <Link
-            href="/?orbit=projects"
+            href="/projects"
             className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] text-textMuted transition-colors hover:text-textPrimary"
             style={{ borderColor: 'var(--surface-border)' }}
           >
