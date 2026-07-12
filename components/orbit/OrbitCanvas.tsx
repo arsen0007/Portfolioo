@@ -10,7 +10,7 @@ import { colorMix, themeColors } from '@/lib/constants/colors';
 import { cn } from '@/lib/utils';
 
 type OrbitMode = 'home' | 'projects';
-type HomeNodeId = 'about' | 'projects' | 'recognition' | 'contact';
+type HomeNodeId = 'about' | 'projects' | 'recognition' | 'contact' | 'certifications';
 type ProjectNodeId = 'barhunter' | 'casewise' | 'mailmerge' | 'fhoneman' | 'genie';
 type OrbitNodeId = HomeNodeId | ProjectNodeId;
 
@@ -74,6 +74,7 @@ const archLabels: Partial<Record<OrbitNodeId, string>> = {
   projects: 'output',
   recognition: 'eval.',
   contact: 'deploy',
+  certifications: 'certs',
   barhunter: 'leads',
   casewise: 'intake',
   mailmerge: 'batch',
@@ -93,8 +94,18 @@ const homeItems: OrbitItem[] = [
     tooltip: 'My story and journey',
   },
   {
+    action: { href: '/certifications', type: 'route' },
+    angle: 342,
+    color: 'amber',
+    icon: 'cert',
+    id: 'certifications',
+    label: 'Certifications',
+    sublabel: 'Credentials',
+    tooltip: 'Verified credentials',
+  },
+  {
     action: { type: 'projects' },
-    angle: 0,
+    angle: 54,
     color: 'green',
     icon: 'projects',
     id: 'projects',
@@ -104,8 +115,8 @@ const homeItems: OrbitItem[] = [
   },
   {
     action: { href: '/recognition', type: 'route' },
-    angle: 90,
-    color: 'amber',
+    angle: 126,
+    color: 'purple',
     icon: 'recognition',
     id: 'recognition',
     label: 'Recognition',
@@ -114,7 +125,7 @@ const homeItems: OrbitItem[] = [
   },
   {
     action: { href: '/contact', type: 'route' },
-    angle: 180,
+    angle: 198,
     color: 'blue',
     icon: 'contact',
     id: 'contact',
@@ -146,14 +157,14 @@ const projectItems: OrbitItem[] = [
     tooltip: '96% time reduction - Confidential',
   },
   {
-    action: { href: '/projects/genie', type: 'route' },
+    action: { href: '/projects/fhoneman', type: 'route' },
     angle: 54,
-    color: 'purple',
-    icon: 'agent',
-    id: 'genie',
-    label: 'Genie',
-    sublabel: 'Agent runtime',
-    tooltip: 'Custom AI agent on Raspberry Pi',
+    color: 'amber',
+    icon: 'site',
+    id: 'fhoneman',
+    label: 'Fhoneman',
+    sublabel: 'Client site',
+    tooltip: 'Live client website',
   },
   {
     action: { href: '/projects/mailmerge', type: 'route' },
@@ -166,14 +177,14 @@ const projectItems: OrbitItem[] = [
     tooltip: 'Bulk data automation',
   },
   {
-    action: { href: '/projects/fhoneman', type: 'route' },
+    action: { href: '/projects/genie', type: 'route' },
     angle: 198,
-    color: 'amber',
-    icon: 'site',
-    id: 'fhoneman',
-    label: 'Fhoneman',
-    sublabel: 'Client site',
-    tooltip: 'Live client website',
+    color: 'purple',
+    icon: 'agent',
+    id: 'genie',
+    label: 'Genie',
+    sublabel: 'Agent runtime',
+    tooltip: 'Custom AI agent on Raspberry Pi',
   },
 ];
 
