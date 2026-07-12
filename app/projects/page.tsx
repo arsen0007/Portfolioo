@@ -31,6 +31,10 @@ const cardCopy: Record<string, { line: string; role: string }> = {
     role: 'Client launch',
     line: 'A repair business with no online presence, turned into a live booking workflow with urgent and standard inquiry paths.',
   },
+  genie: {
+    role: 'Agent runtime on hardware',
+    line: 'Not a wrapper around an API — a complete agent runtime built from scratch. Dispatch pipeline, memory, multi-LLM routing, and 19 voice skills running on a Raspberry Pi.',
+  },
 };
 
 function StatusBadge({ project }: { project: Project }) {

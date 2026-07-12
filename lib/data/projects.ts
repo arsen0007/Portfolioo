@@ -196,6 +196,88 @@ export const projects: Project[] = [
     },
   },
   {
+    id: 'genie',
+    name: 'Genie',
+    tagline:
+      'A custom agent runtime built from scratch on a Raspberry Pi — dispatch pipeline, memory system, multi-LLM provider switching, and 19 voice-controlled skills. Built to understand how agents actually work at the implementation level.',
+    color: 'purple',
+    status: 'active',
+    tier: 1,
+    liveUrl: 'https://github.com/arsen0007/Genie-Agent-Runtime',
+    problem:
+      'I kept building with AI APIs without understanding what was actually happening inside the agent loop — how routing decisions were made, how memory was managed, why some patterns failed. The only way to actually learn it was to build the runtime myself.',
+    whatIBuilt:
+      'A complete voice agent runtime running on a Raspberry Pi 4. Built two versions: V1 with keyword routing and laptop audio (proof of concept), V2 with LLM-based skill dispatch, on-Pi voice I/O, 19+ skills, pluggable LLM providers, and per-turn execution traces. V3 is in progress.',
+    architecture: [
+      'Wake word or GPIO button',
+      'Pending state check (multi-turn skills)',
+      'Brain intercept (control commands)',
+      'LLM skill router with LRU cache',
+      'Argument extraction per skill',
+      'Skill execution pipeline',
+      'LLM fallback with memory injection',
+      'Pipelined TTS playback',
+    ],
+    techStack: [
+      'Python 3.11',
+      'Raspberry Pi 4',
+      'Gemini 2.0 Flash',
+      'NVIDIA NIM',
+      'Groq',
+      'Sarvam AI STT',
+      'Deepgram TTS',
+      'OpenWakeWord',
+      'Google Calendar API',
+      'Spotify Web API',
+      'APA102 LEDs',
+    ],
+    impact: [
+      { value: '19+', label: 'Voice Skills' },
+      { value: '4', label: 'LLM Slots' },
+      { value: 'V2', label: 'Current Version' },
+      { value: 'Live', label: 'Running on Pi' },
+    ],
+    proof: [
+      'Built complete dispatch pipeline from scratch — pending state, brain intercept, LLM routing, LLM fallback.',
+      'Solved real hardware bug: 48kHz→16kHz scipy resampling fix restored wake word detection from 0.025 to 0.33.',
+      'Pluggable LLM provider system — 9 models across 4 named slots, swappable by voice command.',
+      'Per-turn ExecutionTrace logs component timing: STT / Router / ArgExtract / Tools / LLM / TTS.',
+    ],
+    story: {
+      role: 'Architect and sole developer',
+      scope: 'Runtime engine, skill system, voice pipeline, memory, hardware integration',
+      context:
+        'Using AI APIs to build products taught me the surface. I wanted the internals — how routing decisions are made, when LLMs should and should not be in the critical path, how memory should be structured for voice contexts. The only path was to build the layer I was curious about.',
+      productMove:
+        'Framed the build as a learning exercise with a deployable artifact. Every architectural decision was made twice: once to make it work, once to understand why it worked. The JOURNEY.md documents the reasoning.',
+      decisions: [
+        {
+          title: 'LLM at stage 4, not stage 1',
+          body: 'Routing through the LLM on every turn is expensive and slow. The skill router sends manifests to Gemini Flash and caches the result by (text, model). Most repeated requests never touch the LLM router at all.',
+        },
+        {
+          title: 'Hard startup failure on invalid manifests',
+          body: 'Every skill declares a ToolManifest with name, description, examples, arguments, produces/consumes. Missing or invalid fields fail loudly at boot — not mid-conversation. You find skill bugs before the first turn.',
+        },
+        {
+          title: 'Pipelined TTS by sentence',
+          body: 'Synthesis and playback run concurrently. Sentence N+1 is synthesized while sentence N is playing. No gap between sentences, no waiting for the full response to synthesize before speaking begins.',
+        },
+        {
+          title: 'Always inject memory, do not retrieve',
+          body: 'Short-term (12 turns) and long-term (facts.json keyword match) are injected into every prompt unconditionally. Cheaper to send extra tokens than to miss context. Semantic retrieval is V3.',
+        },
+      ],
+      constraints: [
+        'Physical hardware limits what software patterns can do — barge-in works architecturally but fails because the mic hears the speaker.',
+        'Raspberry Pi 4 CPU cannot run large local models — the 4-slot LLM system exists to route appropriately by task.',
+        'Voice context is different from chat — memory injection patterns that work in chat create noise in voice. Short-term window (12 turns) was tuned empirically.',
+      ],
+      outcome:
+        'Genie V2 runs daily. It handles calendar events proactively, sends WhatsApp messages via a 3-stage state machine, streams Spotify, runs web searches, and switches between 9 LLM models by voice. V3 will add vector memory and software AEC.',
+    },
+  },
+  {
     id: 'mailmerge',
     name: 'Mail Merge Tool',
     tagline: 'Bulk data cleanup and outreach preparation',
