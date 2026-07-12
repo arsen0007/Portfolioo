@@ -692,6 +692,7 @@ function HomeCenterIdentity({
               Workflows
               <span>Automation</span>
               <span>AI</span>
+              <span>Agent Runtimes</span>
             </span>
             <span
               className="orbit-live-status"

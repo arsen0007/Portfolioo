@@ -14,7 +14,7 @@ const fadeUp = (delay = 0) => ({
 });
 
 /** Short, scannable card copy — the full story lives on each case study page. */
-const cardCopy: Record<string, { line: string; role: string }> = {
+const cardCopy: Record<string, { line: string; role: string; tag?: string }> = {
   barhunter: {
     role: 'Lead sourcing engine',
     line: 'Attorney profiles scraped from bar registries across the US and Canada — normalized, conflict-checked, and campaign-ready in under 60 seconds.',
@@ -34,6 +34,7 @@ const cardCopy: Record<string, { line: string; role: string }> = {
   genie: {
     role: 'Agent runtime on hardware',
     line: 'Not a wrapper around an API — a complete agent runtime built from scratch. Dispatch pipeline, memory, multi-LLM routing, and 19 voice skills running on a Raspberry Pi.',
+    tag: 'Physical build · Raspberry Pi · Open source',
   },
 };
 
@@ -108,6 +109,14 @@ function ProjectCard({ project, featured, delay }: { project: Project; featured:
         >
           {project.name}
         </h2>
+        {copy.tag ? (
+          <p
+            className="mt-2.5 font-mono text-[9px] uppercase tracking-[0.14em]"
+            style={{ color: colorMix(accent, 72) }}
+          >
+            {copy.tag}
+          </p>
+        ) : null}
         <p className="mt-3 max-w-[560px] font-body text-[14px] leading-[1.8] text-textSecondary">
           {copy.line}
         </p>
@@ -191,7 +200,7 @@ export default function ProjectsPage() {
       <section className="relative mx-auto max-w-6xl px-6 pt-12">
         <motion.div className="max-w-2xl" {...fadeUp(0)}>
           <p className="font-mono text-[10px] font-normal uppercase tracking-[0.16em] text-textMuted">
-            Systems · 4 case studies
+            Systems · 5 case studies
           </p>
           <h1 className="mt-4 text-balance font-display text-[34px] font-medium leading-tight text-textPrimary md:text-[44px]">
             Built to be used. Not demoed.
