@@ -60,17 +60,38 @@ export default function FhonemanPage() {
         </div>
 
         <motion.div className="mt-4" {...fadeUp(0.18)}>
+          <div className="bento-card overflow-hidden" style={{ borderColor: colorMix(themeColors.purple, 18) }}>
+            <div className="px-4 pt-4 pb-3">
+              <p className="font-mono text-[9px] uppercase tracking-[0.12em]" style={{ color: themeColors.purple }}>Live · Doorstep Service, 20 minutes or less</p>
+            </div>
+            <img src="/screenshots/fhoneman.png" alt="Fhoneman hero — doorstep phone repair service" className="w-full block" />
+          </div>
+        </motion.div>
+
+        <motion.div className="mt-4" {...fadeUp(0.22)}>
           <div className="bento-card p-7" style={{ borderColor: colorMix(themeColors.purple, 20) }}>
             <p className="font-mono text-[10px] uppercase tracking-[0.12em]" style={{ color: themeColors.purple }}>Stack</p>
             <div className="mt-4 flex flex-wrap gap-2">
-              {['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Vercel'].map((t) => (
+              {['Hostinger', 'Next.js', 'Tailwind CSS', 'Vercel'].map((t) => (
                 <span key={t} className="tech-badge">{t}</span>
               ))}
             </div>
           </div>
         </motion.div>
 
-        <motion.div className="mt-8 flex gap-3" {...fadeUp(0.24)}>
+        <motion.div className="mt-8 flex flex-wrap gap-3" {...fadeUp(0.28)}>
+          <a
+            href="https://fhoneman.in/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] transition-all duration-200"
+            style={{ borderColor: colorMix(themeColors.purple, 28), color: themeColors.purple, background: colorMix(themeColors.purple, 8) }}
+          >
+            View live Fhoneman
+            <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 12 12" aria-hidden="true">
+              <path d="M2.5 9.5l7-7M9.5 2.5H4m5.5 0v5.5" />
+            </svg>
+          </a>
           <Link href="/projects" className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] text-textMuted transition-colors hover:text-textPrimary" style={{ borderColor: 'var(--surface-border)' }}>
             See other projects
           </Link>

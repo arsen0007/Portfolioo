@@ -59,6 +59,15 @@ export default function MailMergePage() {
           ))}
         </div>
 
+        <motion.div className="mt-4" {...fadeUp(0.18)}>
+          <div className="bento-card overflow-hidden" style={{ borderColor: colorMix(themeColors.cyan, 18) }}>
+            <div className="px-4 pt-4 pb-3">
+              <p className="font-mono text-[9px] uppercase tracking-[0.12em]" style={{ color: themeColors.cyan }}>Live · Mail Merge Pro · Guided workflow</p>
+            </div>
+            <img src="/screenshots/mailmerge.png" alt="Mail Merge Pro upload step" className="w-full block" />
+          </div>
+        </motion.div>
+
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           <motion.div {...fadeUp(0.18)}>
             <div className="bento-card p-7 h-full" style={{ borderColor: colorMix(themeColors.cyan, 20) }}>
@@ -77,7 +86,7 @@ export default function MailMergePage() {
             <div className="bento-card p-7 h-full" style={{ borderColor: colorMix(themeColors.blue, 18) }}>
               <p className="font-mono text-[10px] uppercase tracking-[0.12em]" style={{ color: themeColors.blue }}>Stack</p>
               <div className="mt-4 flex flex-wrap gap-2">
-                {['Node.js', 'CSV Parser', 'Handlebars Templates', 'Nodemailer', 'Supabase Audit Log'].map((t) => (
+                {['React', 'Vite', 'Flask', 'Python', 'Pandas', 'SQLite', 'Tailwind CSS'].map((t) => (
                   <span key={t} className="tech-badge">{t}</span>
                 ))}
               </div>
@@ -95,7 +104,19 @@ export default function MailMergePage() {
           </motion.div>
         </div>
 
-        <motion.div className="mt-8 flex gap-3" {...fadeUp(0.28)}>
+        <motion.div className="mt-8 flex flex-wrap gap-3" {...fadeUp(0.36)}>
+          <a
+            href="https://mail-merge-cleaner.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] transition-all duration-200"
+            style={{ borderColor: colorMix(themeColors.cyan, 28), color: themeColors.cyan, background: colorMix(themeColors.cyan, 8) }}
+          >
+            View live Mail Merge
+            <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 12 12" aria-hidden="true">
+              <path d="M2.5 9.5l7-7M9.5 2.5H4m5.5 0v5.5" />
+            </svg>
+          </a>
           <Link href="/projects" className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] text-textMuted transition-colors hover:text-textPrimary" style={{ borderColor: 'var(--surface-border)' }}>
             See other projects
           </Link>

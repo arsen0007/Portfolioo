@@ -39,8 +39,8 @@ const stats = [
 ];
 
 const stack = [
-  'Next.js 14', 'TypeScript', 'Supabase', 'PostgreSQL', 'RLS',
-  'Python', 'Vercel',
+  'Next.js 14', 'TypeScript', 'Python', 'Supabase', 'PostgreSQL',
+  'Web Scraping', 'REST APIs', 'Pandas', 'Vercel',
 ];
 
 const pipeline = [
@@ -165,6 +165,26 @@ export default function BarHunterPage() {
               </div>
             </motion.div>
           ))}
+        </div>
+
+        {/* Screenshots */}
+        <div className="mt-4 grid gap-3 md:grid-cols-2">
+          <motion.div {...fadeUp(0.13)}>
+            <div className="bento-card overflow-hidden" style={{ borderColor: colorMix(themeColors.green, 18) }}>
+              <div className="px-4 pt-4 pb-3">
+                <p className="font-mono text-[9px] uppercase tracking-[0.12em]" style={{ color: themeColors.green }}>Login · Find the right attorneys. Faster.</p>
+              </div>
+              <img src="/screenshots/barhunter-login.png" alt="BarHunter login page" className="w-full block" />
+            </div>
+          </motion.div>
+          <motion.div {...fadeUp(0.17)}>
+            <div className="bento-card overflow-hidden" style={{ borderColor: colorMix(themeColors.cyan, 18) }}>
+              <div className="px-4 pt-4 pb-3">
+                <p className="font-mono text-[9px] uppercase tracking-[0.12em]" style={{ color: themeColors.cyan }}>Dashboard · 23,528 leads · California filter</p>
+              </div>
+              <img src="/screenshots/barhunter-dashboard.png" alt="BarHunter dashboard showing attorney search results" className="w-full block" />
+            </div>
+          </motion.div>
         </div>
 
         {/* Two-col: problem + pipeline */}
@@ -389,7 +409,7 @@ export default function BarHunterPage() {
           </motion.div>
         </div>
 
-        {/* Architecture link */}
+        {/* CTA row */}
         <motion.div className="mt-8 flex flex-wrap gap-3" {...fadeUp(0.3)}>
           <a
             href="https://barhunter.vercel.app/"
@@ -407,6 +427,16 @@ export default function BarHunterPage() {
               <path d="M2.5 9.5l7-7M9.5 2.5H4m5.5 0v5.5" />
             </svg>
           </a>
+          <Link
+            href="/architecture"
+            className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] transition-all duration-200"
+            style={{ borderColor: colorMix(themeColors.purple, 28), color: themeColors.purple, background: colorMix(themeColors.purple, 8) }}
+          >
+            View system architecture
+            <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 12 12" aria-hidden="true">
+              <path d="M2.5 9.5l7-7M9.5 2.5H4m5.5 0v5.5" />
+            </svg>
+          </Link>
           <Link
             href="/projects"
             className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] text-textMuted transition-colors hover:text-textPrimary"

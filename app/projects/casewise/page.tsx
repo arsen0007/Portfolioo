@@ -49,8 +49,8 @@ const endorsements = [
 ];
 
 const stack = [
-  'Next.js 14', 'TypeScript', 'LLM API', 'Data Integration',
-  'Workflow Engine', 'Supabase', 'Tailwind CSS', 'Framer Motion',
+  'Next.js 14', 'TypeScript', 'Gemini API', 'AI Agents',
+  'AI Workflows', 'DOM Scraping', 'Prompt Engineering', 'Tailwind CSS', 'Framer Motion',
 ];
 
 export default function CaseWisePage() {

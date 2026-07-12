@@ -56,6 +56,45 @@ const statChips = [
   { value: '4', label: 'Live in Production' },
 ] as const;
 
+const skillDomains = [
+  {
+    name: 'AI Systems',
+    label: 'DOMAIN 01',
+    color: themeColors.blue as string,
+    skills: [
+      { name: 'AI Agents', proof: 'CaseWise' },
+      { name: 'Prompt Engineering', proof: 'CaseWise' },
+      { name: 'Gemini API', proof: 'CaseWise' },
+    ],
+  },
+  {
+    name: 'Engineering',
+    label: 'DOMAIN 02',
+    color: themeColors.green as string,
+    skills: [
+      { name: 'Python', proof: 'BarHunter · Mail Merge' },
+      { name: 'Next.js', proof: 'CaseWise · BarHunter' },
+      { name: 'Web Scraping', proof: 'BarHunter' },
+    ],
+  },
+  {
+    name: 'Product',
+    label: 'DOMAIN 03',
+    color: themeColors.amber as string,
+    skills: [
+      { name: 'Product Management', proof: '6 Certs · CaseWise' },
+      { name: 'Claude Code', proof: 'Certified' },
+    ],
+  },
+] as const;
+
+const stackSkills = [
+  'TypeScript', 'PostgreSQL', 'Supabase', 'Flask', 'Pandas',
+  'Playwright', 'Tailwind CSS', 'REST APIs', 'Vercel', 'Linux', 'AI Workflows',
+];
+
+const exploringSkills = ['Voice AI', 'LangChain', 'Multi-Agent Architecture', 'RAG', 'n8n'];
+
 function SectionLabel({ children }: { children: string }) {
   return (
     <p className="font-mono text-[10px] font-normal uppercase tracking-[0.16em] text-textMuted">
@@ -385,6 +424,111 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Skill Tree */}
+      <section className="relative mx-auto mt-20 max-w-6xl px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ amount: 0.1, once: true }}
+          whileInView={{ opacity: 1, y: 0 }}
+        >
+          <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <div>
+              <SectionLabel>ABOUT · SKILLS</SectionLabel>
+              <h2 className="mt-4 font-display text-[30px] font-medium leading-tight text-textPrimary md:text-[36px]">
+                Every tool has a project behind it.
+              </h2>
+            </div>
+            <p className="max-w-[380px] text-pretty font-body text-[14px] leading-[1.7] text-textSecondary">
+              No filler. What&apos;s here got used on something real.
+            </p>
+          </div>
+
+          <div
+            className="relative overflow-hidden rounded-[24px] border bg-surface"
+            style={{
+              borderColor: colorMix(themeColors.blue, 18),
+              background: [
+                `radial-gradient(ellipse 55% 35% at 15% 0%, ${colorMix(themeColors.blue, 9)}, transparent 55%)`,
+                `radial-gradient(ellipse 45% 35% at 85% 100%, ${colorMix(themeColors.green, 7)}, transparent 50%)`,
+                'var(--surface)',
+              ].join(', '),
+            }}
+          >
+            {/* Top glow line */}
+            <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${colorMix(themeColors.blue, 55)}, ${colorMix(themeColors.green, 45)}, transparent)` }} />
+
+            <div className="p-6 md:p-10">
+
+              {/* ── CORE SKILLS ── */}
+              <p className="mb-6 font-mono text-[9px] uppercase tracking-[0.18em] text-textMuted">Core — proof-backed</p>
+
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {skillDomains.flatMap((domain) =>
+                  domain.skills.map((skill, si) => (
+                    <motion.div
+                      key={skill.name}
+                      className="group relative overflow-hidden rounded-[14px] border p-4"
+                      initial={{ opacity: 0, y: 10 }}
+                      transition={{ delay: si * 0.05, duration: 0.36, ease: [0.16, 1, 0.3, 1] }}
+                      viewport={{ once: true }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      style={{
+                        borderColor: colorMix(domain.color, 22),
+                        background: `radial-gradient(ellipse 100% 80% at 50% 120%, ${colorMix(domain.color, 13)}, var(--surface))`,
+                      }}
+                    >
+                      <div aria-hidden="true" className="absolute left-0 top-0 h-full w-[2px]" style={{ background: `linear-gradient(180deg, ${domain.color}, ${colorMix(domain.color, 30)})` }} />
+                      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px" style={{ background: `linear-gradient(90deg, ${colorMix(domain.color, 50)}, transparent)` }} />
+                      <p className="font-mono text-[8px] uppercase tracking-[0.14em]" style={{ color: domain.color }}>{domain.name}</p>
+                      <p className="mt-1.5 font-display text-[15px] font-semibold leading-snug text-textPrimary">{skill.name}</p>
+                      <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.1em]" style={{ color: colorMix(domain.color, 70) }}>{skill.proof}</p>
+                    </motion.div>
+                  ))
+                )}
+              </div>
+
+              {/* ── SEPARATOR ── */}
+              <div className="my-8 flex items-center gap-4">
+                <div className="h-px flex-1" style={{ background: colorMix(themeColors.blue, 12) }} />
+                <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-textMuted">Supporting stack</span>
+                <div className="h-px flex-1" style={{ background: colorMix(themeColors.blue, 12) }} />
+              </div>
+
+              {/* ── SUPPORTING SKILLS ── */}
+              <div className="flex flex-wrap gap-2">
+                {stackSkills.map((s) => (
+                  <span key={s} className="tech-badge">{s}</span>
+                ))}
+              </div>
+
+              {/* ── BUILDING TOWARD ── */}
+              <div className="mt-6 flex items-center gap-4">
+                <div className="h-px flex-1" style={{ background: colorMix(themeColors.cyan, 10) }} />
+                <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-textMuted">Building toward</span>
+                <div className="h-px flex-1" style={{ background: colorMix(themeColors.cyan, 10) }} />
+              </div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {exploringSkills.map((s) => (
+                  <span
+                    key={s}
+                    className="rounded-full px-3 py-1 font-mono text-[10px] uppercase tracking-[0.1em]"
+                    style={{
+                      border: `1px dashed ${colorMix(themeColors.cyan, 28)}`,
+                      color: colorMix(themeColors.cyan, 55),
+                      background: colorMix(themeColors.cyan, 5),
+                    }}
+                  >
+                    {s}
+                  </span>
+                ))}
+              </div>
+
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
       {/* Certifications CTA */}
       <section className="relative mx-auto mt-16 max-w-6xl px-6">
         <motion.div
@@ -422,7 +566,7 @@ export default function AboutPage() {
                 6 certifications earned.
               </h2>
               <p className="mt-2 font-body text-[14px] leading-[1.7] text-textSecondary">
-                CEO sponsored. 3 more in progress.
+                CEO sponsored. 4 more in progress.
               </p>
             </div>
             <Link

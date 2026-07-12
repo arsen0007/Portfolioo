@@ -17,6 +17,8 @@ type Cert = {
   file: string | null;
   issuer: string;
   issued?: string;
+  link?: string;
+  expectedCompletion?: string;
 };
 
 const certs: Cert[] = [
@@ -30,6 +32,7 @@ const certs: Cert[] = [
     file: '/certificates/Product Manager Certification.png',
     issuer: 'Product School',
     issued: 'January 20, 2026',
+    link: 'https://certificate.productschool.com/1c89deea-0560-4b63-812e-f4b0a2193f87',
   },
   {
     id: 'ai-evals',
@@ -39,6 +42,8 @@ const certs: Cert[] = [
     color: 'cyan',
     file: '/certificates/AI Evals Certification.png',
     issuer: 'Product School',
+    issued: 'February 23, 2026',
+    link: 'https://certificate.productschool.com/4830b3f7-45ed-429a-8ada-64513c7f74d3',
   },
   {
     id: 'ai-product-management',
@@ -48,6 +53,8 @@ const certs: Cert[] = [
     color: 'blue',
     file: '/certificates/AI Product Management Certification.png',
     issuer: 'Product School',
+    issued: 'February 14, 2026',
+    link: 'https://certificate.productschool.com/167b88a5-07be-44b7-baf2-57d7f2618290',
   },
   {
     id: 'advanced-ai-agents',
@@ -57,6 +64,8 @@ const certs: Cert[] = [
     color: 'purple',
     file: '/certificates/Advance AI Agents Certification.png',
     issuer: 'Product School',
+    issued: 'June 1, 2026',
+    link: 'https://certificate.productschool.com/1774d978-11d5-443e-a138-3e5e1721f2cf',
   },
   {
     id: 'go-to-market',
@@ -66,6 +75,7 @@ const certs: Cert[] = [
     color: 'amber',
     file: null,
     issuer: 'Product School',
+    expectedCompletion: 'Jul 7 – Jul 24',
   },
   {
     id: 'vibe-coding',
@@ -75,6 +85,8 @@ const certs: Cert[] = [
     color: 'blue',
     file: '/certificates/Vibe Coding Certification.png',
     issuer: 'Product School',
+    issued: 'July 2, 2026',
+    link: 'https://certificate.productschool.com/092dbf31-a50b-4ee9-97b2-03a400bc27c1',
   },
   {
     id: 'product-experimentation',
@@ -84,6 +96,17 @@ const certs: Cert[] = [
     color: 'cyan',
     file: null,
     issuer: 'Product School',
+    expectedCompletion: 'Aug 8 – Aug 23',
+  },
+  {
+    id: 'ai-product-strategy',
+    title: 'AI Product Strategy',
+    level: 'Expert',
+    status: 'in-progress',
+    color: 'green',
+    file: null,
+    issuer: 'Product School',
+    expectedCompletion: 'Aug 26 – Sep 11',
   },
   {
     id: 'product-leadership',
@@ -93,6 +116,7 @@ const certs: Cert[] = [
     color: 'purple',
     file: null,
     issuer: 'Product School',
+    expectedCompletion: 'Sep 14 – Oct 1',
   },
   {
     id: 'claude-code',
@@ -102,6 +126,8 @@ const certs: Cert[] = [
     color: 'green',
     file: '/certificates/Claude Code Certification.png',
     issuer: 'Product School',
+    issued: 'June 12, 2026',
+    link: 'https://certificate.productschool.com/5b5ccac9-1b8f-4bcc-a1cf-fdd729442ccc',
   },
 ];
 
@@ -162,7 +188,6 @@ export default function CertificationsPage() {
       <Breadcrumb
         items={[
           { href: '/', label: 'Tousif Ali' },
-          { href: '/about', label: 'About' },
           { label: 'Certifications' },
         ]}
       />
@@ -302,6 +327,21 @@ export default function CertificationsPage() {
                       Issued&nbsp;&middot;&nbsp;{cert.issued}
                     </p>
                   )}
+
+                  {cert.link && (
+                    <a
+                      className="mt-4 inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.1em] transition-opacity hover:opacity-70"
+                      href={cert.link}
+                      rel="noopener noreferrer"
+                      style={{ color: accent }}
+                      target="_blank"
+                    >
+                      View Certificate
+                      <svg aria-hidden="true" fill="none" height="10" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.6" viewBox="0 0 10 10" width="10">
+                        <path d="M2 8l6-6M8 2H3.5M8 2v4.5" />
+                      </svg>
+                    </a>
+                  )}
                 </div>
 
                 {/* Navigation controls */}
@@ -412,6 +452,11 @@ export default function CertificationsPage() {
                       <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.12em] text-textMuted">
                         Certificate available on completion
                       </p>
+                      {cert.expectedCompletion && (
+                        <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.12em]" style={{ color: themeColors.amber }}>
+                          Est.&nbsp;{cert.expectedCompletion}
+                        </p>
+                      )}
                     </div>
                   </div>
                 )}
