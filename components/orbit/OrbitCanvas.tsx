@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 
 type OrbitMode = 'home' | 'projects';
 type HomeNodeId = 'about' | 'projects' | 'recognition' | 'contact';
-type ProjectNodeId = 'barhunter' | 'casewise' | 'mailmerge' | 'fhoneman';
+type ProjectNodeId = 'barhunter' | 'casewise' | 'mailmerge' | 'fhoneman' | 'genie';
 type OrbitNodeId = HomeNodeId | ProjectNodeId;
 
 type OrbitRouteAction = {
@@ -78,6 +78,7 @@ const archLabels: Partial<Record<OrbitNodeId, string>> = {
   casewise: 'intake',
   mailmerge: 'batch',
   fhoneman: 'render',
+  genie: 'runtime',
 };
 
 const homeItems: OrbitItem[] = [
@@ -136,7 +137,7 @@ const projectItems: OrbitItem[] = [
   },
   {
     action: { href: '/projects/casewise', type: 'route' },
-    angle: 0,
+    angle: 342,
     color: 'blue',
     icon: 'casewise',
     id: 'casewise',
@@ -145,8 +146,18 @@ const projectItems: OrbitItem[] = [
     tooltip: '96% time reduction - Confidential',
   },
   {
+    action: { href: '/projects/genie', type: 'route' },
+    angle: 54,
+    color: 'purple',
+    icon: 'agent',
+    id: 'genie',
+    label: 'Genie',
+    sublabel: 'Agent runtime',
+    tooltip: 'Custom AI agent on Raspberry Pi',
+  },
+  {
     action: { href: '/projects/mailmerge', type: 'route' },
-    angle: 90,
+    angle: 126,
     color: 'cyan',
     icon: 'mail',
     id: 'mailmerge',
@@ -156,8 +167,8 @@ const projectItems: OrbitItem[] = [
   },
   {
     action: { href: '/projects/fhoneman', type: 'route' },
-    angle: 180,
-    color: 'purple',
+    angle: 198,
+    color: 'amber',
     icon: 'site',
     id: 'fhoneman',
     label: 'Fhoneman',
@@ -769,7 +780,7 @@ function ProjectsCenterIdentity({
         className="font-body text-[10px] font-normal leading-[1.4]"
         style={{ color: accentColor }}
       >
-        4 case studies
+        5 case studies
       </span>
     </span>
   );
@@ -1213,7 +1224,7 @@ function MobileOrbitStage({
                 Projects
               </span>
               <span className="max-w-[116px] font-body text-[10px] uppercase tracking-[0.14em] text-textSecondary">
-                4 case studies
+                5 case studies
               </span>
             </span>
           ) : isIntro ? (

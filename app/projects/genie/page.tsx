@@ -130,6 +130,69 @@ const v3Items = [
   },
 ] as const;
 
+const genieSkills = [
+  {
+    category: 'Architecture',
+    name: 'Agent Runtime Design',
+    detail: '4-stage dispatch pipeline with LRU-cached skill routing',
+    color: themeColors.purple,
+  },
+  {
+    category: 'AI Systems',
+    name: 'Multi-LLM Routing',
+    detail: '9 models across 4 providers — GPT, Gemini, Groq, LM Studio',
+    color: themeColors.blue,
+  },
+  {
+    category: 'AI Systems',
+    name: 'Voice AI Pipeline',
+    detail: 'Wake word → VAD recording → STT → skill dispatch → TTS',
+    color: themeColors.cyan,
+  },
+  {
+    category: 'AI Systems',
+    name: 'Wake Word Detection',
+    detail: 'OpenWakeWord integration, low-latency trigger loop',
+    color: themeColors.cyan,
+  },
+  {
+    category: 'Engineering',
+    name: 'Audio Signal Processing',
+    detail: 'scipy polyphase resampling: 48kHz stereo → 16kHz mono',
+    color: themeColors.amber,
+  },
+  {
+    category: 'Engineering',
+    name: 'Threading & Concurrency',
+    detail: 'Pipelined TTS, barge-in via threading.Event, non-blocking mic',
+    color: themeColors.green,
+  },
+  {
+    category: 'Hardware',
+    name: 'Raspberry Pi / GPIO',
+    detail: 'APA102 LED strip, push button on pin 17, Pi Camera HAT',
+    color: themeColors.green,
+  },
+  {
+    category: 'Hardware',
+    name: 'Embedded System Design',
+    detail: 'Runs fully air-gapped with local models — no cloud required',
+    color: themeColors.amber,
+  },
+  {
+    category: 'Engineering',
+    name: 'REST API Integration',
+    detail: 'Google Calendar, Spotify Web API, WhatsApp — 19 skills total',
+    color: themeColors.blue,
+  },
+  {
+    category: 'Architecture',
+    name: 'ToolManifest System',
+    detail: 'Custom skill schema — JSON-typed args, validation, execution context',
+    color: themeColors.purple,
+  },
+] as const;
+
 const ArrowIcon = () => (
   <svg
     width="12"
@@ -861,6 +924,67 @@ export default function GeniePage() {
             </div>
           </motion.div>
         </div>
+
+        {/* ── SECTION 7: SKILLS GAINED ─────────────────────────────── */}
+        <motion.div className="mt-12" {...fadeUp(0.08)}>
+          <div className="mb-8">
+            <p
+              className="font-mono text-[10px] uppercase tracking-[0.18em]"
+              style={{ color: themeColors.purple }}
+            >
+              Skills Built Through This
+            </p>
+            <h2 className="mt-3 font-display text-[26px] font-medium leading-tight text-textPrimary md:text-[30px]">
+              What this project actually taught me.
+            </h2>
+            <p className="mt-2.5 max-w-[480px] font-body text-[13px] leading-[1.72] text-textSecondary">
+              Each skill has a specific bug, decision, or constraint behind it — not theory, not tutorials.
+            </p>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+            {genieSkills.map((skill, i) => (
+              <motion.div
+                key={skill.name}
+                {...fadeUp(0.04 + i * 0.03)}
+                className="group relative overflow-hidden rounded-[14px] border p-4"
+                style={{
+                  borderColor: colorMix(skill.color, 22),
+                  background: `radial-gradient(ellipse 120% 80% at 50% -10%, ${colorMix(skill.color, 11)}, var(--surface))`,
+                }}
+              >
+                <div
+                  aria-hidden="true"
+                  className="absolute left-0 top-0 h-full w-[2px] rounded-r-full"
+                  style={{
+                    background: `linear-gradient(to bottom, ${colorMix(skill.color, 70)}, ${colorMix(skill.color, 18)})`,
+                  }}
+                />
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-x-0 top-0 h-px"
+                  style={{
+                    background: `linear-gradient(90deg, transparent, ${colorMix(skill.color, 44)}, transparent)`,
+                  }}
+                />
+                <p
+                  className="font-mono text-[8px] uppercase tracking-[0.14em]"
+                  style={{ color: skill.color }}
+                >
+                  {skill.category}
+                </p>
+                <p className="mt-1.5 font-display text-[14px] font-semibold leading-snug text-textPrimary">
+                  {skill.name}
+                </p>
+                <p
+                  className="mt-2 font-body text-[11px] leading-[1.6] text-textSecondary"
+                >
+                  {skill.detail}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
 
         {/* ── CLOSING CTA ───────────────────────────────────────────── */}
         <motion.div className="mt-8 flex flex-wrap gap-3" {...fadeUp(0.3)}>

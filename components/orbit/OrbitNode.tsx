@@ -14,7 +14,8 @@ export type OrbitIconName =
   | 'pipeline'
   | 'casewise'
   | 'mail'
-  | 'site';
+  | 'site'
+  | 'agent';
 
 export type OrbitNodeProps = {
   accent: AccentColor;
@@ -90,6 +91,13 @@ const iconViews: Record<OrbitIconName, ReactNode> = {
       <rect x="3.5" y="5" width="13" height="10.5" rx="1.5" />
       <path d="M3.5 8h13" />
       <path d="M7 12h6" />
+    </>
+  ),
+  agent: (
+    <>
+      <rect x="5.5" y="5.5" width="9" height="9" rx="1.5" />
+      <path d="M5.5 8.5H3.5M5.5 11.5H3.5M14.5 8.5H16.5M14.5 11.5H16.5M8.5 5.5V3.5M11.5 5.5V3.5M8.5 14.5V16.5M11.5 14.5V16.5" />
+      <circle cx="10" cy="10" r="2" />
     </>
   ),
 };

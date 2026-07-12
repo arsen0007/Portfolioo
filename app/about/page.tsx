@@ -62,9 +62,10 @@ const skillDomains = [
     label: 'DOMAIN 01',
     color: themeColors.blue as string,
     skills: [
-      { name: 'AI Agents', proof: 'CaseWise' },
-      { name: 'Prompt Engineering', proof: 'CaseWise' },
-      { name: 'Gemini API', proof: 'CaseWise' },
+      { name: 'AI Agents', proof: 'CaseWise · Genie' },
+      { name: 'Voice AI', proof: 'Genie' },
+      { name: 'Multi-LLM Routing', proof: 'Genie' },
+      { name: 'Prompt Engineering', proof: 'CaseWise · Genie' },
     ],
   },
   {
@@ -72,7 +73,8 @@ const skillDomains = [
     label: 'DOMAIN 02',
     color: themeColors.green as string,
     skills: [
-      { name: 'Python', proof: 'BarHunter · Mail Merge' },
+      { name: 'Python', proof: 'Genie · BarHunter · Mail Merge' },
+      { name: 'Hardware Systems', proof: 'Genie' },
       { name: 'Next.js', proof: 'CaseWise · BarHunter' },
       { name: 'Web Scraping', proof: 'BarHunter' },
     ],
@@ -91,9 +93,10 @@ const skillDomains = [
 const stackSkills = [
   'TypeScript', 'PostgreSQL', 'Supabase', 'Flask', 'Pandas',
   'Playwright', 'Tailwind CSS', 'REST APIs', 'Vercel', 'Linux', 'AI Workflows',
+  'Raspberry Pi', 'OpenWakeWord', 'scipy',
 ];
 
-const exploringSkills = ['Voice AI', 'LangChain', 'Multi-Agent Architecture', 'RAG', 'n8n'];
+const exploringSkills = ['LangChain', 'Multi-Agent Architecture', 'RAG', 'n8n'];
 
 function SectionLabel({ children }: { children: string }) {
   return (
