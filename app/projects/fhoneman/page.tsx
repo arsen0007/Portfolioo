@@ -72,7 +72,7 @@ export default function FhonemanPage() {
           <div className="bento-card p-7" style={{ borderColor: colorMix(themeColors.purple, 20) }}>
             <p className="font-mono text-[10px] uppercase tracking-[0.12em]" style={{ color: themeColors.purple }}>Stack</p>
             <div className="mt-4 flex flex-wrap gap-2">
-              {['Hostinger', 'Next.js', 'Tailwind CSS', 'Vercel'].map((t) => (
+              {['Hostinger Site Builder', 'Custom HTML/CSS', 'Custom Form Logic'].map((t) => (
                 <span key={t} className="tech-badge">{t}</span>
               ))}
             </div>

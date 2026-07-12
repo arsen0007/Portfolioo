@@ -85,7 +85,7 @@ const lessons = [
     label: 'Barge-In Is Done — Architecturally',
     color: themeColors.cyan,
     title: 'Hardware limitations trump clean code.',
-    body: "threading.Event propagates cleanly through TTS, skills, and the LLM layer. But the mic hears the speaker. The architecture is correct. The physics isn't. V3 will fix it in software with AEC.",
+    body: "threading.Event propagates cleanly through TTS, skills, and the LLM layer. But the mic hears the speaker. The architecture is correct. The physics isn't. V2 will fix it in software with AEC.",
   },
   {
     number: '04',
@@ -115,18 +115,30 @@ const stackLayers = [
   },
 ] as const;
 
-const v3Items = [
+const roadmap = [
   {
-    title: 'Vector memory',
-    body: 'Replace flat facts.json keyword search with embeddings-based retrieval.',
+    version: 'V1',
+    label: 'Foundation',
+    status: 'done',
+    body: 'Wire up the hardware and get a keyword-based loop running end to end — prove the runtime could exist on a Pi at all.',
   },
   {
-    title: 'Software AEC pipeline',
-    body: 'Acoustic echo cancellation so barge-in actually works.',
+    version: 'V2',
+    label: 'Intelligence',
+    status: 'current',
+    body: "Replace keyword matching with an LLM skill router, add real memory and context, and rebuild the pipeline into modular, swappable stages. Basic voice search, sending messages on my behalf, and daily briefings already run on this — still rough, but working. Also where the hardening lives — vector memory over facts.json, software AEC, wake word reliability.",
   },
   {
-    title: 'Better wake word reliability',
-    body: 'Robustness improvements across room acoustics and distances.',
+    version: 'V3',
+    label: 'Orchestrator',
+    status: 'next',
+    body: "MCP support and cron-driven autonomy turn Genie into a premium runtime — one that can control and coordinate my other agents, not just run its own tools. The existing use cases (search, messaging, briefings) get much smarter and more advanced once Genie can orchestrate across systems instead of acting alone.",
+  },
+  {
+    version: 'V4',
+    label: 'Embodiment',
+    status: 'future',
+    body: 'Add sensors and mobility so Genie can act in physical space, not just talk in it.',
   },
 ] as const;
 
@@ -242,23 +254,23 @@ export default function GeniePage() {
 
         {/* ── SECTION 1: HERO ───────────────────────────────────────── */}
         <motion.div className="mt-10" {...fadeUp(0.04)}>
-          {/* V3 Upcoming chip */}
+          {/* V2 Current chip */}
           <div
             className="mb-5 inline-flex items-center gap-2 rounded-full border px-3 py-1"
             style={{
-              borderColor: colorMix(themeColors.amber, 32),
-              background: colorMix(themeColors.amber, 8),
+              borderColor: colorMix(themeColors.cyan, 32),
+              background: colorMix(themeColors.cyan, 8),
             }}
           >
             <span
               className="h-1.5 w-1.5 rounded-full"
-              style={{ background: themeColors.amber, boxShadow: `0 0 8px ${themeColors.amber}` }}
+              style={{ background: themeColors.cyan, boxShadow: `0 0 8px ${themeColors.cyan}` }}
             />
             <span
               className="font-mono text-[10px] uppercase tracking-[0.18em]"
-              style={{ color: themeColors.amber }}
+              style={{ color: themeColors.cyan }}
             >
-              V3 Upcoming
+              V2 — Current
             </span>
           </div>
 
@@ -799,7 +811,7 @@ export default function GeniePage() {
           </div>
         </motion.div>
 
-        {/* ── SECTION 6: STACK + V3 TEASER ─────────────────────────── */}
+        {/* ── SECTION 6: STACK + ROADMAP ───────────────────────────── */}
         <div className="mt-4 grid gap-4 md:grid-cols-[1.4fr_1fr]">
           {/* Stack card */}
           <motion.div {...fadeUp(0.12)}>
@@ -836,86 +848,97 @@ export default function GeniePage() {
             </div>
           </motion.div>
 
-          {/* V3 teaser card */}
+          {/* Roadmap card */}
           <motion.div {...fadeUp(0.16)}>
             <div
               className="bento-card relative h-full overflow-hidden p-7"
               style={{
-                borderColor: colorMix(themeColors.amber, 42),
-                borderStyle: 'dashed',
-                background: `radial-gradient(ellipse 100% 70% at 50% 110%, ${colorMix(themeColors.amber, 14)}, var(--surface))`,
+                borderColor: colorMix(themeColors.cyan, 30),
+                background: `radial-gradient(ellipse 100% 70% at 50% 110%, ${colorMix(themeColors.cyan, 12)}, var(--surface))`,
               }}
             >
-              {/* Amber scan-line */}
               <div
                 aria-hidden="true"
                 className="scan-line"
                 style={{
-                  background: `linear-gradient(90deg, transparent, ${colorMix(themeColors.amber, 58)}, transparent)`,
+                  background: `linear-gradient(90deg, transparent, ${colorMix(themeColors.cyan, 50)}, transparent)`,
                 }}
               />
 
-              {/* V3 chip */}
-              <div
-                className="mb-5 inline-flex items-center gap-2 rounded-full border px-3 py-1"
-                style={{
-                  borderColor: colorMix(themeColors.amber, 36),
-                  background: colorMix(themeColors.amber, 12),
-                }}
+              <p
+                className="font-mono text-[10px] uppercase tracking-[0.18em]"
+                style={{ color: themeColors.cyan }}
               >
-                <span
-                  aria-hidden="true"
-                  className="h-1.5 w-1.5 rounded-full"
-                  style={{
-                    background: themeColors.amber,
-                    boxShadow: `0 0 8px ${themeColors.amber}`,
-                  }}
-                />
-                <span
-                  className="font-mono text-[10px] uppercase tracking-[0.18em]"
-                  style={{ color: themeColors.amber }}
-                >
-                  V3 — Upcoming
-                </span>
-              </div>
-
-              <h3 className="font-display text-[20px] font-semibold text-textPrimary">
-                What&apos;s next for Genie.
+                Roadmap
+              </p>
+              <h3 className="mt-3 font-display text-[20px] font-semibold text-textPrimary">
+                Where Genie is headed.
               </h3>
 
               <ul className="mt-5 space-y-4">
-                {v3Items.map((item) => (
-                  <li key={item.title} className="flex items-start gap-3">
-                    <span
-                      aria-hidden="true"
-                      className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full"
-                      style={{
-                        background: themeColors.amber,
-                        boxShadow: `0 0 8px ${themeColors.amber}`,
-                      }}
-                    />
-                    <div>
-                      <p className="font-display text-[14px] font-semibold text-textPrimary">
-                        {item.title}
-                      </p>
-                      <p className="mt-0.5 font-body text-[12px] leading-[1.65] text-textMuted">
-                        {item.body}
-                      </p>
-                    </div>
-                  </li>
-                ))}
+                {roadmap.map((stage) => {
+                  const color =
+                    stage.status === 'current'
+                      ? themeColors.cyan
+                      : stage.status === 'next'
+                      ? themeColors.amber
+                      : (themeColors.textMuted as string);
+                  const statusLabel =
+                    stage.status === 'done'
+                      ? 'Shipped'
+                      : stage.status === 'current'
+                      ? 'Current'
+                      : stage.status === 'next'
+                      ? 'Next'
+                      : 'Future';
+                  return (
+                    <li key={stage.version} className="flex items-start gap-3">
+                      <span
+                        aria-hidden="true"
+                        className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full"
+                        style={{
+                          background: color,
+                          boxShadow:
+                            stage.status === 'current' || stage.status === 'next'
+                              ? `0 0 8px ${color}`
+                              : 'none',
+                          opacity: stage.status === 'future' ? 0.5 : 1,
+                        }}
+                      />
+                      <div>
+                        <p
+                          className="flex items-center gap-2 font-display text-[14px] font-semibold"
+                          style={{
+                            color: stage.status === 'future' ? themeColors.textMuted : themeColors.textPrimary,
+                          }}
+                        >
+                          {stage.version} — {stage.label}
+                          <span
+                            className="font-mono text-[9px] uppercase tracking-[0.14em]"
+                            style={{ color }}
+                          >
+                            {statusLabel}
+                          </span>
+                        </p>
+                        <p className="mt-0.5 font-body text-[12px] leading-[1.65] text-textMuted">
+                          {stage.body}
+                        </p>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
 
               <div
                 className="mt-6 border-t pt-5"
-                style={{ borderColor: colorMix(themeColors.amber, 20) }}
+                style={{ borderColor: colorMix(themeColors.cyan, 20) }}
               >
                 <a
                   href="https://github.com/arsen0007/Genie-Agent-Runtime"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] transition-opacity hover:opacity-60"
-                  style={{ color: themeColors.amber }}
+                  style={{ color: themeColors.cyan }}
                 >
                   Follow the build on GitHub
                   <ArrowIcon />
