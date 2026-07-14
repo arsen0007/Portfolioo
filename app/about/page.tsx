@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { colorMix, themeColors } from '@/lib/constants/colors';
 import type { AccentColor } from '@/lib/constants/colors';
+import { niches } from '@/lib/data/skillTree';
 
 type PathChapter = {
   body: string;
@@ -55,48 +56,6 @@ const statChips = [
   { value: '4+', label: 'Systems Built' },
   { value: '4', label: 'Live in Production' },
 ] as const;
-
-const skillDomains = [
-  {
-    name: 'AI Systems',
-    label: 'DOMAIN 01',
-    color: themeColors.blue as string,
-    skills: [
-      { name: 'AI Agents', proof: 'CaseWise · Genie' },
-      { name: 'Voice AI', proof: 'Genie' },
-      { name: 'Multi-LLM Routing', proof: 'Genie' },
-      { name: 'Prompt Engineering', proof: 'CaseWise · Genie' },
-    ],
-  },
-  {
-    name: 'Engineering',
-    label: 'DOMAIN 02',
-    color: themeColors.green as string,
-    skills: [
-      { name: 'Python', proof: 'Genie · BarHunter · Mail Merge' },
-      { name: 'Hardware Systems', proof: 'Genie' },
-      { name: 'Next.js', proof: 'CaseWise · BarHunter' },
-      { name: 'Web Scraping', proof: 'BarHunter' },
-    ],
-  },
-  {
-    name: 'Product',
-    label: 'DOMAIN 03',
-    color: themeColors.amber as string,
-    skills: [
-      { name: 'Product Management', proof: '6 Certs · CaseWise' },
-      { name: 'Claude Code', proof: 'Certified' },
-    ],
-  },
-] as const;
-
-const stackSkills = [
-  'TypeScript', 'PostgreSQL', 'Supabase', 'Flask', 'Pandas',
-  'Playwright', 'Tailwind CSS', 'REST APIs', 'Vercel', 'Linux', 'AI Workflows',
-  'Raspberry Pi', 'OpenWakeWord', 'scipy',
-];
-
-const exploringSkills = ['LangChain', 'Multi-Agent Architecture', 'RAG', 'n8n'];
 
 function SectionLabel({ children }: { children: string }) {
   return (
@@ -463,68 +422,69 @@ export default function AboutPage() {
 
             <div className="p-6 md:p-10">
 
-              {/* ── CORE SKILLS ── */}
-              <p className="mb-6 font-mono text-[9px] uppercase tracking-[0.18em] text-textMuted">Core — proof-backed</p>
+              {/* ── NICHES ── */}
+              <p className="mb-6 font-mono text-[9px] uppercase tracking-[0.18em] text-textMuted">Skill tree — proof-backed</p>
 
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                {skillDomains.flatMap((domain) =>
-                  domain.skills.map((skill, si) => (
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {niches.map((niche, ni) => {
+                  const accent = accentByColor[niche.color];
+                  const shipped = niche.skills.filter((s) => s.status === 'shipped').length;
+                  const applied = niche.skills.filter((s) => s.status === 'applied').length;
+                  const studying = niche.skills.filter((s) => s.status === 'studying').length;
+                  const breakdown = [
+                    shipped > 0 ? `${shipped} shipped` : null,
+                    applied > 0 ? `${applied} applied` : null,
+                    studying > 0 ? `${studying} studying` : null,
+                  ].filter(Boolean).join(' · ');
+
+                  return (
                     <motion.div
-                      key={skill.name}
+                      key={niche.id}
                       className="group relative overflow-hidden rounded-[14px] border p-4"
                       initial={{ opacity: 0, y: 10 }}
-                      transition={{ delay: si * 0.05, duration: 0.36, ease: [0.16, 1, 0.3, 1] }}
+                      transition={{ delay: ni * 0.05, duration: 0.36, ease: [0.16, 1, 0.3, 1] }}
                       viewport={{ once: true }}
                       whileInView={{ opacity: 1, y: 0 }}
                       style={{
-                        borderColor: colorMix(domain.color, 22),
-                        background: `radial-gradient(ellipse 100% 80% at 50% 120%, ${colorMix(domain.color, 13)}, var(--surface))`,
+                        borderColor: colorMix(accent, 22),
+                        background: `radial-gradient(ellipse 100% 80% at 50% 120%, ${colorMix(accent, 13)}, var(--surface))`,
                       }}
                     >
-                      <div aria-hidden="true" className="absolute left-0 top-0 h-full w-[2px]" style={{ background: `linear-gradient(180deg, ${domain.color}, ${colorMix(domain.color, 30)})` }} />
-                      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px" style={{ background: `linear-gradient(90deg, ${colorMix(domain.color, 50)}, transparent)` }} />
-                      <p className="font-mono text-[8px] uppercase tracking-[0.14em]" style={{ color: domain.color }}>{domain.name}</p>
-                      <p className="mt-1.5 font-display text-[15px] font-semibold leading-snug text-textPrimary">{skill.name}</p>
-                      <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.1em]" style={{ color: colorMix(domain.color, 70) }}>{skill.proof}</p>
+                      <div aria-hidden="true" className="absolute left-0 top-0 h-full w-[2px]" style={{ background: `linear-gradient(180deg, ${accent}, ${colorMix(accent, 30)})` }} />
+                      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px" style={{ background: `linear-gradient(90deg, ${colorMix(accent, 50)}, transparent)` }} />
+                      <p className="font-mono text-[8px] uppercase tracking-[0.14em]" style={{ color: accent }}>{niche.skills.length} skills</p>
+                      <p className="mt-1.5 font-display text-[15px] font-semibold leading-snug text-textPrimary">{niche.name}</p>
+                      <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.08em] text-textSecondary">{breakdown}</p>
                     </motion.div>
-                  ))
-                )}
+                  );
+                })}
               </div>
 
-              {/* ── SEPARATOR ── */}
-              <div className="my-8 flex items-center gap-4">
-                <div className="h-px flex-1" style={{ background: colorMix(themeColors.blue, 12) }} />
-                <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-textMuted">Supporting stack</span>
-                <div className="h-px flex-1" style={{ background: colorMix(themeColors.blue, 12) }} />
-              </div>
-
-              {/* ── SUPPORTING SKILLS ── */}
-              <div className="flex flex-wrap gap-2">
-                {stackSkills.map((s) => (
-                  <span key={s} className="tech-badge">{s}</span>
-                ))}
-              </div>
-
-              {/* ── BUILDING TOWARD ── */}
-              <div className="mt-6 flex items-center gap-4">
-                <div className="h-px flex-1" style={{ background: colorMix(themeColors.cyan, 10) }} />
-                <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-textMuted">Building toward</span>
-                <div className="h-px flex-1" style={{ background: colorMix(themeColors.cyan, 10) }} />
-              </div>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {exploringSkills.map((s) => (
-                  <span
-                    key={s}
-                    className="rounded-full px-3 py-1 font-mono text-[10px] uppercase tracking-[0.1em]"
-                    style={{
-                      border: `1px dashed ${colorMix(themeColors.cyan, 28)}`,
-                      color: colorMix(themeColors.cyan, 55),
-                      background: colorMix(themeColors.cyan, 5),
-                    }}
+              <div className="mt-6 flex justify-center">
+                <Link
+                  className="group inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.1em] transition-all duration-200 hover:gap-3"
+                  href="/skills"
+                  style={{
+                    borderColor: colorMix(themeColors.blue, 32),
+                    background: colorMix(themeColors.blue, 10),
+                    color: themeColors.blue,
+                  }}
+                >
+                  See the full skill breakdown
+                  <svg
+                    aria-hidden="true"
+                    fill="none"
+                    height="12"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
+                    viewBox="0 0 12 12"
+                    width="12"
                   >
-                    {s}
-                  </span>
-                ))}
+                    <path d="M2 6h8M6 2l4 4-4 4" />
+                  </svg>
+                </Link>
               </div>
 
             </div>
