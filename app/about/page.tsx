@@ -430,11 +430,9 @@ export default function AboutPage() {
                   const accent = accentByColor[niche.color];
                   const shipped = niche.skills.filter((s) => s.status === 'shipped').length;
                   const applied = niche.skills.filter((s) => s.status === 'applied').length;
-                  const studying = niche.skills.filter((s) => s.status === 'studying').length;
                   const breakdown = [
                     shipped > 0 ? `${shipped} shipped` : null,
                     applied > 0 ? `${applied} applied` : null,
-                    studying > 0 ? `${studying} studying` : null,
                   ].filter(Boolean).join(' · ');
 
                   return (

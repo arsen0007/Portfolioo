@@ -1127,6 +1127,31 @@ body {
   transition: stroke-opacity 0.2s;
 }
 
+.react-flow__controls {
+  border-radius: 10px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.react-flow__controls-button {
+  background: var(--surface) !important;
+  border-bottom: 1px solid var(--surface-border) !important;
+  color: var(--text-secondary) !important;
+}
+
+.react-flow__controls-button:hover {
+  background: color-mix(in srgb, var(--blue) 14%, var(--surface)) !important;
+  color: var(--text-primary) !important;
+}
+
+.react-flow__controls-button:last-child {
+  border-bottom: none !important;
+}
+
+.react-flow__controls-button svg {
+  fill: currentColor !important;
+}
+
 /* ─────────────────────────────────────────────────────────────────────── */
 
 /* ─── Star field ─────────────────────────────────────────────────────────── */

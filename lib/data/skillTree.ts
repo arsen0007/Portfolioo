@@ -1,6 +1,6 @@
 import type { AccentColor } from '@/lib/constants/colors';
 
-export type SkillStatus = 'shipped' | 'applied' | 'studying';
+export type SkillStatus = 'shipped' | 'applied';
 
 export type Skill = {
   id: string;
@@ -30,7 +30,7 @@ export const niches: Niche[] = [
         status: 'shipped',
         evidenceProjectIds: ['casewise', 'genie'],
         note: 'CaseWise classification/summarization prompts, Genie skill-routing prompts.',
-        tools: ['Gemini API', 'Gemini 2.0 Flash', 'GPT', 'Claude', 'DeepSeek'],
+        tools: ['Gemini', 'GPT', 'Claude', 'DeepSeek'],
       },
       {
         id: 'skill-dispatch-structured-output',
@@ -51,15 +51,15 @@ export const niches: Niche[] = [
       {
         id: 'model-evaluation-selection',
         name: 'Model Evaluation & Selection',
-        status: 'studying',
-        note: 'Real usage judgment from swapping models live, but no formal evaluation process yet.',
+        status: 'applied',
+        note: 'Hands-on comparison of models live across projects, building toward a formal evaluation process.',
         tools: [],
       },
       {
         id: 'rag',
         name: 'Retrieval-Augmented Generation (RAG)',
-        status: 'studying',
-        note: 'Coming as the in-progress agentic systems build matures.',
+        status: 'applied',
+        note: 'Building retrieval into the in-progress agentic systems work — chunking, embedding, and grounding design.',
         tools: [],
       },
       {
@@ -76,6 +76,14 @@ export const niches: Niche[] = [
     name: 'Agentic Systems & Automation',
     color: 'purple',
     skills: [
+      {
+        id: 'system-architecture-design',
+        name: 'System Architecture & Trade-off Design',
+        status: 'shipped',
+        evidenceProjectIds: ['genie', 'casewise'],
+        note: 'Genie: LLM placed at stage 4 not stage 1 for cost/latency, fail-fast manifest validation, pluggable provider fallback. CaseWise: staged classification -> summary -> outreach pipeline with human review gates.',
+        tools: [],
+      },
       {
         id: 'agent-dispatch-orchestration',
         name: 'Agent Dispatch & Orchestration Pipelines',
@@ -96,8 +104,15 @@ export const niches: Niche[] = [
         id: 'mcp-server-development',
         name: 'MCP Server Development',
         status: 'applied',
-        note: 'Built custom MCP servers under Claude Code for personal/internal tooling.',
-        tools: ['Claude Code'],
+        note: 'Building custom MCP servers, including a multi-model MCP that queries multiple LLMs in parallel and synthesizes their answers into one output.',
+        tools: ['Claude Code', 'MCP SDK'],
+      },
+      {
+        id: 'agent-tool-apis',
+        name: 'Agent & Tool APIs',
+        status: 'applied',
+        note: 'Building agents and their tools as callable APIs — the interface layer behind autonomous ideate -> analyze -> debug pipelines.',
+        tools: [],
       },
       {
         id: 'human-in-the-loop',
@@ -134,8 +149,8 @@ export const niches: Niche[] = [
       {
         id: 'multi-agent-coordination',
         name: 'Multi-Agent Coordination',
-        status: 'studying',
-        note: 'Genie is one sophisticated agent, not multiple agents coordinating yet — coming as the in-progress agentic systems build matures.',
+        status: 'applied',
+        note: 'Designing multi-agent delegation patterns for the next phase of the agentic systems build, beyond Genie\'s single-agent runtime.',
         tools: ['LangChain', 'n8n'],
       },
     ],
@@ -180,8 +195,8 @@ export const niches: Niche[] = [
       {
         id: 'telephony-integration',
         name: 'Telephony Integration',
-        status: 'studying',
-        note: 'Building a separate voice infrastructure project — in progress, not yet ready to surface as shipped.',
+        status: 'applied',
+        note: 'Building a separate voice infrastructure project on Exotel, Twilio, and ElevenLabs.',
         tools: ['Exotel', 'Twilio', 'ElevenLabs'],
       },
     ],
@@ -204,8 +219,8 @@ export const niches: Niche[] = [
         name: 'Backend & API Development',
         status: 'shipped',
         evidenceProjectIds: ['barhunter', 'casewise'],
-        note: 'BarHunter recruiter dashboard APIs, CaseWise workflow backend.',
-        tools: ['Postman'],
+        note: 'BarHunter recruiter dashboard APIs; CaseWise workflow backend, now being extended into a dedicated API.',
+        tools: ['Next.js API Routes', 'Node.js', 'Postman'],
       },
       {
         id: 'database-design-rls',
@@ -329,7 +344,7 @@ export const niches: Niche[] = [
         name: 'Product Management',
         status: 'shipped',
         evidenceProjectIds: ['casewise'],
-        note: 'CaseWise: problem discovery, MVP development, C-suite pitching. Backed by 6 CEO-sponsored Product School certifications.',
+        note: 'CaseWise: owned problem discovery, MVP development, and delivery from solo prototype to a CTO-backed core-system feature.',
         tools: [],
       },
     ],
