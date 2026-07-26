@@ -29,6 +29,11 @@ export type Project = {
   color: AccentColor;
   status: ProjectStatus;
   tier: number;
+  /**
+   * A competition build is not a production system and is presented separately
+   * rather than ranked against one. Claiming otherwise would be the overclaim.
+   */
+  kind?: 'competition';
   confidential?: boolean;
   liveUrl?: string;
   problem: string;
@@ -154,7 +159,7 @@ export const projects: Project[] = [
       { value: '96%', label: 'Time reduction' },
       { value: '433h', label: 'Saved per month (Legal)' },
       { value: '2,700', label: 'Cases monthly' },
-      { value: '~12x', label: 'Estimated ROI' },
+      { value: '12x', label: 'Estimated ROI (approx.)' },
     ],
     proof: [
       'Awarded $5,000 Product School scholarship by CEO Alan King.',
@@ -193,6 +198,92 @@ export const projects: Project[] = [
       ],
       outcome:
         'CaseWise evolved from a solo prototype to a CTO-backed core system feature, buying back over 5,000 hours of team productivity annually.',
+    },
+  },
+  {
+    id: 'arsens-lab',
+    name: "Arsen's Lab",
+    tagline:
+      'Self-hosted AI infrastructure on a Raspberry Pi — MCP servers, agents, workflows, and a control plane. Fourteen services I am responsible for keeping alive.',
+    color: 'cyan',
+    status: 'active',
+    tier: 1,
+    problem:
+      "I wanted an AI assistant that could do things, not just say things — take a photo, speak in the room, run a command, drive a browser, query a database. Every commercial option routed my home through someone else's cloud, which is the wrong trade for a device pointed at my own house. The question underneath was more interesting: what does it actually take to give a model safe access to real hardware? Not 'call an API' — the whole path, including what happens when it crashes at 3am and who is allowed to restart it.",
+    whatIBuilt:
+      'Fourteen supervised services on one Raspberry Pi, in four layers. MCP servers expose hardware and data as tools any AI client can call. Agents run on top of them. Workflows turn a messaging app into a control surface. A control plane observes and controls all of it. Every component carries a decisions file recording why it looks the way it does.',
+    architecture: [
+      'MCP servers — hardware and data as callable tools',
+      'Agents — long-running processes that use those tools',
+      'APIs — shared internal services',
+      'Workflows — event-driven automation on top',
+      'Control plane — observes and controls the lot',
+      'systemd — the single source of truth for state',
+    ],
+    techStack: [
+      'MCP',
+      'Node.js',
+      'Python',
+      'systemd',
+      'PostgreSQL',
+      'Tailscale',
+      'Debian',
+      'Raspberry Pi 4',
+    ],
+    impact: [
+      { value: '14', label: 'Services supervised' },
+      { value: '6', label: 'MCP servers built' },
+      { value: '18s', label: 'Boot time removed' },
+      { value: '0', label: 'Runtime deps in control plane' },
+    ],
+    proof: [
+      'Designed a privilege model that assumes its own web server will be compromised.',
+      'Cut roughly 18 seconds from boot by deleting one unjustified dependency, then measured the result.',
+      'Publishes its own failure taxonomy and unfixed gaps rather than a happy path.',
+      'Every component ships a decisions file — the reasoning survives the author.',
+    ],
+    story: {
+      role: 'Architect, builder, and the person on call when it breaks',
+      scope:
+        'MCP server design, agent hosting, workflow automation, control plane, privilege model, boot and readiness analysis',
+      context:
+        'Consuming AI tools teaches you the surface. I wanted the layer that hands a model real capability — and, more importantly, the experience of being responsible for it after the interesting part is finished.',
+      productMove:
+        'Treated a personal homelab as production. Documented decisions where I would have to justify them, published the failures alongside the wins, and wrote the operations handbook I would want if someone handed me this box tomorrow.',
+      decisions: [
+        {
+          title: 'systemd owns state, everything else is a client',
+          body:
+            'No component tracks whether another is running — they ask the supervisor. That is why a message and a dashboard button can control the same service and never disagree. No cache to invalidate, no second source of truth to drift.',
+        },
+        {
+          title: 'An observer, not an announcer',
+          body:
+            'The original plan was a spoken boot announcement, which cannot work — the announcer is itself one of the services booting. An announcer is a consumer of readiness and therefore races. An observer needs nothing from anyone, so the race stops existing rather than being worked around.',
+        },
+        {
+          title: 'Risk class determines reach',
+          body:
+            'Hardware that produces data and a database holding accumulated state are not the same risk. They are exposed differently, deliberately, and the difference is written down rather than remembered.',
+        },
+        {
+          title: 'Assume the web server gets compromised',
+          body:
+            'The control plane runs unprivileged and never invokes the service manager directly. One narrow escalation path, a root-owned whitelist, and caller input that never reaches the supervisor as an argument. A whitelist writable by the process it constrains is not a whitelist.',
+        },
+        {
+          title: 'A decisions file in every component',
+          body:
+            'Each server carries a document explaining why it looks the way it does, including the alternatives rejected and why. Code records what; the decisions file records why, which is the part that decays fastest and costs most to reconstruct.',
+        },
+      ],
+      constraints: [
+        'One low-power board runs everything, including the things that watch the other things.',
+        'Physical hardware fails in ways software cannot fix — a loose camera ribbon needed a watchdog, not a patch.',
+        'One person maintaining it, so anything requiring constant attention is effectively broken.',
+      ],
+      outcome:
+        'Fourteen services that stay up. More usefully: a set of opinions about readiness, privilege, and honest status reporting that I now bring to everything else — and an operations handbook that made the failures reusable instead of merely survived.',
     },
   },
   {
@@ -275,6 +366,86 @@ export const projects: Project[] = [
       ],
       outcome:
         'Genie V2 runs daily. It handles calendar events proactively, sends WhatsApp messages via a 3-stage state machine, streams Spotify, runs web searches, and switches between 9 LLM models by voice. V3 will add vector memory and software AEC.',
+    },
+  },
+  {
+    id: 'le-mans-t2',
+    name: "Le Man's T2",
+    tagline:
+      'Real-time failure prediction for endurance racing. Built in 24 hours by a team of five; won the ClearRoute x Le Mans 24h Hackathon globally.',
+    color: 'amber',
+    status: 'completed',
+    tier: 2,
+    kind: 'competition',
+    problem:
+      "Endurance racing runs cars for 24 hours straight, and components fail mid-race. Engineers find out after the damage, not before — a retirement costs a team money and championship position. The data to see it coming exists in the telemetry; nothing was turning it into a decision anyone could act on during a race.",
+    whatIBuilt:
+      'A complete working system inside the 24-hour window: simulated sensor telemetry feeding a Python/Flask backend running an ML model, streamed over WebSockets to a React and TypeScript frontend, with a 3D dashboard showing which components were at risk and how much longer they had. I originated the idea and engineered the architecture; four teammates built alongside me.',
+    architecture: [
+      'Simulated sensor telemetry',
+      'Python / Flask ingestion',
+      'ML failure model',
+      'WebSocket streaming',
+      'React + TypeScript client',
+      '3D risk dashboard',
+    ],
+    techStack: [
+      'Python',
+      'Flask',
+      'Machine learning',
+      'WebSockets',
+      'React',
+      'TypeScript',
+      '3D visualisation',
+    ],
+    impact: [
+      { value: '1st', label: 'Global, across 4 offices' },
+      { value: '24h', label: 'Concept to working system' },
+      { value: '5', label: 'Team size' },
+      { value: 'Laps', label: 'The unit we chose to predict' },
+    ],
+    proof: [
+      'Won globally against entries from ClearRoute offices in Sydney, Bulgaria, India, and London.',
+      'Judged on impact to real team performance, not demo polish.',
+      'Chose laps-to-failure as the output — a number a race engineer can act on mid-race.',
+      'Delivered a complete streaming pipeline end to end inside the 24-hour window.',
+    ],
+    story: {
+      role: 'Originated the concept and engineered the architecture, on a team of five',
+      scope: 'Problem framing, system architecture, output design, real-time pipeline',
+      context:
+        'ClearRoute runs an annual motorsport hackathon in partnership with United Autosports — a 24-hour build synchronised with the 24 Hours of Le Mans, run simultaneously across four international offices. The brief was open: improve race team performance.',
+      productMove:
+        'Most teams reach for a better model. The decision that won was about the output, not the algorithm: predict laps-to-failure rather than a probability of failure, because a probability is something an engineer has to interpret under pressure and a lap count is something they can act on.',
+      decisions: [
+        {
+          title: 'Predict laps, not probability',
+          body:
+            'A model that says "73% chance of failure" moves the hard problem onto the person reading it mid-race. A model that says "about nine laps left" is already a decision. Same underlying prediction, different output contract — and only one of them survives contact with a pit wall.',
+        },
+        {
+          title: 'Stream it, do not poll it',
+          body:
+            'Race data is only useful while the race is happening. WebSockets rather than request/response meant the dashboard reflected the current state of the car instead of the state at the last refresh.',
+        },
+        {
+          title: 'Show the car, not a table',
+          body:
+            'A 3D view of which components were at risk reads instantly under pressure. A table of component names and numbers does not. The interface had to be legible to someone who is already busy.',
+        },
+        {
+          title: 'Simulate the sensors',
+          body:
+            'Real telemetry was not available in the window. Simulating it was the honest way to prove the pipeline end to end rather than faking the demo with fixed values.',
+        },
+      ],
+      constraints: [
+        'Twenty-four hours, total, including deciding what to build.',
+        'No access to real race telemetry.',
+        'Five people working in parallel on one system with no time to rework interfaces.',
+      ],
+      outcome:
+        'Won globally. The roadmap presented alongside it — driver radio sentiment analysis, historical data to sharpen accuracy, proactive alerting to engineers — pointed at the same idea: move the system further toward making the decision rather than reporting the data.',
     },
   },
   {

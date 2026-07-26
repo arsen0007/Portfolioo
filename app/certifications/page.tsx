@@ -1,136 +1,14 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { colorMix, themeColors } from '@/lib/constants/colors';
 import type { AccentColor } from '@/lib/constants/colors';
+import { certs } from '@/lib/data/certifications';
 
-type Cert = {
-  id: string;
-  title: string;
-  subtitle?: string;
-  level: 'Intermediate' | 'Advanced' | 'Expert';
-  status: 'completed' | 'in-progress';
-  color: AccentColor;
-  file: string | null;
-  issuer: string;
-  issued?: string;
-  link?: string;
-  expectedCompletion?: string;
-};
-
-const certs: Cert[] = [
-  {
-    id: 'product-manager',
-    title: 'Product Manager',
-    subtitle: 'Certification™',
-    level: 'Intermediate',
-    status: 'completed',
-    color: 'green',
-    file: '/certificates/Product Manager Certification.png',
-    issuer: 'Product School',
-    issued: 'January 20, 2026',
-    link: 'https://certificate.productschool.com/1c89deea-0560-4b63-812e-f4b0a2193f87',
-  },
-  {
-    id: 'ai-evals',
-    title: 'AI Evals',
-    level: 'Advanced',
-    status: 'completed',
-    color: 'cyan',
-    file: '/certificates/AI Evals Certification.png',
-    issuer: 'Product School',
-    issued: 'February 23, 2026',
-    link: 'https://certificate.productschool.com/4830b3f7-45ed-429a-8ada-64513c7f74d3',
-  },
-  {
-    id: 'ai-product-management',
-    title: 'AI Product Management',
-    level: 'Intermediate',
-    status: 'completed',
-    color: 'blue',
-    file: '/certificates/AI Product Management Certification.png',
-    issuer: 'Product School',
-    issued: 'February 14, 2026',
-    link: 'https://certificate.productschool.com/167b88a5-07be-44b7-baf2-57d7f2618290',
-  },
-  {
-    id: 'advanced-ai-agents',
-    title: 'Advanced AI Agents',
-    level: 'Advanced',
-    status: 'completed',
-    color: 'purple',
-    file: '/certificates/Advance AI Agents Certification.png',
-    issuer: 'Product School',
-    issued: 'June 1, 2026',
-    link: 'https://certificate.productschool.com/1774d978-11d5-443e-a138-3e5e1721f2cf',
-  },
-  {
-    id: 'go-to-market',
-    title: 'Go-to-Market',
-    level: 'Advanced',
-    status: 'completed',
-    color: 'amber',
-    file: '/certificates/Go-to-Market Certification.png',
-    issuer: 'Product School',
-    issued: 'July 23, 2026',
-    link: 'https://certificate.productschool.com/673c40b2-8c0b-45a9-a7d7-defa4f8db755',
-  },
-  {
-    id: 'vibe-coding',
-    title: 'Vibe Coding',
-    level: 'Advanced',
-    status: 'completed',
-    color: 'blue',
-    file: '/certificates/Vibe Coding Certification.png',
-    issuer: 'Product School',
-    issued: 'July 2, 2026',
-    link: 'https://certificate.productschool.com/092dbf31-a50b-4ee9-97b2-03a400bc27c1',
-  },
-  {
-    id: 'product-experimentation',
-    title: 'Product Experimentation',
-    level: 'Advanced',
-    status: 'in-progress',
-    color: 'cyan',
-    file: null,
-    issuer: 'Product School',
-    expectedCompletion: 'Aug 8 – Aug 23',
-  },
-  {
-    id: 'ai-product-strategy',
-    title: 'AI Product Strategy',
-    level: 'Expert',
-    status: 'in-progress',
-    color: 'green',
-    file: null,
-    issuer: 'Product School',
-    expectedCompletion: 'Aug 26 – Sep 11',
-  },
-  {
-    id: 'product-leadership',
-    title: 'Product Leadership',
-    level: 'Expert',
-    status: 'in-progress',
-    color: 'purple',
-    file: null,
-    issuer: 'Product School',
-    expectedCompletion: 'Sep 14 – Oct 1',
-  },
-  {
-    id: 'claude-code',
-    title: 'Claude Code',
-    level: 'Advanced',
-    status: 'completed',
-    color: 'green',
-    file: '/certificates/Claude Code Certification.png',
-    issuer: 'Product School',
-    issued: 'June 12, 2026',
-    link: 'https://certificate.productschool.com/5b5ccac9-1b8f-4bcc-a1cf-fdd729442ccc',
-  },
-];
 
 const accentByColor: Record<AccentColor, string> = {
   blue: themeColors.blue,
@@ -159,14 +37,21 @@ export default function CertificationsPage() {
     setIndex((prev) => (prev + delta + certs.length) % certs.length);
   }, []);
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight') navigate(1);
-      if (e.key === 'ArrowLeft') navigate(-1);
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [navigate]);
+  // Scoped to the carousel rather than the window: a global arrow-key listener
+  // hijacks the keys a keyboard user needs for scrolling the rest of the page.
+  const onCarouselKeyDown = useCallback(
+    (event: React.KeyboardEvent) => {
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        navigate(1);
+      }
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        navigate(-1);
+      }
+    },
+    [navigate],
+  );
 
   const cert = certs[index];
   const accent = accentByColor[cert.color];
@@ -205,10 +90,15 @@ export default function CertificationsPage() {
             CREDENTIALS
           </p>
           <h1 className="mt-4 text-balance font-display text-[34px] font-medium leading-tight text-textPrimary md:text-[44px]">
-            Earned in the field.
+            Certified, then applied.
           </h1>
-          <p className="mx-auto mt-4 font-mono text-[11px] uppercase tracking-[0.12em] text-textSecondary">
-            {completedCount} completed&nbsp;&middot;&nbsp;{inProgressCount} in progress&nbsp;&middot;&nbsp;Product School&nbsp;&middot;&nbsp;CEO Sponsored
+          <p className="mx-auto mt-5 max-w-[560px] font-body text-[15px] leading-[1.75] text-textSecondary">
+            My CEO sponsored these after CaseWise shipped. Where one fed back into
+            something running in production, it says so — and where it has not yet, it
+            does not.
+          </p>
+          <p className="mx-auto mt-5 font-mono text-[11px] uppercase tracking-[0.12em] text-textMuted">
+            CEO sponsored&nbsp;&middot;&nbsp;Product School&nbsp;&middot;&nbsp;{completedCount} completed&nbsp;&middot;&nbsp;{inProgressCount} in progress
           </p>
         </motion.div>
 
@@ -235,7 +125,12 @@ export default function CertificationsPage() {
           />
 
           <div
-            className="relative grid lg:grid-cols-[2fr_3fr]"
+            aria-label={`Certificates, ${index + 1} of ${certs.length}`}
+            aria-roledescription="carousel"
+            className="relative grid outline-none lg:grid-cols-[2fr_3fr]"
+            onKeyDown={onCarouselKeyDown}
+            role="region"
+            tabIndex={0}
             onTouchEnd={(e) => {
               const dx = e.changedTouches[0].clientX - touchStartX.current;
               if (Math.abs(dx) > 40) navigate(dx < 0 ? 1 : -1);
@@ -254,7 +149,7 @@ export default function CertificationsPage() {
                 transition={{ duration: 0.36, ease: [0.16, 1, 0.3, 1] }}
                 variants={slideVariants}
               >
-                <div>
+                <div aria-atomic="true" aria-live="polite">
                   {/* Index badge + issuer */}
                   <div className="flex items-center gap-3">
                     <span
@@ -329,6 +224,32 @@ export default function CertificationsPage() {
                     </p>
                   )}
 
+                  {cert.appliedTo && (
+                    <div
+                      className="mt-5 rounded-[12px] border-l-2 py-1 pl-4"
+                      style={{ borderColor: colorMix(accent, 55) }}
+                    >
+                      <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-textMuted">
+                        Where it was used
+                      </p>
+                      {cert.appliedTo.href ? (
+                        <Link
+                          className="mt-2 inline-flex items-baseline gap-1.5 font-body text-[13.5px] leading-[1.6] text-textSecondary transition-colors duration-200 hover:text-textPrimary"
+                          href={cert.appliedTo.href}
+                        >
+                          {cert.appliedTo.label}
+                          <span aria-hidden="true" style={{ color: accent }}>
+                            &rarr;
+                          </span>
+                        </Link>
+                      ) : (
+                        <p className="mt-2 font-body text-[13.5px] leading-[1.6] text-textSecondary">
+                          {cert.appliedTo.label}
+                        </p>
+                      )}
+                    </div>
+                  )}
+
                   {cert.link && (
                     <a
                       className="mt-4 inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.1em] transition-opacity hover:opacity-70"
@@ -350,7 +271,7 @@ export default function CertificationsPage() {
                   <div className="flex gap-2">
                     <button
                       aria-label="Previous certificate"
-                      className="grid h-9 w-9 place-items-center rounded-full border text-textSecondary transition-colors duration-200 hover:border-textMuted hover:text-textPrimary"
+                      className="grid h-11 w-11 place-items-center rounded-full border text-textSecondary transition-colors duration-200 hover:border-textMuted hover:text-textPrimary"
                       onClick={() => navigate(-1)}
                       style={{ borderColor: 'var(--surface-border)' }}
                     >
@@ -360,7 +281,7 @@ export default function CertificationsPage() {
                     </button>
                     <button
                       aria-label="Next certificate"
-                      className="grid h-9 w-9 place-items-center rounded-full border text-textSecondary transition-colors duration-200 hover:border-textMuted hover:text-textPrimary"
+                      className="grid h-11 w-11 place-items-center rounded-full border text-textSecondary transition-colors duration-200 hover:border-textMuted hover:text-textPrimary"
                       onClick={() => navigate(1)}
                       style={{ borderColor: 'var(--surface-border)' }}
                     >
@@ -473,8 +394,10 @@ export default function CertificationsPage() {
             const isActive = i === index;
             return (
               <button
+                aria-current={isActive ? 'true' : undefined}
                 aria-label={`Go to ${c.title}`}
                 className="h-2 rounded-full transition-all duration-300"
+                type="button"
                 key={c.id}
                 onClick={() => { setDir(i > index ? 1 : -1); setIndex(i); }}
                 style={{
@@ -500,8 +423,10 @@ export default function CertificationsPage() {
             const isActive = i === index;
             return (
               <button
+                aria-current={isActive ? 'true' : undefined}
                 className="rounded-full border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.1em] transition-all duration-200"
                 key={c.id}
+                type="button"
                 onClick={() => { setDir(i > index ? 1 : -1); setIndex(i); }}
                 style={{
                   borderColor: isActive ? colorMix(a, 50) : 'var(--surface-border)',

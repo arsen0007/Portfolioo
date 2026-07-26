@@ -1,25 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { navigationItems } from '@/lib/constants/navigation';
-import { trackEvent } from '@/lib/analytics';
 
+// Résumé link removed until public/resume.pdf is a real document (see forresume.md).
 const socialLinks = [
   { href: 'mailto:tousifarsen@gmail.com', label: 'Email' },
   { href: 'https://www.linkedin.com/in/tousif-ali--/', label: 'LinkedIn' },
   { href: 'https://github.com/arsen0007', label: 'GitHub' },
-  { href: '/resume.pdf', label: 'Resume' },
 ] as const;
 
 export function Footer() {
-  const pathname = usePathname();
-
-  // The homepage is a fixed-viewport orbit experience with its own proof strip.
-  if (pathname === '/') {
-    return null;
-  }
-
   return (
     <footer
       className="relative border-t"
@@ -42,7 +33,7 @@ export function Footer() {
           <div>
             <p className="font-display text-[14px] font-medium text-textPrimary">Tousif Ali</p>
             <p className="font-body text-[12px] text-textMuted">
-              AI Product &amp; Systems Builder · Bengaluru, India
+              Building AI systems in production · Bengaluru, India
             </p>
           </div>
         </div>
@@ -65,7 +56,6 @@ export function Footer() {
               className="font-mono text-[11px] uppercase tracking-[0.1em] text-textMuted transition-colors duration-200 hover:text-textPrimary"
               href={link.href}
               key={link.label}
-              onClick={link.label === 'Resume' ? () => trackEvent('resume_download', { location: 'footer' }) : undefined}
               rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
               target={link.href.startsWith('http') ? '_blank' : undefined}
             >

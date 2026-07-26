@@ -1,8 +1,6 @@
-'use client';
-
 import React from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { RevealDiv } from '@/components/ui/Reveal';
 import { colorMix, themeColors } from '@/lib/constants/colors';
 
 const fadeUp = (delay = 0) => ({
@@ -85,7 +83,7 @@ const lessons = [
     label: 'Barge-In Is Done — Architecturally',
     color: themeColors.cyan,
     title: 'Hardware limitations trump clean code.',
-    body: "threading.Event propagates cleanly through TTS, skills, and the LLM layer. But the mic hears the speaker. The architecture is correct. The physics isn't. V2 will fix it in software with AEC.",
+    body: "threading.Event propagates cleanly through TTS, skills, and the LLM layer. But the mic hears the speaker. The architecture is correct. The physics isn't. V3 will fix it in software with acoustic echo cancellation.",
   },
   {
     number: '04',
@@ -126,13 +124,13 @@ const roadmap = [
     version: 'V2',
     label: 'Intelligence',
     status: 'current',
-    body: "Replace keyword matching with an LLM skill router, add real memory and context, and rebuild the pipeline into modular, swappable stages. Basic voice search, sending messages on my behalf, and daily briefings already run on this — still rough, but working. Also where the hardening lives — vector memory over facts.json, software AEC, wake word reliability.",
+    body: "Replace keyword matching with an LLM skill router, add real memory and context, and rebuild the pipeline into modular, swappable stages. Basic voice search, sending messages on my behalf, and daily briefings already run on this — still rough, but working. Wake word reliability was hardened here after the resampling fix.",
   },
   {
     version: 'V3',
     label: 'Orchestrator',
     status: 'next',
-    body: "MCP support and cron-driven autonomy turn Genie into a premium runtime — one that can control and coordinate my other agents, not just run its own tools. The existing use cases (search, messaging, briefings) get much smarter and more advanced once Genie can orchestrate across systems instead of acting alone.",
+    body: "MCP support turns Genie from a runtime with its own tools into one that can drive everything else on the box — the six MCP servers in Arsen's Lab already expose the camera, microphone, shell, browser, database, and Alexa, and V3 is where Genie becomes their client. Plus cron-driven autonomy, vector memory over facts.json, and software AEC to finally close out barge-in.",
   },
   {
     version: 'V4',
@@ -240,7 +238,7 @@ export default function GeniePage() {
       <div className="relative z-10 mx-auto max-w-5xl px-6 pt-28">
 
         {/* ── BACK NAV ─────────────────────────────────────────────── */}
-        <motion.div {...fadeUp(0)}>
+        <RevealDiv {...fadeUp(0)}>
           <Link
             href="/projects"
             className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em] text-textMuted transition-colors hover:text-textPrimary"
@@ -250,10 +248,10 @@ export default function GeniePage() {
             </svg>
             All projects
           </Link>
-        </motion.div>
+        </RevealDiv>
 
         {/* ── SECTION 1: HERO ───────────────────────────────────────── */}
-        <motion.div className="mt-10" {...fadeUp(0.04)}>
+        <RevealDiv className="mt-10" {...fadeUp(0.04)}>
           {/* V2 Current chip */}
           <div
             className="mb-5 inline-flex items-center gap-2 rounded-full border px-3 py-1"
@@ -322,10 +320,10 @@ export default function GeniePage() {
             the runtime — complete dispatch pipeline, memory system, LLM provider switching, and 19
             skills — running on Raspberry Pi hardware.
           </p>
-        </motion.div>
+        </RevealDiv>
 
         {/* CTA buttons */}
-        <motion.div className="mt-8 flex flex-wrap gap-3" {...fadeUp(0.18)}>
+        <RevealDiv className="mt-8 flex flex-wrap gap-3" {...fadeUp(0.18)}>
           <a
             href="https://github.com/arsen0007/Genie-Agent-Runtime"
             target="_blank"
@@ -347,10 +345,10 @@ export default function GeniePage() {
           >
             See other projects
           </Link>
-        </motion.div>
+        </RevealDiv>
 
         {/* Device placeholder */}
-        <motion.div className="mt-10" {...fadeUp(0.24)}>
+        <RevealDiv className="mt-10" {...fadeUp(0.24)}>
           <div
             className="bento-card relative overflow-hidden"
             style={{
@@ -401,10 +399,10 @@ export default function GeniePage() {
           <p className="mt-2 text-center font-mono text-[10px] uppercase tracking-[0.1em] text-textMuted">
             Device · Raspberry Pi 4 · APA102 LEDs · Seeed 2-Mic HAT · Pi Camera · GPIO Button
           </p>
-        </motion.div>
+        </RevealDiv>
 
         {/* ── SECTION 2: WHAT IT IS ────────────────────────────────── */}
-        <motion.div className="mt-16" {...fadeUp(0.05)}>
+        <RevealDiv className="mt-16" {...fadeUp(0.05)}>
           <div
             className="bento-card p-8 md:p-10"
             style={{
@@ -440,10 +438,10 @@ export default function GeniePage() {
               <ArrowIcon />
             </a>
           </div>
-        </motion.div>
+        </RevealDiv>
 
         {/* ── SECTION 3: DISPATCH PIPELINE ─────────────────────────── */}
-        <motion.div className="mt-4" {...fadeUp(0.08)}>
+        <RevealDiv className="mt-4" {...fadeUp(0.08)}>
           <div
             className="bento-card p-7 md:p-8"
             style={{ borderColor: colorMix(themeColors.purple, 18) }}
@@ -621,10 +619,10 @@ export default function GeniePage() {
               ))}
             </div>
           </div>
-        </motion.div>
+        </RevealDiv>
 
         {/* ── SECTION 4: IN THE WILD ───────────────────────────────── */}
-        <motion.div className="mt-4" {...fadeUp(0.1)}>
+        <RevealDiv className="mt-4" {...fadeUp(0.1)}>
           <p
             className="mb-4 font-mono text-[10px] uppercase tracking-[0.18em]"
             style={{ color: themeColors.purple }}
@@ -748,10 +746,10 @@ export default function GeniePage() {
               check the GitHub repo for current demos →
             </a>
           </p>
-        </motion.div>
+        </RevealDiv>
 
         {/* ── SECTION 5: WHAT I LEARNED ────────────────────────────── */}
-        <motion.div className="mt-6" {...fadeUp(0.06)}>
+        <RevealDiv className="mt-6" {...fadeUp(0.06)}>
           <p
             className="font-mono text-[10px] uppercase tracking-[0.18em]"
             style={{ color: themeColors.purple }}
@@ -764,7 +762,7 @@ export default function GeniePage() {
 
           <div className="mt-6 grid gap-3 md:grid-cols-2">
             {lessons.map((lesson, i) => (
-              <motion.div key={lesson.number} className="h-full" {...fadeUp(0.08 + i * 0.06)}>
+              <RevealDiv key={lesson.number} className="h-full" {...fadeUp(0.08 + i * 0.06)}>
                 <div
                   className="bento-card relative h-full overflow-hidden transition-all duration-200"
                   style={{
@@ -806,15 +804,15 @@ export default function GeniePage() {
                     </p>
                   </div>
                 </div>
-              </motion.div>
+              </RevealDiv>
             ))}
           </div>
-        </motion.div>
+        </RevealDiv>
 
         {/* ── SECTION 6: STACK + ROADMAP ───────────────────────────── */}
         <div className="mt-4 grid gap-4 md:grid-cols-[1.4fr_1fr]">
           {/* Stack card */}
-          <motion.div {...fadeUp(0.12)}>
+          <RevealDiv {...fadeUp(0.12)}>
             <div
               className="bento-card h-full p-7"
               style={{ borderColor: colorMix(themeColors.purple, 20) }}
@@ -846,10 +844,10 @@ export default function GeniePage() {
                 ))}
               </div>
             </div>
-          </motion.div>
+          </RevealDiv>
 
           {/* Roadmap card */}
-          <motion.div {...fadeUp(0.16)}>
+          <RevealDiv {...fadeUp(0.16)}>
             <div
               className="bento-card relative h-full overflow-hidden p-7"
               style={{
@@ -945,11 +943,11 @@ export default function GeniePage() {
                 </a>
               </div>
             </div>
-          </motion.div>
+          </RevealDiv>
         </div>
 
         {/* ── SECTION 7: SKILLS GAINED ─────────────────────────────── */}
-        <motion.div className="mt-12" {...fadeUp(0.08)}>
+        <RevealDiv className="mt-12" {...fadeUp(0.08)}>
           <div className="mb-8">
             <p
               className="font-mono text-[10px] uppercase tracking-[0.18em]"
@@ -967,7 +965,7 @@ export default function GeniePage() {
 
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
             {genieSkills.map((skill, i) => (
-              <motion.div
+              <RevealDiv
                 key={skill.name}
                 {...fadeUp(0.04 + i * 0.03)}
                 className="group relative overflow-hidden rounded-[14px] border p-4"
@@ -1004,13 +1002,13 @@ export default function GeniePage() {
                 >
                   {skill.detail}
                 </p>
-              </motion.div>
+              </RevealDiv>
             ))}
           </div>
-        </motion.div>
+        </RevealDiv>
 
         {/* ── CLOSING CTA ───────────────────────────────────────────── */}
-        <motion.div className="mt-8 flex flex-wrap gap-3" {...fadeUp(0.3)}>
+        <RevealDiv className="mt-8 flex flex-wrap gap-3" {...fadeUp(0.3)}>
           <a
             href="https://github.com/arsen0007/Genie-Agent-Runtime"
             target="_blank"
@@ -1032,7 +1030,7 @@ export default function GeniePage() {
           >
             See other projects
           </Link>
-        </motion.div>
+        </RevealDiv>
 
       </div>
     </main>

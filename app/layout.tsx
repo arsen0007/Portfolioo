@@ -40,11 +40,11 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://tousifali.com'),
   alternates: { canonical: './' },
   title: {
-    default: 'Tousif Ali — AI Product & Systems Builder',
+    default: 'Tousif Ali — AI systems that replace manual work',
     template: '%s | Tousif Ali',
   },
   description:
-    'I build AI systems that replace manual work. CaseWise saved 433 hours/month and was integrated into the core system. BarHunter sourced 100K+ leads. Global Hackathon Winner.',
+    'I build AI systems that replace manual work. CaseWise saved 433 hours/month and was integrated into the core system. BarHunter sourced 94,363 leads. Global Hackathon Winner.',
   keywords: [
     'AI Product Builder',
     'Solutions Architect',
@@ -61,22 +61,22 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://tousifali.com',
     siteName: 'Tousif Ali Portfolio',
-    title: 'Tousif Ali — AI Product & Systems Builder',
+    title: 'Tousif Ali — AI systems that replace manual work',
     description:
-      'Building systems that create measurable impact. 100K+ leads sourced. 433 hours/month saved. Global Hackathon Winner.',
+      'Building systems that create measurable impact. 94,363 leads sourced. 433 hours/month saved. Global Hackathon Winner.',
     images: [
       {
-        url: '/og-image.png', // Ensure this exists in your public folder
+        url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Tousif Ali — AI Product & Systems Builder',
+        alt: 'Tousif Ali — AI systems that replace manual work',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Tousif Ali — AI Product & Systems Builder',
-    description: 'I build AI systems that replace manual work. 100K+ leads sourced. 433h saved monthly.',
+    title: 'Tousif Ali — AI systems that replace manual work',
+    description: 'I build AI systems that replace manual work. 94,363 leads sourced. 433h saved monthly.',
     images: ['/og-image.png'],
   },
   robots: {
@@ -104,6 +104,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
+                // Arms the reveal-on-scroll animations. Without JS the class is
+                // never added and .fade-in content simply renders visible, so
+                // nothing below the fold can get stuck at opacity 0.
+                document.documentElement.classList.add('js');
                 try {
                   var saved = localStorage.getItem('theme');
                   if (saved === 'light') {
@@ -135,7 +139,6 @@ export default function RootLayout({
               name: 'Tousif Ali',
               url: 'https://tousifali.com',
               email: 'mailto:tousifarsen@gmail.com',
-              jobTitle: 'AI Product & Systems Builder',
               address: {
                 '@type': 'PostalAddress',
                 addressLocality: 'Bengaluru',

@@ -1,7 +1,5 @@
-'use client';
-
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { RevealArticle, RevealDiv, RevealSection } from '@/components/ui/Reveal';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { colorMix, themeColors } from '@/lib/constants/colors';
 import { projects, type Project } from '@/lib/data/projects';
@@ -31,6 +29,11 @@ const cardCopy: Record<string, { line: string; role: string; tag?: string }> = {
     role: 'Client launch',
     line: 'A repair business with no online presence, turned into a live booking workflow with urgent and standard inquiry paths.',
   },
+  'arsens-lab': {
+    role: 'Self-hosted AI infrastructure',
+    line: 'Six MCP servers, agents, workflows, and a control plane — fourteen services on a Raspberry Pi that give an AI model real hardware to work with. Building it was the easy half.',
+    tag: 'MCP · systemd · Raspberry Pi',
+  },
   genie: {
     role: 'Agent runtime on hardware',
     line: 'Not a wrapper around an API — a complete agent runtime built from scratch. Dispatch pipeline, memory, multi-LLM routing, and 19 voice skills running on a Raspberry Pi.',
@@ -39,6 +42,26 @@ const cardCopy: Record<string, { line: string; role: string; tag?: string }> = {
 };
 
 function StatusBadge({ project }: { project: Project }) {
+  if (project.status === 'active' && !project.confidential) {
+    return (
+      <span
+        className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em]"
+        style={{
+          borderColor: colorMix(themeColors.cyan, 30),
+          background: colorMix(themeColors.cyan, 10),
+          color: themeColors.cyan,
+        }}
+      >
+        <span
+          aria-hidden="true"
+          className="available-pulse h-1.5 w-1.5 rounded-full"
+          style={{ background: themeColors.cyan, boxShadow: `0 0 8px ${themeColors.cyan}` }}
+        />
+        Active
+      </span>
+    );
+  }
+
   if (project.confidential) {
     return (
       <span
@@ -85,7 +108,7 @@ function ProjectCard({ project, featured, delay }: { project: Project; featured:
   const stack = project.techStack.slice(0, featured ? 6 : 4);
 
   return (
-    <motion.article className="h-full" {...fadeUp(delay)}>
+    <RevealArticle className="h-full" {...fadeUp(delay)}>
       <Link
         aria-label={`${project.name} case study`}
         className="bento-card group flex h-full flex-col p-7 transition-transform duration-200 hover:-translate-y-0.5 md:p-8"
@@ -168,13 +191,14 @@ function ProjectCard({ project, featured, delay }: { project: Project; featured:
           </div>
         </div>
       </Link>
-    </motion.article>
+    </RevealArticle>
   );
 }
 
 export default function ProjectsPage() {
-  const featured = projects.filter((project) => project.tier === 1);
-  const supporting = projects.filter((project) => project.tier > 1);
+  const featured = projects.filter((project) => project.tier === 1 && !project.kind);
+  const competition = projects.find((project) => project.kind === 'competition');
+  const supporting = projects.filter((project) => project.tier > 1 && !project.kind);
 
   return (
     <main className="dot-grid relative min-h-screen overflow-hidden pb-24">
@@ -198,9 +222,9 @@ export default function ProjectsPage() {
       />
 
       <section className="relative mx-auto max-w-6xl px-6 pt-12">
-        <motion.div className="max-w-2xl" {...fadeUp(0)}>
+        <RevealDiv className="max-w-2xl" {...fadeUp(0)}>
           <p className="font-mono text-[10px] font-normal uppercase tracking-[0.16em] text-textMuted">
-            Systems · 5 case studies
+            Systems · {projects.length} case studies
           </p>
           <h1 className="mt-4 text-balance font-display text-[34px] font-medium leading-tight text-textPrimary md:text-[44px]">
             Built to be used. Not demoed.
@@ -209,7 +233,7 @@ export default function ProjectsPage() {
             Every system here runs in production, inside a real workflow, with real users. Each case
             study covers the problem, the product decisions, and the measured outcome.
           </p>
-        </motion.div>
+        </RevealDiv>
 
         <div className="mt-12 grid gap-4 lg:grid-cols-2">
           {featured.map((project, index) => (
@@ -217,16 +241,126 @@ export default function ProjectsPage() {
           ))}
         </div>
 
-        <div className="mt-4 grid gap-4 lg:grid-cols-2">
-          {supporting.map((project, index) => (
-            <ProjectCard delay={0.2 + index * 0.08} featured={false} key={project.id} project={project} />
-          ))}
-        </div>
+        {/* Competition — a 24h build is a different kind of thing from a
+            production system, so it is presented separately rather than
+            ranked against one. */}
+        {competition ? (
+          <RevealSection className="mt-4" {...fadeUp(0.2)}>
+            <Link
+              className="group relative block overflow-hidden rounded-[18px] border p-7 transition-transform duration-200 hover:-translate-y-0.5 md:p-8"
+              href={`/projects/${competition.id}`}
+              style={{
+                borderColor: colorMix(themeColors.amber, 26),
+                background: `radial-gradient(ellipse 60% 100% at 100% 0%, ${colorMix(themeColors.amber, 13)}, transparent 62%), var(--surface)`,
+              }}
+            >
+              <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+                <div className="max-w-[640px]">
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <span
+                      className="rounded-full border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em]"
+                      style={{
+                        borderColor: colorMix(themeColors.amber, 34),
+                        background: colorMix(themeColors.amber, 11),
+                        color: themeColors.amber,
+                      }}
+                    >
+                      Global winner
+                    </span>
+                    <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-textMuted">
+                      ClearRoute x Le Mans 24h Hackathon
+                    </span>
+                  </div>
 
-        <motion.div className="mt-10" {...fadeUp(0.3)}>
+                  <h2 className="mt-4 font-display text-[26px] font-semibold leading-tight text-textPrimary md:text-[30px]">
+                    {competition.name}
+                  </h2>
+                  <p className="mt-3 font-body text-[14px] leading-[1.8] text-textSecondary">
+                    Real-time failure prediction for endurance racing, built in 24 hours by
+                    a team of five. It won because of the output, not the model: it predicts{' '}
+                    <strong className="font-semibold text-textPrimary">
+                      laps-to-failure
+                    </strong>{' '}
+                    rather than a probability — a lap count is already a decision.
+                  </p>
+                </div>
+
+                <span
+                  className="inline-flex shrink-0 items-center gap-2 font-body text-[14px] font-medium transition-all duration-200 group-hover:gap-3"
+                  style={{ color: themeColors.amber }}
+                >
+                  Read the case study
+                  <svg
+                    aria-hidden="true"
+                    fill="none"
+                    height="13"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.6"
+                    viewBox="0 0 13 13"
+                    width="13"
+                  >
+                    <path d="M2.5 6.5h8M6.5 2.5l4 4-4 4" />
+                  </svg>
+                </span>
+              </div>
+            </Link>
+          </RevealSection>
+        ) : null}
+
+        {/* Also shipped — real work, deliberately not invited into comparison
+            with the systems above. */}
+        <RevealSection className="mt-12" {...fadeUp(0.24)}>
+          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-textMuted">
+            Also shipped
+          </p>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            {supporting.map((project) => {
+              const accent = themeColors[project.color];
+
+              return (
+                <Link
+                  className="group flex items-center justify-between gap-4 rounded-[14px] border px-5 py-4 transition-colors duration-200"
+                  href={`/projects/${project.id}`}
+                  key={project.id}
+                  style={{
+                    borderColor: 'var(--surface-border)',
+                    background: 'color-mix(in srgb, var(--surface) 60%, transparent)',
+                  }}
+                >
+                  <span>
+                    <span className="block font-display text-[15px] font-semibold text-textPrimary">
+                      {project.name}
+                    </span>
+                    <span className="mt-1 block font-body text-[12.5px] leading-snug text-textMuted">
+                      {cardCopy[project.id]?.role}
+                    </span>
+                  </span>
+                  <svg
+                    aria-hidden="true"
+                    className="shrink-0 transition-transform duration-200 group-hover:translate-x-0.5"
+                    fill="none"
+                    height="13"
+                    stroke={accent}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.6"
+                    viewBox="0 0 13 13"
+                    width="13"
+                  >
+                    <path d="M2.5 6.5h8M6.5 2.5l4 4-4 4" />
+                  </svg>
+                </Link>
+              );
+            })}
+          </div>
+        </RevealSection>
+
+        <RevealDiv className="mt-10" {...fadeUp(0.3)}>
           <Link
-            className="group inline-flex items-center gap-3 rounded-full border px-5 py-3 font-mono text-[11px] uppercase tracking-[0.12em] text-textSecondary transition-colors duration-200 hover:text-textPrimary"
-            href="/?orbit=projects"
+            className="group inline-flex items-center gap-3 rounded-full border px-5 py-3 font-body text-[14px] font-medium text-textSecondary transition-colors duration-200 hover:text-textPrimary"
+            href="/contact"
             style={{ borderColor: 'var(--surface-border)', background: 'color-mix(in srgb, var(--surface) 70%, transparent)' }}
           >
             <span
@@ -235,11 +369,11 @@ export default function ProjectsPage() {
               style={{ borderColor: colorMix(themeColors.green, 34), background: colorMix(themeColors.green, 10) }}
             >
               <span
-                className="h-1.5 w-1.5 rounded-full"
+                className="available-pulse h-1.5 w-1.5 rounded-full"
                 style={{ background: themeColors.green, boxShadow: `0 0 8px ${themeColors.green}` }}
               />
             </span>
-            Prefer the map? Explore these systems in orbit
+            Have a workflow that should be a system? Let&apos;s talk
             <svg
               aria-hidden="true"
               fill="none"
@@ -254,7 +388,7 @@ export default function ProjectsPage() {
               <path d="M2 6h8M6 2l4 4-4 4" />
             </svg>
           </Link>
-        </motion.div>
+        </RevealDiv>
       </section>
     </main>
   );

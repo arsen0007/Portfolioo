@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -174,7 +175,14 @@ export default function BarHunterPage() {
               <div className="px-4 pt-4 pb-3">
                 <p className="font-mono text-[9px] uppercase tracking-[0.12em]" style={{ color: themeColors.green }}>Login · Find the right attorneys. Faster.</p>
               </div>
-              <img src="/screenshots/barhunter-login.png" alt="BarHunter login page" className="w-full block" />
+              <Image
+                alt="BarHunter login page"
+                className="block h-auto w-full"
+                height={889}
+                sizes="(min-width: 768px) 50vw, 100vw"
+                src="/screenshots/barhunter-login.png"
+                width={1920}
+              />
             </div>
           </motion.div>
           <motion.div {...fadeUp(0.17)}>
@@ -182,7 +190,14 @@ export default function BarHunterPage() {
               <div className="px-4 pt-4 pb-3">
                 <p className="font-mono text-[9px] uppercase tracking-[0.12em]" style={{ color: themeColors.cyan }}>Dashboard · 23,528 leads · California filter</p>
               </div>
-              <img src="/screenshots/barhunter-dashboard.png" alt="BarHunter dashboard showing attorney search results" className="w-full block" />
+              <Image
+                alt="BarHunter dashboard showing attorney search results"
+                className="block h-auto w-full"
+                height={889}
+                sizes="(min-width: 768px) 50vw, 100vw"
+                src="/screenshots/barhunter-dashboard.png"
+                width={1920}
+              />
             </div>
           </motion.div>
         </div>
@@ -428,11 +443,11 @@ export default function BarHunterPage() {
             </svg>
           </a>
           <Link
-            href="/architecture"
+            href="/projects/arsens-lab"
             className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] transition-all duration-200"
-            style={{ borderColor: colorMix(themeColors.purple, 28), color: themeColors.purple, background: colorMix(themeColors.purple, 8) }}
+            style={{ borderColor: colorMix(themeColors.cyan, 28), color: themeColors.cyan, background: colorMix(themeColors.cyan, 8) }}
           >
-            View system architecture
+            The infrastructure behind it
             <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 12 12" aria-hidden="true">
               <path d="M2.5 9.5l7-7M9.5 2.5H4m5.5 0v5.5" />
             </svg>

@@ -1,7 +1,5 @@
-'use client';
-
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { RevealDiv } from '@/components/ui/Reveal';
 import { colorMix, themeColors } from '@/lib/constants/colors';
 
 const fadeUp = (delay = 0) => ({
@@ -15,7 +13,7 @@ const stats = [
   { value: '96%', label: 'Time reduction', color: themeColors.blue, glow: themeColors.blueGlow },
   { value: '433h', label: 'Saved per month (Legal)', color: themeColors.purple, glow: themeColors.purpleGlow },
   { value: '2,700', label: 'Cases monthly', color: themeColors.amber, glow: themeColors.amberGlow },
-  { value: '~12x', label: 'Estimated ROI', color: themeColors.green, glow: themeColors.greenGlow },
+  { value: '12x', label: 'Estimated ROI (approx.)', color: themeColors.green, glow: themeColors.greenGlow },
 ];
 
 const aiPipeline = [
@@ -72,7 +70,7 @@ export default function CaseWisePage() {
       <div className="relative z-10 mx-auto max-w-5xl px-6 pt-28">
 
         {/* Back */}
-        <motion.div {...fadeUp(0)}>
+        <RevealDiv {...fadeUp(0)}>
           <Link
             href="/projects"
             className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em] text-textMuted transition-colors hover:text-textPrimary"
@@ -82,10 +80,10 @@ export default function CaseWisePage() {
             </svg>
             All projects
           </Link>
-        </motion.div>
+        </RevealDiv>
 
         {/* Hero */}
-        <motion.div className="mt-10" {...fadeUp(0.05)}>
+        <RevealDiv className="mt-10" {...fadeUp(0.05)}>
           <div className="flex flex-wrap items-center gap-3 mb-5">
             <span
               className="rounded-full px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em]"
@@ -107,12 +105,12 @@ export default function CaseWisePage() {
           <p className="mt-4 max-w-[620px] font-body text-[17px] leading-[1.8] text-textSecondary">
             An AI pipeline that replaced manual legal case processing — built in-house, adopted at the company level.
           </p>
-        </motion.div>
+        </RevealDiv>
 
         {/* Stats */}
         <div className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-4">
           {stats.map((stat, i) => (
-            <motion.div key={stat.label} {...fadeUp(0.1 + i * 0.07)}>
+            <RevealDiv key={stat.label} {...fadeUp(0.1 + i * 0.07)}>
               <div
                 className="bento-card relative flex flex-col justify-between p-6"
                 style={{
@@ -129,7 +127,7 @@ export default function CaseWisePage() {
                   {stat.label}
                 </span>
               </div>
-            </motion.div>
+            </RevealDiv>
           ))}
         </div>
 
@@ -137,7 +135,7 @@ export default function CaseWisePage() {
         <div className="mt-4 grid gap-4 md:grid-cols-[1fr_1.4fr]">
 
           {/* Problem */}
-          <motion.div {...fadeUp(0.16)}>
+          <RevealDiv {...fadeUp(0.16)}>
             <div
               className="bento-card h-full p-7"
               style={{ borderColor: colorMix(themeColors.purple, 20) }}
@@ -172,10 +170,10 @@ export default function CaseWisePage() {
                 ))}
               </div>
             </div>
-          </motion.div>
+          </RevealDiv>
 
           {/* AI Pipeline */}
-          <motion.div {...fadeUp(0.2)}>
+          <RevealDiv {...fadeUp(0.2)}>
             <div
               className="bento-card h-full p-7"
               style={{ borderColor: colorMix(themeColors.blue, 18) }}
@@ -218,11 +216,11 @@ export default function CaseWisePage() {
                 Human review built in — edit classifications and summaries before committing.
               </p>
             </div>
-          </motion.div>
+          </RevealDiv>
         </div>
 
         {/* Leadership endorsements — full width, 3 cards */}
-        <motion.div className="mt-4" {...fadeUp(0.22)}>
+        <RevealDiv className="mt-4" {...fadeUp(0.22)}>
           <div
             className="bento-card p-7"
             style={{
@@ -287,10 +285,10 @@ export default function CaseWisePage() {
               </a>
             </div>
           </div>
-        </motion.div>
+        </RevealDiv>
 
         {/* Tech stack */}
-        <motion.div className="mt-4" {...fadeUp(0.26)}>
+        <RevealDiv className="mt-4" {...fadeUp(0.26)}>
           <div className="bento-card p-7" style={{ borderColor: colorMix(themeColors.blue, 22) }}>
             <p className="font-mono text-[10px] uppercase tracking-[0.12em]" style={{ color: themeColors.blue }}>Tech Stack</p>
             <div className="mt-4 flex flex-wrap gap-2">
@@ -299,16 +297,16 @@ export default function CaseWisePage() {
               ))}
             </div>
           </div>
-        </motion.div>
+        </RevealDiv>
 
         {/* CTA row */}
-        <motion.div className="mt-8 flex flex-wrap gap-3" {...fadeUp(0.3)}>
+        <RevealDiv className="mt-8 flex flex-wrap gap-3" {...fadeUp(0.3)}>
           <Link
-            href="/architecture"
+            href="/projects/arsens-lab"
             className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] transition-all duration-200"
-            style={{ borderColor: colorMix(themeColors.blue, 28), color: themeColors.blue, background: colorMix(themeColors.blue, 8) }}
+            style={{ borderColor: colorMix(themeColors.cyan, 28), color: themeColors.cyan, background: colorMix(themeColors.cyan, 8) }}
           >
-            View full system architecture
+            The infrastructure behind it
             <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 12 12" aria-hidden="true">
               <path d="M2.5 9.5l7-7M9.5 2.5H4m5.5 0v5.5" />
             </svg>
@@ -327,7 +325,7 @@ export default function CaseWisePage() {
           >
             Other projects
           </Link>
-        </motion.div>
+        </RevealDiv>
       </div>
     </main>
   );

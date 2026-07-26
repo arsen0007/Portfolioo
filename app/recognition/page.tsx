@@ -1,9 +1,9 @@
-'use client';
-
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { RevealDiv, RevealSection } from '@/components/ui/Reveal';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { colorMix, themeColors } from '@/lib/constants/colors';
+import { certs } from '@/lib/data/certifications';
 import { recognition } from '@/lib/data/recognition';
 import type { CredentialRecognition, LeadershipRecognition } from '@/lib/data/recognition';
 
@@ -46,7 +46,7 @@ function PublicRecord() {
   const accent = themeColors.amber;
 
   return (
-    <motion.div {...fadeUp(0.05)}>
+    <RevealDiv {...fadeUp(0.05)}>
       <div
         className="panel-shadow theme-node-border relative overflow-hidden rounded-panel border bg-surface"
         style={{
@@ -89,7 +89,7 @@ function PublicRecord() {
           </a>
         </div>
       </div>
-    </motion.div>
+    </RevealDiv>
   );
 }
 
@@ -98,7 +98,7 @@ function KudoCard({ item }: { item: LeadershipRecognition }) {
   const accent = themeColors.green;
 
   return (
-    <motion.div {...fadeUp(0.15)}>
+    <RevealDiv {...fadeUp(0.15)}>
       <div
         className="panel-shadow theme-node-border overflow-hidden rounded-node border bg-surface"
         style={{ borderColor: colorMix(accent, 22) }}
@@ -120,6 +120,7 @@ function KudoCard({ item }: { item: LeadershipRecognition }) {
             <Image
               alt="Excellence recognition from Fernando Figueiredo"
               height={480}
+              sizes="(min-width: 896px) 800px, 100vw"
               src={item.kudoImage!}
               style={{ height: 'auto', width: '100%', display: 'block' }}
               width={960}
@@ -127,7 +128,7 @@ function KudoCard({ item }: { item: LeadershipRecognition }) {
           </div>
         </div>
       </div>
-    </motion.div>
+    </RevealDiv>
   );
 }
 
@@ -136,7 +137,7 @@ function QuoteCard({ item, delay }: { item: LeadershipRecognition; delay: number
   const accent = themeColors.amber;
 
   return (
-    <motion.div className="h-full" {...fadeUp(delay)}>
+    <RevealDiv className="h-full" {...fadeUp(delay)}>
       <div
         className="panel-shadow theme-node-border flex h-full flex-col rounded-node border bg-surface p-5"
         style={{ borderColor: colorMix(accent, 18) }}
@@ -160,7 +161,7 @@ function QuoteCard({ item, delay }: { item: LeadershipRecognition; delay: number
           </footer>
         </blockquote>
       </div>
-    </motion.div>
+    </RevealDiv>
   );
 }
 
@@ -169,7 +170,7 @@ function ActionCard({ item }: { item: LeadershipRecognition }) {
   const accent = themeColors.blue;
 
   return (
-    <motion.div {...fadeUp(0.1)}>
+    <RevealDiv {...fadeUp(0.1)}>
       <div
         className="panel-shadow theme-node-border rounded-node border bg-surface p-6"
         style={{
@@ -233,7 +234,7 @@ function ActionCard({ item }: { item: LeadershipRecognition }) {
           No quote needed. The CTO directing production integration is the endorsement.
         </p>
       </div>
-    </motion.div>
+    </RevealDiv>
   );
 }
 
@@ -242,9 +243,10 @@ function HackathonCard({ item }: { item: CredentialRecognition }) {
   const accent = themeColors[item.color];
 
   return (
-    <motion.div {...fadeUp(0.05)}>
-      <div
-        className="panel-shadow theme-node-border relative overflow-hidden rounded-node border bg-surface p-5"
+    <RevealDiv {...fadeUp(0.05)}>
+      <Link
+        className="panel-shadow theme-node-border group relative block overflow-hidden rounded-node border bg-surface p-6 transition-transform duration-200 hover:-translate-y-0.5"
+        href={item.href ?? '/projects'}
         style={{
           borderColor: colorMix(accent, 28),
           background: `radial-gradient(ellipse 100% 100% at 0% 100%, ${colorMix(accent, 15)}, transparent 65%), var(--surface)`,
@@ -257,21 +259,61 @@ function HackathonCard({ item }: { item: CredentialRecognition }) {
         />
         <div className="pl-3">
           <p className="font-mono text-[10px] uppercase tracking-[0.12em]" style={{ color: accent }}>
-            Global Hackathon Winner
+            {item.title}
           </p>
           <p className="mt-2 font-display text-lg font-medium leading-snug text-textPrimary">
             {item.subtitle}
           </p>
+
+          {item.detail ? (
+            <p className="mt-3 font-body text-[13px] leading-[1.75] text-textSecondary">
+              {item.detail}
+            </p>
+          ) : null}
+
+          {item.facts ? (
+            <dl className="mt-5 grid grid-cols-3 gap-2">
+              {item.facts.map((fact) => (
+                <div
+                  className="rounded-[10px] border p-3"
+                  key={fact.label}
+                  style={{ borderColor: colorMix(accent, 20), background: colorMix(accent, 6) }}
+                >
+                  <dt className="sr-only">{fact.label}</dt>
+                  <dd>
+                    <p
+                      className="font-display text-[17px] font-semibold leading-none"
+                      style={{ color: accent }}
+                    >
+                      {fact.value}
+                    </p>
+                    <p className="mt-1.5 font-body text-[10.5px] leading-tight text-textMuted">
+                      {fact.label}
+                    </p>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          ) : null}
+
+          <span
+            className="mt-5 inline-flex items-center gap-2 font-body text-[13px] font-medium transition-all duration-200 group-hover:gap-3"
+            style={{ color: accent }}
+          >
+            Read the case study
+            <ExternalArrow />
+          </span>
         </div>
-      </div>
-    </motion.div>
+      </Link>
+    </RevealDiv>
   );
 }
 
 function ProductSchoolCard({ item }: { item: CredentialRecognition }) {
   const accent = themeColors[item.color];
-  const completed = item.courses?.filter((c) => c.completed) ?? [];
-  const upcoming = item.courses?.filter((c) => !c.completed) ?? [];
+  // Derived from the certifications source of truth, never a second copy.
+  const completed = certs.filter((c) => c.status === 'completed');
+  const upcoming = certs.filter((c) => c.status === 'in-progress');
 
   const levelColor: Record<string, string> = {
     Intermediate: themeColors.cyan,
@@ -280,7 +322,7 @@ function ProductSchoolCard({ item }: { item: CredentialRecognition }) {
   };
 
   return (
-    <motion.div {...fadeUp(0.1)}>
+    <RevealDiv {...fadeUp(0.1)}>
       <div
         className="panel-shadow theme-node-border rounded-node border bg-surface p-5"
         style={{ borderColor: colorMix(accent, 22) }}
@@ -310,14 +352,14 @@ function ProductSchoolCard({ item }: { item: CredentialRecognition }) {
                 {completed.map((course) => (
                   <span
                     className="rounded-[4px] px-2 py-1 font-mono text-[10px]"
-                    key={course.name}
+                    key={course.title}
                     style={{
                       background: colorMix(levelColor[course.level], 14),
                       border: `1px solid ${colorMix(levelColor[course.level], 28)}`,
                       color: levelColor[course.level],
                     }}
                   >
-                    {course.name}
+                    {course.title}
                   </span>
                 ))}
               </div>
@@ -326,24 +368,35 @@ function ProductSchoolCard({ item }: { item: CredentialRecognition }) {
           {upcoming.length > 0 && (
             <div>
               <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.1em] text-textMuted">
-                In progress · next 2–3 months
+                In progress
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {upcoming.map((course) => (
                   <span
                     className="rounded-[4px] px-2 py-1 font-mono text-[10px] text-textMuted"
-                    key={course.name}
+                    key={course.title}
                     style={{ border: '1px solid var(--surface-border)', opacity: 0.65 }}
                   >
-                    {course.name}
+                    {course.title}
                   </span>
                 ))}
               </div>
             </div>
           )}
         </div>
+
+        <Link
+          className="group mt-5 inline-flex items-center gap-2 border-t pt-4 font-body text-[13px] font-medium transition-all duration-200"
+          href="/certifications"
+          style={{ borderColor: 'var(--surface-border)', color: accent }}
+        >
+          <span className="transition-all duration-200 group-hover:gap-3">
+            See each one, and where it was used
+          </span>
+          <ExternalArrow />
+        </Link>
       </div>
-    </motion.div>
+    </RevealDiv>
   );
 }
 
@@ -380,7 +433,7 @@ export default function RecognitionPage() {
         ]}
       />
 
-      <motion.section
+      <RevealSection
         animate={{ opacity: 1, y: 0 }}
         className="mx-auto max-w-4xl px-6 pt-12"
         initial={{ opacity: 0, y: 8 }}
@@ -422,7 +475,7 @@ export default function RecognitionPage() {
             </p>
           </div>
         </div>
-      </motion.section>
+      </RevealSection>
 
       <div className="mx-auto mt-14 max-w-4xl space-y-14 px-6">
 

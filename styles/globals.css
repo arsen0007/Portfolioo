@@ -103,6 +103,55 @@ html {
   background: var(--canvas);
 }
 
+/* ─── Reveal-on-scroll (see components/ui/FadeIn.tsx) ───────────────────── */
+
+/* Scoped to .js (set by the inline head script) so that without JavaScript
+   every section renders visible instead of being stranded at opacity 0. */
+.js .fade-in {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.js .fade-in--shown {
+  opacity: 1;
+  transform: none;
+}
+
+/* ─── Reduced motion — one global guard, no animation escapes it ────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-delay: 0ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* Purely decorative motion is removed rather than sped up. */
+  .star-field,
+  .proof-strip__scan,
+  .orbit-core-hud__scan,
+  .orbit-core-hud__spark-ring {
+    display: none !important;
+  }
+
+  /* Never leave revealed content stuck at opacity 0. */
+  .js .fade-in {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 body {
   min-height: 100vh;
   background: var(--canvas);
@@ -208,6 +257,18 @@ body {
 
 .header-resume-button:active {
   transform: scale(0.97);
+}
+
+/* ─── Form fields ───────────────────────────────────────────────────────── */
+
+input:focus,
+textarea:focus {
+  border-color: var(--blue);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
 }
 
 .panel-shadow {
@@ -499,8 +560,25 @@ body {
   font-size: 10px;
   font-weight: 500;
   gap: 10px;
+  justify-content: center;
   line-height: 1;
+  text-align: center;
   text-transform: uppercase;
+  /* Deliberately does not wrap: the lockup is a fixed-width grid column, so
+     wrapping collapses the row well before it reaches the circle edge. The
+     fourth domain is gated on viewport width instead. */
+  white-space: nowrap;
+}
+
+/* "Agent Runtimes" only fits once the identity circle is large enough. */
+.orbit-identity-lockup__domains span.orbit-domain-optional {
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .orbit-identity-lockup__domains span.orbit-domain-optional {
+    display: inline-flex;
+  }
 }
 
 .orbit-identity-lockup__domains span {

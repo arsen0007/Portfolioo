@@ -1,7 +1,6 @@
-'use client';
-
+import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { RevealDiv } from '@/components/ui/Reveal';
 import { colorMix, themeColors } from '@/lib/constants/colors';
 
 const fadeUp = (delay = 0) => ({
@@ -22,54 +21,62 @@ export default function MailMergePage() {
         }}
       />
       <div className="relative z-10 mx-auto max-w-5xl px-6 pt-28">
-        <motion.div {...fadeUp(0)}>
+        <RevealDiv {...fadeUp(0)}>
           <Link href="/projects" className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em] text-textMuted transition-colors hover:text-textPrimary">
             <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 14 14" aria-hidden="true"><path d="M9 2.5 4.5 7 9 11.5" /></svg>
             All projects
           </Link>
-        </motion.div>
+        </RevealDiv>
 
-        <motion.div className="mt-10" {...fadeUp(0.05)}>
+        <RevealDiv className="mt-10" {...fadeUp(0.05)}>
           <span className="rounded-full px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em]" style={{ background: colorMix(themeColors.cyan, 14), color: themeColors.cyan, border: `1px solid ${colorMix(themeColors.cyan, 28)}` }}>
-            Outreach Automation
+            Outreach Preparation
           </span>
           <h1 className="mt-5 font-display text-[52px] font-semibold leading-[1.05] tracking-tight text-textPrimary md:text-[72px]">
             Mail Merge Tool
           </h1>
           <p className="mt-4 max-w-[600px] font-body text-[17px] leading-[1.8] text-textSecondary">
-            Bulk personalized outreach at scale. Upload a CSV, define your template,
-            send hundreds of tailored messages without touching each one individually.
-            Built inside BarHunter&apos;s workflow to close the loop from sourcing to contact.
+            Messy spreadsheets were reaching outreach campaigns and causing duplicate sends
+            and broken columns. This cleans the data before it gets there — dedupe, split,
+            export — with every step visible, so a non-technical teammate can see what
+            changed and trust the file before it goes out.
           </p>
-        </motion.div>
+        </RevealDiv>
 
         <div className="mt-12 grid gap-4 md:grid-cols-3">
           {[
-            { value: 'Bulk', label: 'CSV-driven campaigns', color: themeColors.cyan },
-            { value: '0 hrs', label: 'Manual personalisation', color: themeColors.blue },
-            { value: '100%', label: 'Reproducible sends', color: themeColors.green },
+            { value: 'Live', label: 'Still in use', color: themeColors.green },
+            { value: '3', label: 'Steps — dedupe, split, export', color: themeColors.cyan },
+            { value: '0', label: 'Technical setup for the user', color: themeColors.blue },
           ].map((stat, i) => (
-            <motion.div key={stat.label} {...fadeUp(0.12 + i * 0.07)}>
+            <RevealDiv key={stat.label} {...fadeUp(0.12 + i * 0.07)}>
               <div className="bento-card relative p-6" style={{ borderColor: colorMix(stat.color, 22), background: `radial-gradient(ellipse 120% 80% at 50% 100%, ${colorMix(stat.color, 10)}, var(--surface))`, minHeight: '110px' }}>
                 <div className="bento-shimmer" aria-hidden="true" />
                 <span className="about-stat-number stat-pulse" style={{ color: stat.color }}>{stat.value}</span>
                 <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.1em] text-textMuted">{stat.label}</p>
               </div>
-            </motion.div>
+            </RevealDiv>
           ))}
         </div>
 
-        <motion.div className="mt-4" {...fadeUp(0.18)}>
+        <RevealDiv className="mt-4" {...fadeUp(0.18)}>
           <div className="bento-card overflow-hidden" style={{ borderColor: colorMix(themeColors.cyan, 18) }}>
             <div className="px-4 pt-4 pb-3">
               <p className="font-mono text-[9px] uppercase tracking-[0.12em]" style={{ color: themeColors.cyan }}>Live · Mail Merge Pro · Guided workflow</p>
             </div>
-            <img src="/screenshots/mailmerge.png" alt="Mail Merge Pro upload step" className="w-full block" />
+            <Image
+                alt="Mail Merge Pro upload step"
+                className="block h-auto w-full"
+                height={889}
+                sizes="(min-width: 1024px) 900px, 100vw"
+                src="/screenshots/mailmerge.png"
+                width={1920}
+              />
           </div>
-        </motion.div>
+        </RevealDiv>
 
         <div className="mt-4 grid gap-4 md:grid-cols-2">
-          <motion.div {...fadeUp(0.18)}>
+          <RevealDiv {...fadeUp(0.18)}>
             <div className="bento-card p-7 h-full" style={{ borderColor: colorMix(themeColors.cyan, 20) }}>
               <p className="font-mono text-[10px] uppercase tracking-[0.12em]" style={{ color: themeColors.cyan }}>How it works</p>
               <div className="mt-5 space-y-4">
@@ -81,8 +88,8 @@ export default function MailMergePage() {
                 ))}
               </div>
             </div>
-          </motion.div>
-          <motion.div {...fadeUp(0.22)}>
+          </RevealDiv>
+          <RevealDiv {...fadeUp(0.22)}>
             <div className="bento-card p-7 h-full" style={{ borderColor: colorMix(themeColors.blue, 18) }}>
               <p className="font-mono text-[10px] uppercase tracking-[0.12em]" style={{ color: themeColors.blue }}>Stack</p>
               <div className="mt-4 flex flex-wrap gap-2">
@@ -101,10 +108,10 @@ export default function MailMergePage() {
                 </blockquote>
               </div>
             </div>
-          </motion.div>
+          </RevealDiv>
         </div>
 
-        <motion.div className="mt-8 flex flex-wrap gap-3" {...fadeUp(0.36)}>
+        <RevealDiv className="mt-8 flex flex-wrap gap-3" {...fadeUp(0.36)}>
           <a
             href="https://mail-merge-cleaner.vercel.app/"
             target="_blank"
@@ -120,7 +127,7 @@ export default function MailMergePage() {
           <Link href="/projects" className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] text-textMuted transition-colors hover:text-textPrimary" style={{ borderColor: 'var(--surface-border)' }}>
             See other projects
           </Link>
-        </motion.div>
+        </RevealDiv>
       </div>
     </main>
   );

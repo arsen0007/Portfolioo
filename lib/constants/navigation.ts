@@ -7,7 +7,6 @@ export type SectionId =
   | 'recognition'
   | 'contact'
   | 'learning'
-  | 'architecture'
   | 'certifications'
   | 'skills';
 
@@ -18,7 +17,6 @@ export const sectionColors = {
   recognition: 'amber',
   contact: 'blue',
   learning: 'purple',
-  architecture: 'purple',
   certifications: 'amber',
   skills: 'purple',
 } satisfies Record<SectionId, AccentColor>;
@@ -26,13 +24,12 @@ export const sectionColors = {
 export type NavigationItem = {
   href: string;
   label: string;
-  section: Exclude<SectionId, 'home' | 'learning' | 'architecture'>;
+  section: Exclude<SectionId, 'home' | 'learning'>;
 };
 
 
 export const navigationItems: NavigationItem[] = [
   { href: '/about', label: 'About', section: 'about' },
-  { href: '/skills', label: 'Skills', section: 'skills' },
   { href: '/projects', label: 'Projects', section: 'projects' },
   { href: '/certifications', label: 'Certifications', section: 'certifications' },
   { href: '/recognition', label: 'Recognition', section: 'recognition' },

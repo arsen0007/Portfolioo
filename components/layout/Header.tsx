@@ -2,8 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { trackEvent } from '@/lib/analytics';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { navigationItems, sectionColors } from '@/lib/constants/navigation';
@@ -57,13 +56,12 @@ function HamburgerIcon({ open }: { open: boolean }) {
 
 export function Header() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Close menu on route change
   useEffect(() => {
     setMenuOpen(false);
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   // Lock body scroll while open
   useEffect(() => {
@@ -98,10 +96,10 @@ export function Header() {
 
           {/* Logo */}
           <Link
-            className="flex items-center gap-3 font-display text-[19px] font-medium text-textPrimary transition-colors duration-200 ease-in-out md:text-[20px]"
+            className="flex shrink-0 items-center gap-3 whitespace-nowrap font-display text-[19px] font-medium text-textPrimary transition-colors duration-200 ease-in-out md:text-[20px]"
             href="/"
           >
-            <span className="grid h-6 w-6 grid-cols-2 gap-1">
+            <span className="grid h-6 w-6 shrink-0 grid-cols-2 gap-1">
               {[0, 1, 2, 3].map((dot) => (
                 <span
                   aria-hidden="true"
@@ -119,16 +117,10 @@ export function Header() {
 
           {/* Desktop nav */}
           <div className="flex items-center gap-3 md:gap-5">
-            <nav aria-label="Primary navigation" className="hidden items-center gap-8 sm:flex lg:gap-9">
+            <nav aria-label="Primary navigation" className="hidden items-center gap-6 lg:flex lg:gap-8">
               {navigationItems.map((item) => {
-                const isProjectsActive =
-                  item.section === 'projects' &&
-                  (pathname.startsWith('/projects') ||
-                    (pathname === '/' && searchParams.get('orbit') === 'projects'));
                 const isActive =
-                  isProjectsActive ||
-                  (item.section !== 'projects' &&
-                    (pathname === item.href || pathname.startsWith(`${item.href}/`)));
+                  pathname === item.href || pathname.startsWith(`${item.href}/`);
                 const accent = sectionColors[item.section];
 
                 return (
@@ -150,21 +142,11 @@ export function Header() {
 
             <ThemeToggle />
 
-            <a
-              aria-label="Download resume"
-              className="header-resume-button hidden sm:inline-flex"
-              download
-              href="/resume.pdf"
-              onClick={() => trackEvent('resume_download', { location: 'header_desktop' })}
-            >
-              Resume
-            </a>
-
             {/* Hamburger — mobile only */}
             <button
               aria-expanded={menuOpen}
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-              className="grid h-9 w-9 place-items-center rounded-full border text-textSecondary transition-colors duration-200 hover:text-textPrimary sm:hidden"
+              className="grid h-11 w-11 place-items-center rounded-full border text-textSecondary transition-colors duration-200 hover:text-textPrimary lg:hidden"
               onClick={() => setMenuOpen((v) => !v)}
               style={{
                 borderColor: menuOpen
@@ -190,7 +172,7 @@ export function Header() {
             <motion.div
               animate={{ opacity: 1 }}
               aria-hidden="true"
-              className="fixed inset-0 z-40 sm:hidden"
+              className="fixed inset-0 z-40 lg:hidden"
               exit={{ opacity: 0 }}
               initial={{ opacity: 0 }}
               onClick={() => setMenuOpen(false)}
@@ -202,7 +184,7 @@ export function Header() {
             <motion.nav
               animate={{ opacity: 1, y: 0 }}
               aria-label="Mobile navigation"
-              className="fixed left-4 right-4 top-20 z-50 overflow-hidden rounded-[20px] border sm:hidden"
+              className="fixed left-4 right-4 top-20 z-50 overflow-hidden rounded-[20px] border lg:hidden"
               exit={{ opacity: 0, y: -8 }}
               initial={{ opacity: 0, y: -8 }}
               style={{
@@ -215,14 +197,8 @@ export function Header() {
             >
               <ul className="flex flex-col">
                 {navigationItems.map((item, i) => {
-                  const isProjectsActive =
-                    item.section === 'projects' &&
-                    (pathname.startsWith('/projects') ||
-                      (pathname === '/' && searchParams.get('orbit') === 'projects'));
                   const isActive =
-                    isProjectsActive ||
-                    (item.section !== 'projects' &&
-                      (pathname === item.href || pathname.startsWith(`${item.href}/`)));
+                    pathname === item.href || pathname.startsWith(`${item.href}/`);
                   const accent = sectionColors[item.section];
                   const accentColor = accentColorMap[accent];
 
@@ -272,42 +248,6 @@ export function Header() {
                   );
                 })}
 
-                {/* Resume row */}
-                <motion.li
-                  animate={{ opacity: 1, x: 0 }}
-                  initial={{ opacity: 0, x: -8 }}
-                  transition={{ delay: navigationItems.length * 0.04, duration: 0.2, ease: 'easeOut' }}
-                >
-                  <a
-                    className="flex items-center justify-between px-5 py-4"
-                    download
-                    href="/resume.pdf"
-                    onClick={() => trackEvent('resume_download', { location: 'header_mobile' })}
-                  >
-                    <span className="font-body text-[15px] font-medium" style={{ color: themeColors.blue }}>
-                      Resume
-                    </span>
-                    <span
-                      className="flex h-7 w-7 items-center justify-center rounded-full"
-                      style={{ background: colorMix(themeColors.blue, 14) }}
-                    >
-                      <svg
-                        aria-hidden="true"
-                        fill="none"
-                        height="12"
-                        stroke={themeColors.blue}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="1.8"
-                        viewBox="0 0 12 12"
-                        width="12"
-                      >
-                        <path d="M6 2v6M3 6l3 3 3-3" />
-                        <path d="M2 10h8" />
-                      </svg>
-                    </span>
-                  </a>
-                </motion.li>
               </ul>
             </motion.nav>
           </>

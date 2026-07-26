@@ -37,7 +37,7 @@ export default function NotFound() {
               color: 'var(--blue)',
             }}
           >
-            Back to the orbit
+            Back to the homepage
           </Link>
           <Link
             className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] text-textSecondary transition-colors duration-200 hover:text-textPrimary"

@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1200px; height:630px; overflow:hidden; }
+  body {
+    background:
+      radial-gradient(ellipse 60% 70% at 82% 30%, rgba(74,123,255,0.22), transparent 62%),
+      radial-gradient(ellipse 50% 60% at 8% 90%, rgba(0,184,217,0.12), transparent 60%),
+      #0a0a0f;
+    font-family:'Instrument Sans', system-ui, sans-serif;
+    color:#f0f0f5;
+    position:relative;
+  }
+  /* dot grid */
+  body::before {
+    content:''; position:absolute; inset:0;
+    background-image: radial-gradient(circle, #1a1a2e 1px, transparent 1px);
+    background-size: 28px 28px;
+    opacity:.9;
+  }
+  .frame { position:absolute; inset:0; padding:58px 68px 62px; display:flex; flex-direction:column; justify-content:space-between; }
+
+  .top { display:flex; align-items:flex-start; justify-content:space-between; gap:48px; }
+
+  .name {
+    font-family:'JetBrains Mono', monospace;
+    font-size:15px; letter-spacing:.30em; text-transform:uppercase;
+    color:#8b8fa8;
+  }
+  h1 {
+    font-family:'Syne', sans-serif;
+    font-weight:700; font-size:64px; line-height:1.04; letter-spacing:-.028em;
+    margin-top:26px; max-width:700px;
+  }
+  h1 em { font-style:normal; color:#4a7bff; }
+
+  /* orbital mark */
+  .mark { position:relative; width:150px; height:150px; flex:0 0 150px; }
+  .ring {
+    position:absolute; inset:0; border-radius:999px;
+    border:1.5px solid rgba(74,123,255,.42);
+    box-shadow:0 0 44px rgba(74,123,255,.34), inset 0 0 34px rgba(74,123,255,.12);
+  }
+  .ring--outer { inset:-16px; border-style:dashed; border-color:rgba(74,123,255,.20); box-shadow:none; }
+  .ta {
+    position:absolute; inset:0; display:grid; place-items:center;
+    font-family:'Syne', sans-serif; font-weight:700; font-size:36px;
+    letter-spacing:.10em; color:#4a7bff;
+  }
+  .dot { position:absolute; width:8px; height:8px; border-radius:999px; background:#4a7bff; box-shadow:0 0 12px #4a7bff; }
+  .dot.t { top:-4px; left:71px; } .dot.b { bottom:-4px; left:71px; }
+  .dot.l { left:-4px; top:71px; }  .dot.r { right:-4px; top:71px; }
+
+  .metrics { display:flex; gap:18px; }
+  .metric {
+    flex:1; border:1px solid rgba(74,123,255,.20); border-radius:16px;
+    padding:20px 22px;
+    background:linear-gradient(180deg, rgba(74,123,255,.08), rgba(17,17,24,.6));
+  }
+  .metric .v {
+    font-family:'Syne', sans-serif; font-weight:700; font-size:42px; line-height:1;
+    letter-spacing:-.02em;
+  }
+  .metric .l {
+    margin-top:11px; font-size:14.5px; line-height:1.35; color:#8b8fa8;
+  }
+  .m1 .v { color:#4a7bff; } .m2 .v { color:#00d084; } .m3 .v { color:#00b8d9; }
+
+  .foot {
+    margin-top:26px; display:flex; align-items:center; gap:14px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:14px; letter-spacing:.10em; text-transform:uppercase; color:#767b96;
+  }
+  .pip { width:6px; height:6px; border-radius:999px; background:#00d084; box-shadow:0 0 10px #00d084; }
+  .sep { color:#2a2a3a; }
+</style>
+</head>
+<body>
+  <div class="frame">
+    <div class="top">
+      <div>
+        <div class="name">Tousif Ali</div>
+        <h1>I build AI systems for work I <em>used to do by hand.</em></h1>
+      </div>
+      <div class="mark">
+        <div class="ring ring--outer"></div>
+        <div class="ring"></div>
+        <div class="ta">TA</div>
+        <div class="dot t"></div><div class="dot b"></div>
+        <div class="dot l"></div><div class="dot r"></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="metrics">
+        <div class="metric m1"><div class="v">433h</div><div class="l">Saved every month,<br>for a 7-person legal team</div></div>
+        <div class="metric m2"><div class="v">94,363</div><div class="l">Attorney records sourced<br>across 5 jurisdictions</div></div>
+        <div class="metric m3"><div class="v">12</div><div class="l">Self-hosted services,<br>5 of them MCP servers</div></div>
+      </div>
+      <div class="foot">
+        <span class="pip"></span>
+        CTO-integrated into the core system
+        <span class="sep">/</span> CEO-sponsored
+        <span class="sep">/</span> Global Hackathon Winner
+      </div>
+    </div>
+  </div>
+</body>
+</html>

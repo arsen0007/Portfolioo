@@ -1,134 +1,544 @@
-import { Suspense, type CSSProperties } from 'react';
-import { OrbitCanvas } from '@/components/orbit/OrbitCanvas';
+import Link from 'next/link';
+import { HeroOrbit } from '@/components/home/HeroOrbit';
+import { FadeIn } from '@/components/ui/FadeIn';
+import { colorMix, themeColors } from '@/lib/constants/colors';
+import { projects } from '@/lib/data/projects';
+import {
+  bridgePillars,
+  featuredSystems,
+  heroCredentials,
+  heroMetrics,
+  proofPoints,
+} from '@/lib/data/home';
 
-const proofMetrics = [
-  '100K+ leads sourced',
-  '96% workflow time reduction',
-  '433 hours/month saved',
-  'Global Hackathon Winner',
-  'Public Company Innovation Feature',
-  'CEO-sponsored · CTO-integrated',
-] as const;
-
-const STAR_FIELD = [
-  { top: '8%', left: '12%', size: 1.5, dur: 7.8, delay: 0, minO: 0.05, maxO: 0.34 },
-  { top: '15%', left: '78%', size: 1, dur: 9.2, delay: 0.8, minO: 0.04, maxO: 0.25 },
-  { top: '22%', left: '34%', size: 2, dur: 8.4, delay: 1.4, minO: 0.06, maxO: 0.46 },
-  { top: '31%', left: '88%', size: 1.5, dur: 8.9, delay: 0.3, minO: 0.04, maxO: 0.28 },
-  { top: '42%', left: '6%', size: 1, dur: 10.5, delay: 1.9, minO: 0.05, maxO: 0.3 },
-  { top: '55%', left: '92%', size: 1.5, dur: 8.2, delay: 0.6, minO: 0.05, maxO: 0.32 },
-  { top: '67%', left: '18%', size: 2, dur: 9.5, delay: 2.1, minO: 0.07, maxO: 0.48 },
-  { top: '78%', left: '60%', size: 1, dur: 10.1, delay: 1.1, minO: 0.04, maxO: 0.24 },
-  { top: '88%', left: '40%', size: 1.5, dur: 9.7, delay: 0.4, minO: 0.04, maxO: 0.28 },
-  { top: '5%', left: '52%', size: 1, dur: 8.7, delay: 1.7, minO: 0.05, maxO: 0.36 },
-  { top: '18%', left: '95%', size: 2, dur: 9.1, delay: 0.2, minO: 0.06, maxO: 0.46 },
-  { top: '73%', left: '3%', size: 1.5, dur: 10.2, delay: 2.5, minO: 0.05, maxO: 0.29 },
-  { top: '48%', left: '47%', size: 1, dur: 8.6, delay: 0.9, minO: 0.04, maxO: 0.22 },
-  { top: '91%', left: '82%', size: 2, dur: 9.4, delay: 1.5, minO: 0.06, maxO: 0.44 },
-  { top: '36%', left: '24%', size: 1.5, dur: 9.9, delay: 3.0, minO: 0.05, maxO: 0.3 },
-  { top: '60%', left: '70%', size: 1, dur: 10.8, delay: 0.7, minO: 0.04, maxO: 0.25 },
-  { top: '25%', left: '56%', size: 2, dur: 8.8, delay: 2.0, minO: 0.05, maxO: 0.34 },
-  { top: '82%', left: '27%', size: 1, dur: 10.6, delay: 1.3, minO: 0.04, maxO: 0.23 },
-  { top: '11%', left: '68%', size: 1.5, dur: 8.5, delay: 0.5, minO: 0.06, maxO: 0.48 },
-  { top: '95%', left: '15%', size: 2, dur: 9.8, delay: 1.8, minO: 0.05, maxO: 0.32 },
-  { top: '3%', left: '38%', size: 1, dur: 9.3, delay: 2.3, minO: 0.05, maxO: 0.30 },
-  { top: '62%', left: '45%', size: 1.5, dur: 8.3, delay: 1.6, minO: 0.05, maxO: 0.32 },
-  { top: '44%', left: '73%', size: 2, dur: 9.0, delay: 2.7, minO: 0.06, maxO: 0.44 },
-  { top: '28%', left: '8%', size: 1.5, dur: 11.2, delay: 0.4, minO: 0.05, maxO: 0.34 },
-  { top: '76%', left: '85%', size: 1, dur: 9.6, delay: 1.0, minO: 0.04, maxO: 0.25 },
-  { top: '50%', left: '32%', size: 1, dur: 8.1, delay: 3.2, minO: 0.04, maxO: 0.28 },
-  { top: '14%', left: '50%', size: 2, dur: 10.7, delay: 0.9, minO: 0.06, maxO: 0.46 },
-  { top: '84%', left: '55%', size: 1, dur: 10.4, delay: 0.2, minO: 0.04, maxO: 0.26 },
-];
-
-function ProofItems() {
+function Eyebrow({ children, color }: { children: React.ReactNode; color?: string }) {
   return (
-    <>
-      {proofMetrics.map((metric, index) => (
-        <span className="proof-strip-item inline-flex cursor-default items-center whitespace-nowrap" key={metric}>
-          <span
-            aria-hidden="true"
-            className="proof-strip-item__dot"
-          />
-          <span className="proof-strip-item__text transition-colors duration-200">
-            {metric}
-          </span>
-          {index < proofMetrics.length - 1 ? (
-            <span
-              aria-hidden="true"
-              className="proof-strip-item__divider"
-            />
-          ) : null}
-        </span>
-      ))}
-    </>
-  );
-}
-
-function ProofStrip() {
-  return (
-    <aside
-      aria-label="Proof metrics"
-      className="proof-strip fixed bottom-3 left-1/2 z-40 h-[50px] w-[calc(100%-2rem)] max-w-[1500px] -translate-x-1/2 overflow-hidden rounded-full border px-4 backdrop-blur-[18px] md:bottom-4 md:w-[calc(100%-6rem)] md:px-6"
-      style={{
-        background: 'var(--proof-strip-background)',
-        borderColor: 'var(--surface-border)',
-      }}
+    <p
+      className="font-mono text-[11px] font-medium uppercase tracking-[0.14em]"
+      style={{ color: color ?? 'var(--text-muted)' }}
     >
-      <div className="proof-strip__scan" aria-hidden="true" />
-      <div className="orbit-proof-track proof-strip__track mx-auto flex h-full w-max items-center justify-center font-body text-[11px] font-normal text-textSecondary md:w-full">
-        <ProofItems />
-        <span
-          aria-hidden="true"
-          className="orbit-proof-copy inline-flex items-center md:hidden"
-        >
-          <ProofItems />
-        </span>
-      </div>
-    </aside>
+      {children}
+    </p>
   );
 }
 
-function StarField() {
+function ArrowRight({ className }: { className?: string }) {
   return (
-    <div aria-hidden="true" className="star-field pointer-events-none absolute inset-0 z-0">
-      {STAR_FIELD.map((s) => (
-        <span
-          className="star"
-          key={s.top + s.left}
-          style={{
-            top: s.top,
-            left: s.left,
-            width: `${s.size}px`,
-            height: `${s.size}px`,
-            '--star-dur': `${s.dur}s`,
-            '--star-delay': `${s.delay}s`,
-            '--star-min-opacity': s.minO,
-            '--star-max-opacity': s.maxO,
-          } as CSSProperties}
-        />
-      ))}
-    </div>
+    <svg
+      aria-hidden="true"
+      className={className}
+      fill="none"
+      height="13"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.7"
+      viewBox="0 0 14 14"
+      width="13"
+    >
+      <path d="M2.5 7h9M7.5 3l4 4-4 4" />
+    </svg>
   );
 }
+
+/* ─────────────────────────── Hero ─────────────────────────── */
+
+function Hero() {
+  return (
+    <section className="relative mx-auto max-w-6xl px-6 pb-14 pt-28 md:pt-32 lg:pb-16">
+      <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10">
+        <div>
+          <FadeIn>
+            <span
+              className="inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5"
+              style={{
+                borderColor: colorMix(themeColors.green, 30),
+                background: colorMix(themeColors.green, 9),
+              }}
+            >
+              <span
+                aria-hidden="true"
+                className="available-pulse h-1.5 w-1.5 rounded-full"
+                style={{ background: themeColors.green, boxShadow: `0 0 8px ${themeColors.green}` }}
+              />
+              <span
+                className="font-mono text-[10.5px] uppercase tracking-[0.12em]"
+                style={{ color: themeColors.green }}
+              >
+                Building AI systems in production
+                <span className="hidden sm:inline"> · Bengaluru</span>
+              </span>
+            </span>
+          </FadeIn>
+
+          <FadeIn delay={0.06}>
+            <h1 className="mt-7 text-balance font-display text-[38px] font-semibold leading-[1.06] tracking-[-0.025em] text-textPrimary sm:text-[46px] lg:text-[52px]">
+              I build AI systems for work I used to do by hand.
+            </h1>
+          </FadeIn>
+
+          <FadeIn delay={0.12}>
+            <p className="mt-6 max-w-[560px] font-body text-[16px] leading-[1.75] text-textSecondary md:text-[17px]">
+              Years inside clinical, legal, and sales operations taught me where the
+              hours actually go. Then I learned to build. Now I ship AI into the tools those
+              teams already use — one of them gives a legal team back{' '}
+              <strong className="font-semibold text-textPrimary">433 hours a month</strong>{' '}
+              and runs inside a public company&apos;s core platform.
+            </p>
+          </FadeIn>
+
+          <FadeIn delay={0.18}>
+            <div className="mt-9 flex flex-wrap items-center gap-3">
+              <Link
+                className="group inline-flex items-center gap-2.5 rounded-full px-6 py-3.5 font-body text-[15px] font-semibold transition-transform duration-200 hover:-translate-y-0.5"
+                href="/projects"
+                style={{
+                  background: themeColors.blue,
+                  color: '#ffffff',
+                  boxShadow: `0 10px 34px ${colorMix(themeColors.blue, 34)}`,
+                }}
+              >
+                See the systems
+                <ArrowRight className="transition-transform duration-200 group-hover:translate-x-0.5" />
+              </Link>
+
+              {/* Résumé CTA intentionally removed until a real PDF exists —
+                  see forresume.md. Restore once public/resume.pdf is genuine. */}
+              <Link
+                className="inline-flex items-center gap-2.5 rounded-full border px-6 py-3.5 font-body text-[15px] font-medium text-textPrimary transition-colors duration-200"
+                href="/about"
+                style={{ borderColor: 'var(--surface-border-strong)' }}
+              >
+                How I got here
+              </Link>
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={0.24}>
+            <ul
+              className="mt-8 grid gap-x-6 gap-y-2.5 border-t pt-6 sm:grid-cols-2"
+              style={{ borderColor: 'var(--surface-border)' }}
+            >
+              {heroCredentials.map((credential) => (
+                <li
+                  className="flex items-center gap-2.5 font-body text-[12.5px] text-textSecondary"
+                  key={credential}
+                >
+                  <span
+                    aria-hidden="true"
+                    className="h-1 w-1 shrink-0 rounded-full"
+                    style={{ background: themeColors.blue, boxShadow: `0 0 6px ${themeColors.blue}` }}
+                  />
+                  {credential}
+                </li>
+              ))}
+            </ul>
+          </FadeIn>
+        </div>
+
+        {/* Deliberately after the copy in source order: on narrow screens the
+            headline and the numbers must be what lands first. */}
+        <FadeIn delay={0.1}>
+          <HeroOrbit projectCount={projects.length} />
+        </FadeIn>
+      </div>
+
+      {/* Metrics: the four numbers worth remembering. */}
+      <FadeIn delay={0.3}>
+        <dl className="mt-12 grid grid-cols-2 gap-3 lg:mt-14 lg:grid-cols-4 lg:gap-4">
+          {heroMetrics.map((metric) => {
+            const accent = themeColors[metric.accent];
+
+            return (
+              <div
+                className="rounded-[16px] border p-5"
+                key={metric.value}
+                style={{
+                  borderColor: colorMix(accent, 22),
+                  background: `radial-gradient(ellipse 100% 70% at 50% 0%, ${colorMix(accent, 10)}, transparent 70%), var(--surface)`,
+                }}
+              >
+                <dt className="sr-only">{metric.label}</dt>
+                <dd>
+                  <p
+                    className="font-display text-[30px] font-semibold leading-none tracking-[-0.02em] md:text-[34px]"
+                    style={{ color: accent }}
+                  >
+                    {metric.value}
+                  </p>
+                  <p className="mt-3 font-body text-[12.5px] leading-[1.45] text-textSecondary">
+                    {metric.label}
+                  </p>
+                </dd>
+              </div>
+            );
+          })}
+        </dl>
+      </FadeIn>
+    </section>
+  );
+}
+
+/* ────────────────────── The bridge (thesis) ────────────────────── */
+
+function Bridge() {
+  return (
+    <section className="relative mx-auto max-w-6xl px-6 py-14 lg:py-20">
+      <FadeIn className="max-w-2xl">
+        <Eyebrow>How I work</Eyebrow>
+        <h2 className="mt-4 text-balance font-display text-[32px] font-semibold leading-[1.12] tracking-[-0.02em] text-textPrimary md:text-[40px]">
+          Most AI projects die in the handoff.
+        </h2>
+        <p className="mt-5 max-w-[620px] font-body text-[16px] leading-[1.75] text-textSecondary">
+          Engineers build what the brief asks for. Operators write briefs from what they
+          already know. The system that would have worked sits in the gap between them, and
+          nobody owns that gap. What follows is the same three steps done by one person —
+          not because that scales, but because it is the only way I have found to keep the
+          problem intact all the way from the queue to production.
+        </p>
+      </FadeIn>
+
+      <div className="mt-12 grid gap-4 lg:grid-cols-3">
+        {bridgePillars.map((pillar, index) => {
+          const accent = themeColors[pillar.accent];
+
+          return (
+            <FadeIn delay={0.06 * index} key={pillar.id}>
+              <article
+                className="relative flex h-full flex-col overflow-hidden rounded-[20px] border p-7"
+                style={{
+                  borderColor: colorMix(accent, 24),
+                  background: `radial-gradient(ellipse 110% 60% at 0% 0%, ${colorMix(accent, 11)}, transparent 62%), var(--surface)`,
+                }}
+              >
+                <span
+                  aria-hidden="true"
+                  className="absolute left-0 top-0 h-full w-[2px]"
+                  style={{ background: `linear-gradient(180deg, ${accent}, ${colorMix(accent, 12)})` }}
+                />
+
+                <div className="flex items-center gap-2.5">
+                  <span
+                    className="grid h-7 w-7 place-items-center rounded-full border font-mono text-[10px] font-medium tabular-nums"
+                    style={{
+                      background: colorMix(accent, 14),
+                      borderColor: colorMix(accent, 44),
+                      color: accent,
+                    }}
+                  >
+                    {index + 1}
+                  </span>
+                  <Eyebrow color={accent}>{pillar.role}</Eyebrow>
+                </div>
+
+                <h3 className="mt-5 font-display text-[21px] font-semibold leading-tight text-textPrimary">
+                  {pillar.claim}
+                </h3>
+                <p className="mt-3.5 font-body text-[14.5px] leading-[1.75] text-textSecondary">
+                  {pillar.body}
+                </p>
+
+                <ul className="mt-auto flex flex-wrap gap-1.5 pt-6">
+                  {pillar.evidence.map((line) => (
+                    <li
+                      className="rounded-full border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.08em]"
+                      key={line}
+                      style={{
+                        borderColor: colorMix(accent, 26),
+                        background: colorMix(accent, 7),
+                        color: accent,
+                      }}
+                    >
+                      {line}
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            </FadeIn>
+          );
+        })}
+      </div>
+
+      <FadeIn delay={0.2}>
+        <p className="mx-auto mt-10 max-w-[720px] text-balance text-center font-display text-[19px] font-medium leading-snug text-textSecondary md:text-[22px]">
+          CaseWise exists because I spent years doing legal intake{' '}
+          <span className="text-textPrimary">before I ever wrote a line of it.</span>
+        </p>
+      </FadeIn>
+    </section>
+  );
+}
+
+/* ───────────────────── Featured systems ───────────────────── */
+
+function Systems() {
+  return (
+    <section className="relative mx-auto max-w-6xl px-6 py-14 lg:py-20">
+      <FadeIn className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+        <div className="max-w-2xl">
+          <Eyebrow>Selected systems</Eyebrow>
+          <h2 className="mt-4 text-balance font-display text-[32px] font-semibold leading-[1.12] tracking-[-0.02em] text-textPrimary md:text-[40px]">
+            Four systems, four different kinds of hard.
+          </h2>
+        </div>
+        <Link
+          className="group inline-flex shrink-0 items-center gap-2 font-body text-[14px] font-medium text-textSecondary transition-colors duration-200 hover:text-textPrimary"
+          href="/projects"
+        >
+          All {projects.length} case studies
+          <ArrowRight className="transition-transform duration-200 group-hover:translate-x-0.5" />
+        </Link>
+      </FadeIn>
+
+      <div className="mt-12 flex flex-col gap-4">
+        {featuredSystems.map((system, index) => {
+          const accent = themeColors[system.accent];
+
+          return (
+            <FadeIn delay={0.05 * index} key={system.id}>
+              <Link
+                className="group relative block overflow-hidden rounded-[22px] border p-7 transition-transform duration-200 hover:-translate-y-0.5 md:p-9"
+                href={`/projects/${system.id}`}
+                style={{
+                  borderColor: colorMix(accent, 24),
+                  background: `radial-gradient(ellipse 70% 90% at 100% 0%, ${colorMix(accent, 12)}, transparent 62%), var(--surface)`,
+                }}
+              >
+                <div className="grid gap-7 lg:grid-cols-[1.35fr_1fr] lg:gap-12">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+                      <Eyebrow color={accent}>{system.proves}</Eyebrow>
+                      <span
+                        className="rounded-full border px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.1em]"
+                        style={{
+                          borderColor: 'var(--surface-border-strong)',
+                          color: 'var(--text-muted)',
+                        }}
+                      >
+                        {system.status}
+                      </span>
+                    </div>
+
+                    <h3 className="mt-4 font-display text-[30px] font-semibold leading-none tracking-[-0.02em] text-textPrimary md:text-[36px]">
+                      {system.name}
+                    </h3>
+
+                    <p className="mt-4 max-w-[620px] font-body text-[14.5px] leading-[1.8] text-textSecondary">
+                      {system.summary}
+                    </p>
+
+                    {/* The decision and what it cost. */}
+                    <div
+                      className="mt-5 max-w-[620px] rounded-[14px] border-l-2 py-1 pl-5"
+                      style={{ borderColor: colorMix(accent, 55) }}
+                    >
+                      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-textMuted">
+                        The trade-off
+                      </p>
+                      <p className="mt-2.5 font-body text-[14px] leading-[1.75] text-textSecondary">
+                        {system.tradeoff}
+                      </p>
+                    </div>
+
+                    <span
+                      className="mt-6 inline-flex items-center gap-2 font-body text-[14px] font-medium transition-all duration-200 group-hover:gap-3"
+                      style={{ color: accent }}
+                    >
+                      Read the case study
+                      <ArrowRight />
+                    </span>
+                  </div>
+
+                  <div className="flex flex-col gap-5 lg:justify-center">
+                    <dl className="grid grid-cols-3 gap-2.5">
+                      {system.metrics.map((metric) => (
+                        <div
+                          className="rounded-[12px] border p-3.5"
+                          key={metric.label}
+                          style={{
+                            borderColor: colorMix(accent, 18),
+                            background: colorMix(accent, 6),
+                          }}
+                        >
+                          <dt className="sr-only">{metric.label}</dt>
+                          <dd>
+                            <p
+                              className="font-display text-[19px] font-semibold leading-none tracking-[-0.01em]"
+                              style={{ color: accent }}
+                            >
+                              {metric.value}
+                            </p>
+                            <p className="mt-2 font-body text-[11.5px] leading-tight text-textMuted">
+                              {metric.label}
+                            </p>
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+
+                    <ul className="flex flex-wrap gap-1.5">
+                      {system.stack.map((tech) => (
+                        <li className="tech-badge" key={tech}>
+                          {tech}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </Link>
+            </FadeIn>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+/* ──────────────────────── Proof ──────────────────────── */
+
+function Proof() {
+  return (
+    <section className="relative mx-auto max-w-6xl px-6 py-14 lg:py-20">
+      <FadeIn className="max-w-2xl">
+        <Eyebrow>What happened next</Eyebrow>
+        <h2 className="mt-4 text-balance font-display text-[32px] font-semibold leading-[1.12] tracking-[-0.02em] text-textPrimary md:text-[40px]">
+          The proof isn&apos;t the praise. It&apos;s what they did after.
+        </h2>
+        <p className="mt-5 max-w-[580px] font-body text-[16px] leading-[1.75] text-textSecondary">
+          Anyone can collect a compliment. These are the decisions leadership made once the
+          system was in front of them.
+        </p>
+      </FadeIn>
+
+      <div className="mt-12 grid gap-4 lg:grid-cols-3">
+        {proofPoints.map((point, index) => {
+          const accent = themeColors[point.accent];
+
+          return (
+            <FadeIn delay={0.06 * index} key={point.id}>
+              <figure
+                className="flex h-full flex-col rounded-[20px] border p-7"
+                style={{ borderColor: colorMix(accent, 22), background: 'var(--surface)' }}
+              >
+                <Eyebrow color={accent}>{point.label}</Eyebrow>
+                <blockquote className="mt-5 flex-1">
+                  <p className="font-body text-[15px] leading-[1.75] text-textPrimary">
+                    &ldquo;{point.quote}&rdquo;
+                  </p>
+                </blockquote>
+                <figcaption className="mt-5 font-mono text-[10px] uppercase tracking-[0.1em] text-textMuted">
+                  {point.attribution}
+                </figcaption>
+                <p
+                  className="mt-5 border-t pt-4 font-body text-[13px] font-medium leading-snug"
+                  style={{ borderColor: colorMix(accent, 20), color: accent }}
+                >
+                  {point.consequence}
+                </p>
+              </figure>
+            </FadeIn>
+          );
+        })}
+      </div>
+
+      <FadeIn delay={0.2}>
+        <div className="mt-6 flex justify-center">
+          <Link
+            className="group inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-body text-[14px] font-medium text-textSecondary transition-colors duration-200 hover:text-textPrimary"
+            href="/recognition"
+            style={{ borderColor: 'var(--surface-border-strong)' }}
+          >
+            See the full record
+            <ArrowRight className="transition-transform duration-200 group-hover:translate-x-0.5" />
+          </Link>
+        </div>
+      </FadeIn>
+    </section>
+  );
+}
+
+/* ──────────────────────── Closing ──────────────────────── */
+
+function Closing() {
+  return (
+    <section className="relative mx-auto max-w-6xl px-6 pb-24 pt-8 lg:pb-28">
+      <FadeIn>
+        <div
+          className="relative overflow-hidden rounded-[26px] border px-7 py-12 text-center md:px-12 md:py-16"
+          style={{
+            borderColor: colorMix(themeColors.blue, 26),
+            background: [
+              `radial-gradient(ellipse 60% 90% at 50% 0%, ${colorMix(themeColors.blue, 15)}, transparent 66%)`,
+              `radial-gradient(ellipse 50% 70% at 100% 100%, ${colorMix(themeColors.cyan, 10)}, transparent 60%)`,
+              'var(--surface)',
+            ].join(', '),
+          }}
+        >
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-12 top-0 h-px"
+            style={{
+              background: `linear-gradient(90deg, transparent, ${colorMix(themeColors.blue, 70)}, transparent)`,
+            }}
+          />
+
+          <h2 className="mx-auto max-w-[680px] text-balance font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.02em] text-textPrimary md:text-[36px]">
+            If your team is doing something by hand that a system should own, that is my
+            favourite kind of problem.
+          </h2>
+          <p className="mx-auto mt-5 max-w-[480px] font-body text-[15.5px] leading-[1.7] text-textSecondary">
+            Tell me what the work looks like today. I will tell you honestly whether AI is
+            the right answer for it.
+          </p>
+
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              className="group inline-flex items-center gap-2.5 rounded-full px-6 py-3.5 font-body text-[15px] font-semibold transition-transform duration-200 hover:-translate-y-0.5"
+              href="/contact"
+              style={{
+                background: themeColors.blue,
+                color: '#ffffff',
+                boxShadow: `0 10px 34px ${colorMix(themeColors.blue, 32)}`,
+              }}
+            >
+              Start a conversation
+              <ArrowRight className="transition-transform duration-200 group-hover:translate-x-0.5" />
+            </Link>
+            <a
+              className="inline-flex items-center gap-2.5 rounded-full border px-6 py-3.5 font-body text-[15px] font-medium text-textPrimary"
+              href="mailto:tousifarsen@gmail.com"
+              style={{ borderColor: 'var(--surface-border-strong)' }}
+            >
+              tousifarsen@gmail.com
+            </a>
+          </div>
+        </div>
+      </FadeIn>
+    </section>
+  );
+}
+
+/* ──────────────────────── Page ──────────────────────── */
 
 export default function HomePage() {
   return (
-    <>
-      <main
-        aria-label="Home systems map"
-        className="orbit-reference-canvas dot-grid relative min-h-screen overflow-hidden"
-      >
-        <h1 className="sr-only">
-          Tousif Ali — AI Product &amp; Systems Builder. I build AI systems that replace manual
-          work: 100K+ leads sourced, 433 hours saved per month, Global Hackathon Winner.
-        </h1>
-        <StarField />
-        <Suspense fallback={null}>
-          <OrbitCanvas />
-        </Suspense>
-      </main>
-      <ProofStrip />
-    </>
+    <main className="dot-grid relative overflow-hidden">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[900px]"
+        style={{
+          background: [
+            'radial-gradient(ellipse 60% 50% at 70% 0%, color-mix(in srgb, var(--blue) 16%, transparent), transparent 70%)',
+            'radial-gradient(ellipse 45% 40% at 5% 12%, color-mix(in srgb, var(--cyan) 10%, transparent), transparent 65%)',
+          ].join(', '),
+        }}
+      />
+
+      <Hero />
+      <Bridge />
+      <Systems />
+      <Proof />
+      <Closing />
+    </main>
   );
 }

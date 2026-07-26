@@ -1,11 +1,10 @@
-'use client';
-
-import { motion } from 'framer-motion';
+import { RevealArticle, RevealDiv } from '@/components/ui/Reveal';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { colorMix, themeColors } from '@/lib/constants/colors';
 import type { AccentColor } from '@/lib/constants/colors';
+import { SkillLedger } from '@/components/skills/SkillLedger';
 import { niches } from '@/lib/data/skillTree';
 
 type PathChapter = {
@@ -16,32 +15,79 @@ type PathChapter = {
 };
 
 const bioParagraphs = [
-  "I have never waited for the right tools, the right environment, or the right moment. As a kid, I was building from scrap, pushing every device I owned past what it was designed for, and going all the way - even when all the way meant frying the house wiring.",
-  "Before I had a proper computer, I was already deep in it — running a full Linux environment on a phone because it was the only machine I had. There was a new problem almost every day, and I loved the moment when it finally clicked. When I got my first real laptop, I wasn't starting. I was continuing.",
-  "Seven years in operations taught me how systems actually behave under pressure from the inside. That changed how I build. When I see something that should exist but doesn't — I can't move on until it's real.",
-  "Today I build AI systems that become part of real operations. Not prototypes. Not demos. Tools people actually use. That instinct is the product.",
+  "I have never waited for the right tools, the right environment, or the right moment. As a kid I built from scrap, pushed every device I owned past what it was designed for, and went all the way — even when all the way meant frying the house wiring.",
+  "Before I had a proper computer I was already deep in it, running a full Linux environment on a phone because it was the only machine I had. There was a new problem almost every day, and I loved the moment it finally clicked. When I got my first real laptop, I wasn't starting. I was continuing.",
+  "That has not changed. There is a Raspberry Pi under my desk running fourteen services, and the reason it exists is the same reason the phone did: I wanted to know how the layer underneath actually works, and the only way to find out was to be responsible for it.",
 ] as const;
 
+/**
+ * Each era carries an artifact or a number. A timeline of job titles is a
+ * résumé and the reader already has LinkedIn for that — what makes an era
+ * worth reading is the thing that came out of it.
+ */
 const pathChapters: PathChapter[] = [
   {
-    era: '2017 - 2024',
+    era: '2017 — 2022',
     color: 'cyan',
-    title: 'Seven Years of Seeing the Gap',
-    body: "I spent seven years inside real operations — legal intake, clinical operations, and B2B sales across healthcare, travel, and tech. Different industries, same education. I learned what was missing, why it was missing, and why nobody had built it yet. That knowledge doesn't leave you.",
+    title: 'Senior Executive, Operations',
+    body: "Aegis Customer Support Services, then Global Dial Services. Operations roles across healthcare, travel, and tech — different industries, the same education. I was the person working the queue, and you learn quickly which steps are real work and which are only habit.",
   },
   {
-    era: '2024 - 2025',
+    era: '2022 — 2024',
     color: 'blue',
-    title: 'Turning Attention Into Systems',
-    body: "Paying close attention stopped being enough. I started building — the same way I had always learned: by doing it until something worked. The problems I chose weren't random. They were the ones I had lived inside for years. That's still how I choose what to build.",
+    title: 'Clinical Referral Specialist, Workplace Options',
+    body: "Then Legal Provider Relations from 2024. Same company, closer to the problem: a team of seven moving roughly 2,700 cases a month, hand-classifying each one against 31 legal issue types and waiting on senior guidance for anything complex. I spent two years watching where the hours actually went before I wrote a line of code against it.",
   },
   {
-    era: '2025 - Now',
+    era: '2025 — now',
     color: 'purple',
-    title: 'Building Into Real Infrastructure',
-    body: "The work moved from side projects into real infrastructure. What I build now runs inside actual company systems, used by real people every day. The drive never changed. The systems got bigger. I didn't change how I think. I just got the tools to match.",
+    title: 'Still in the seat, building from inside it',
+    body: "CaseWise started as something I built alone, on my own time, for the queue I was sitting in. It earned a CEO-sponsored scholarship, a CTO directive to embed it in the core case management system, and 433 hours a month back for the legal team. I did not move into an AI role and then build this. I built it from an operations seat, which is the entire point.",
   },
 ];
+
+/** Opinions, owned as opinions. Each one is a position I have actually acted on. */
+const beliefs = [
+  {
+    claim: 'Anyone can type. That stopped being the skill.',
+    body: "AI can build almost anything now, so building is not the bottleneck any more — understanding what you are building is. Which decisions to make, what architecture the product actually needs, and where the generic answer is wrong. That judgement is the job now, and it does not come out of a prompt.",
+  },
+  {
+    claim: 'The useful question is never "can AI do this".',
+    body: "It is which part of this is actually the work. Most of what looks like a task is habit, handoff, or waiting — and automating those is how you end up with an expensive system nobody uses.",
+  },
+  {
+    claim: 'A prototype nobody uses is a hobby.',
+    body: "Getting something adopted is not a phase that happens after the building. It is most of the job, and it is the part that decides whether any of the rest mattered.",
+  },
+  {
+    claim: 'A silent wrong answer is worse than an error.',
+    body: "An error gets investigated. A plausible wrong answer gets believed, and the system keeps producing them until someone notices by accident. This is the thing I check for first.",
+  },
+  {
+    claim: 'What a model outputs is a product decision.',
+    body: "A failure probability and a lap count can come from the same model. Only one of them is usable by someone under pressure. Choosing which to emit is not a modelling problem.",
+  },
+] as const;
+
+/**
+ * Not a weakness list. The honest thing about how he works, including what it
+ * costs — which is more useful to a reader than three performed flaws.
+ */
+const howIWork = [
+  {
+    title: 'I get obsessed',
+    body: "That is the real answer. Once I am invested in a problem I do not stop until it is solved — I lose sleep over it, and time stops being a factor. It is why things get finished. It is also why I start more at once than any sane person should.",
+  },
+  {
+    title: 'I enjoy the hard part, not just the result',
+    body: "Most people like it when the thing works. I like how difficult it was to make it work. That is why I wrote an agent runtime from scratch instead of wiring up a framework, and why the bugs I remember are the ones that took days.",
+  },
+  {
+    title: 'I do not stop at how',
+    body: "How something works is where most people finish. I keep going to why it was built that way, what the people who built it were trading off, and what I would do differently. It is slower. It is also the only reason I can make the call when the answer is not in a tutorial.",
+  },
+] as const;
 
 const accentByColor: Record<AccentColor, string> = {
   blue: themeColors.blue,
@@ -52,9 +98,11 @@ const accentByColor: Record<AccentColor, string> = {
 };
 
 const statChips = [
-  { value: '7+', label: 'Years in Ops' },
-  { value: '4+', label: 'Systems Built' },
-  { value: '4', label: 'Live in Production' },
+  { value: '8+', label: 'Years in Ops, ongoing' },
+  { value: '6', label: 'Systems Built' },
+  // Deliberately not "6 in production": Genie and Arsen's Lab are infrastructure
+  // I depend on, not products with users. Only four serve other people.
+  { value: '4', label: 'Used by Other People' },
 ] as const;
 
 function SectionLabel({ children }: { children: string }) {
@@ -85,6 +133,10 @@ function SignalIcon({ color }: { color: string }) {
 }
 
 export default function AboutPage() {
+  const allSkills = niches.flatMap((niche) => niche.skills);
+  const shippedCount = allSkills.filter((skill) => skill.status === 'shipped').length;
+  const appliedCount = allSkills.filter((skill) => skill.status === 'applied').length;
+
   return (
     <main className="dot-grid relative min-h-screen overflow-hidden pb-24">
       <div
@@ -107,22 +159,27 @@ export default function AboutPage() {
       />
 
       <section className="relative mx-auto max-w-6xl px-6 pt-12">
-        <motion.div
+        <RevealDiv
           animate={{ opacity: 1, y: 0 }}
           className="mx-auto max-w-2xl text-center"
           initial={{ opacity: 0, y: 10 }}
           transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
         >
-          <SectionLabel>MY STORY</SectionLabel>
+          <SectionLabel>ABOUT</SectionLabel>
           <h1 className="mt-4 text-balance font-display text-[34px] font-medium leading-tight text-textPrimary md:text-[44px]">
             I see what&apos;s missing. Then I build it.
           </h1>
-          <p className="mx-auto mt-5 max-w-[560px] font-body text-[15px] leading-[1.8] text-textSecondary md:text-base">
-            The gap between what exists and what should exist has always been the most visible thing in any room.
+          <p className="mx-auto mt-5 max-w-[620px] font-body text-[16px] leading-[1.8] text-textSecondary">
+            I&apos;m Tousif. I build AI systems for the work I have spent since 2017 doing by
+            hand — clinical referrals, legal intake, operations. The closest name for it is{' '}
+            <strong className="font-semibold text-textPrimary">AI product builder</strong>,
+            which is a description rather than a title. I still read a workflow the way an
+            operator does, and that is the only real advantage I have over someone who has
+            only ever been an engineer.
           </p>
-        </motion.div>
+        </RevealDiv>
 
-        <motion.div
+        <RevealDiv
           animate={{ opacity: 1, y: 0 }}
           className="panel-shadow theme-node-border relative mt-12 overflow-hidden rounded-[32px] border bg-surface p-2"
           initial={{ opacity: 0, y: 18 }}
@@ -234,7 +291,7 @@ export default function AboutPage() {
                   &ldquo;
                 </div>
                 <blockquote className="-mt-2 max-w-[680px] text-pretty font-display text-[26px] font-normal leading-[1.2] tracking-[-0.02em] text-textPrimary md:text-[32px]">
-                  Seven years inside real operations — the gap between what exists and what should exist is always visible. I just can&apos;t walk past it.
+                  Inside operations since 2017 — the gap between what exists and what should exist is always visible. I just can&apos;t walk past it.
                 </blockquote>
               </div>
               <div className="mt-10 grid grid-cols-3 gap-3">
@@ -255,11 +312,11 @@ export default function AboutPage() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </RevealDiv>
       </section>
 
       <section className="relative mx-auto mt-20 max-w-6xl px-6">
-        <motion.div
+        <RevealDiv
           className="grid gap-8 lg:grid-cols-[260px_1fr]"
           initial={{ opacity: 0, y: 18 }}
           transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
@@ -279,7 +336,7 @@ export default function AboutPage() {
           >
             <div className="grid gap-5">
               {bioParagraphs.map((paragraph, index) => (
-                <motion.div
+                <RevealDiv
                   className="relative rounded-[12px] border-l-2 bg-surfaceRaised/40 p-5"
                   initial={{ opacity: 0, y: 10 }}
                   key={index}
@@ -305,15 +362,15 @@ export default function AboutPage() {
                   >
                     {paragraph}
                   </p>
-                </motion.div>
+                </RevealDiv>
               ))}
             </div>
           </div>
-        </motion.div>
+        </RevealDiv>
       </section>
 
       <section className="relative mx-auto mt-20 max-w-6xl px-6">
-        <motion.div
+        <RevealDiv
           className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end"
           initial={{ opacity: 0, y: 10 }}
           transition={{ delay: 0.12, duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
@@ -327,9 +384,9 @@ export default function AboutPage() {
             </h2>
           </div>
           <p className="max-w-[440px] text-pretty font-body text-[14px] leading-[1.7] text-textSecondary">
-            Seven years of seeing what should exist. Then building exactly that.
+            Years of seeing what should exist. Then building exactly that, without leaving the seat.
           </p>
-        </motion.div>
+        </RevealDiv>
 
         <div className="relative grid gap-4 lg:grid-cols-3">
           <div
@@ -344,7 +401,7 @@ export default function AboutPage() {
             const accent = accentByColor[chapter.color];
 
             return (
-              <motion.article
+              <RevealArticle
                 className="panel-shadow theme-node-border relative overflow-hidden rounded-[22px] border bg-surface p-6"
                 initial={{ opacity: 0, y: 16 }}
                 key={chapter.era}
@@ -380,15 +437,106 @@ export default function AboutPage() {
                 <p className="mt-4 font-body text-[15px] leading-[1.9] text-textSecondary">
                   {chapter.body}
                 </p>
-              </motion.article>
+              </RevealArticle>
             );
           })}
         </div>
       </section>
 
+      {/* What I believe — opinions, owned as opinions */}
+      <section className="relative mx-auto mt-20 max-w-6xl px-6">
+        <RevealDiv
+          initial={{ opacity: 0, y: 16 }}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ amount: 0.15, once: true }}
+          whileInView={{ opacity: 1, y: 0 }}
+        >
+          <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <div>
+              <SectionLabel>ABOUT · OPINIONS</SectionLabel>
+              <h2 className="mt-4 font-display text-[30px] font-medium leading-tight text-textPrimary md:text-[36px]">
+                Five things I actually believe.
+              </h2>
+            </div>
+            <p className="max-w-[380px] text-pretty font-body text-[14px] leading-[1.7] text-textSecondary">
+              Each one is a position I have acted on, not a principle I admire.
+            </p>
+          </div>
+
+          <div className="grid gap-3 md:grid-cols-2">
+            {beliefs.map((belief, index) => (
+              <RevealArticle
+                className="relative overflow-hidden rounded-[18px] border p-6"
+                initial={{ opacity: 0, y: 12 }}
+                key={belief.claim}
+                style={{
+                  borderColor: colorMix(themeColors.blue, 20),
+                  background: `radial-gradient(ellipse 110% 60% at 0% 0%, ${colorMix(themeColors.blue, 8)}, transparent 62%), var(--surface)`,
+                }}
+                transition={{ delay: index * 0.05, duration: 0.36, ease: [0.16, 1, 0.3, 1] }}
+                viewport={{ once: true }}
+                whileInView={{ opacity: 1, y: 0 }}
+              >
+                <p className="font-display text-[18px] font-semibold leading-snug text-textPrimary md:text-[19px]">
+                  {belief.claim}
+                </p>
+                <p className="mt-3 font-body text-[14px] leading-[1.8] text-textSecondary">
+                  {belief.body}
+                </p>
+              </RevealArticle>
+            ))}
+          </div>
+        </RevealDiv>
+      </section>
+
+      {/* Limits — operational, useful to a collaborator */}
+      <section className="relative mx-auto mt-20 max-w-6xl px-6">
+        <RevealDiv
+          initial={{ opacity: 0, y: 16 }}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ amount: 0.2, once: true }}
+          whileInView={{ opacity: 1, y: 0 }}
+        >
+          <div className="mb-10">
+            <SectionLabel>ABOUT · HOW I WORK</SectionLabel>
+            <h2 className="mt-4 font-display text-[30px] font-medium leading-tight text-textPrimary md:text-[36px]">
+              I get obsessed. That is the whole thing.
+            </h2>
+            <p className="mt-4 max-w-[560px] font-body text-[14px] leading-[1.7] text-textSecondary">
+              Useful if you are deciding whether to work with me — including the part that
+              costs something.
+            </p>
+          </div>
+
+          <div className="grid gap-3 lg:grid-cols-3">
+            {howIWork.map((limit, index) => (
+              <RevealArticle
+                className="rounded-[18px] border p-6"
+                initial={{ opacity: 0, y: 12 }}
+                key={limit.title}
+                style={{
+                  borderColor: colorMix(themeColors.amber, 20),
+                  background: colorMix(themeColors.amber, 5),
+                }}
+                transition={{ delay: index * 0.05, duration: 0.36, ease: [0.16, 1, 0.3, 1] }}
+                viewport={{ once: true }}
+                whileInView={{ opacity: 1, y: 0 }}
+              >
+                <h3 className="font-display text-[16px] font-semibold leading-snug text-textPrimary">
+                  {limit.title}
+                </h3>
+                <p className="mt-3 font-body text-[13.5px] leading-[1.75] text-textSecondary">
+                  {limit.body}
+                </p>
+              </RevealArticle>
+            ))}
+          </div>
+        </RevealDiv>
+      </section>
+
       {/* Skill Tree */}
       <section className="relative mx-auto mt-20 max-w-6xl px-6">
-        <motion.div
+        <RevealDiv
           initial={{ opacity: 0, y: 18 }}
           transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ amount: 0.1, once: true }}
@@ -421,78 +569,55 @@ export default function AboutPage() {
             <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${colorMix(themeColors.blue, 55)}, ${colorMix(themeColors.green, 45)}, transparent)` }} />
 
             <div className="p-6 md:p-10">
-
-              {/* ── NICHES ── */}
-              <p className="mb-6 font-mono text-[9px] uppercase tracking-[0.18em] text-textMuted">Skill tree — proof-backed</p>
-
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {niches.map((niche, ni) => {
-                  const accent = accentByColor[niche.color];
-                  const shipped = niche.skills.filter((s) => s.status === 'shipped').length;
-                  const applied = niche.skills.filter((s) => s.status === 'applied').length;
-                  const breakdown = [
-                    shipped > 0 ? `${shipped} shipped` : null,
-                    applied > 0 ? `${applied} applied` : null,
-                  ].filter(Boolean).join(' · ');
-
-                  return (
-                    <motion.div
-                      key={niche.id}
-                      className="group relative overflow-hidden rounded-[14px] border p-4"
-                      initial={{ opacity: 0, y: 10 }}
-                      transition={{ delay: ni * 0.05, duration: 0.36, ease: [0.16, 1, 0.3, 1] }}
-                      viewport={{ once: true }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      style={{
-                        borderColor: colorMix(accent, 22),
-                        background: `radial-gradient(ellipse 100% 80% at 50% 120%, ${colorMix(accent, 13)}, var(--surface))`,
-                      }}
-                    >
-                      <div aria-hidden="true" className="absolute left-0 top-0 h-full w-[2px]" style={{ background: `linear-gradient(180deg, ${accent}, ${colorMix(accent, 30)})` }} />
-                      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px" style={{ background: `linear-gradient(90deg, ${colorMix(accent, 50)}, transparent)` }} />
-                      <p className="font-mono text-[8px] uppercase tracking-[0.14em]" style={{ color: accent }}>{niche.skills.length} skills</p>
-                      <p className="mt-1.5 font-display text-[15px] font-semibold leading-snug text-textPrimary">{niche.name}</p>
-                      <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.08em] text-textSecondary">{breakdown}</p>
-                    </motion.div>
-                  );
-                })}
+              <div className="mb-8 flex flex-wrap items-baseline gap-x-6 gap-y-2">
+                <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-textMuted">
+                  Skill tree — proof-backed
+                </p>
+                <p className="font-mono text-[11px] tracking-[0.08em] text-textSecondary">
+                  {allSkills.length} skills &middot;{' '}
+                  <span style={{ color: themeColors.green }}>{shippedCount} shipped</span>{' '}
+                  &middot; {appliedCount} applied
+                </p>
               </div>
 
-              <div className="mt-6 flex justify-center">
-                <Link
-                  className="group inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.1em] transition-all duration-200 hover:gap-3"
-                  href="/skills"
+              {/* Proportion of shipped vs applied, at a glance */}
+              <div
+                aria-hidden="true"
+                className="mb-8 flex h-1.5 w-full overflow-hidden rounded-full"
+                style={{ background: 'var(--surface-raised)' }}
+              >
+                <span
                   style={{
-                    borderColor: colorMix(themeColors.blue, 32),
-                    background: colorMix(themeColors.blue, 10),
-                    color: themeColors.blue,
+                    background: themeColors.green,
+                    width: `${(shippedCount / allSkills.length) * 100}%`,
                   }}
-                >
-                  See the full skill breakdown
-                  <svg
-                    aria-hidden="true"
-                    fill="none"
-                    height="12"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    viewBox="0 0 12 12"
-                    width="12"
-                  >
-                    <path d="M2 6h8M6 2l4 4-4 4" />
-                  </svg>
-                </Link>
+                />
+                <span
+                  style={{
+                    background: colorMix(themeColors.blue, 45),
+                    width: `${(appliedCount / allSkills.length) * 100}%`,
+                  }}
+                />
               </div>
 
+              <SkillLedger defaultOpenCount={2} />
+
+              <p className="mt-8 font-body text-[13px] leading-[1.7] text-textMuted">
+                <strong className="font-semibold text-textSecondary">Shipped</strong> means it
+                is load-bearing in something running today, and the projects it links to are
+                the evidence.{' '}
+                <strong className="font-semibold text-textSecondary">Applied</strong> means I
+                have used it for real but it has not carried a system yet. Nothing here is
+                listed because I read about it.
+              </p>
             </div>
           </div>
-        </motion.div>
+        </RevealDiv>
       </section>
 
       {/* Certifications CTA */}
       <section className="relative mx-auto mt-16 max-w-6xl px-6">
-        <motion.div
+        <RevealDiv
           className="relative overflow-hidden rounded-[24px] border bg-surface p-8 md:p-10"
           initial={{ opacity: 0, y: 16 }}
           style={{
@@ -555,7 +680,7 @@ export default function AboutPage() {
               </svg>
             </Link>
           </div>
-        </motion.div>
+        </RevealDiv>
       </section>
     </main>
   );

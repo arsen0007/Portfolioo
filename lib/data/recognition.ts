@@ -19,18 +19,15 @@ export type LeadershipRecognition = {
   isAction?: boolean;
 };
 
-export type CourseItem = {
-  name: string;
-  level: 'Intermediate' | 'Advanced' | 'Expert';
-  completed: boolean;
-};
-
 export type CredentialRecognition = {
   id: string;
   title: string;
   subtitle: string;
   color: AccentColor;
-  courses?: CourseItem[];
+  /** Where the full story lives, when there is one. */
+  href?: string;
+  detail?: string;
+  facts?: { value: string; label: string }[];
 };
 
 export type RecognitionData = {
@@ -86,25 +83,22 @@ export const recognition: RecognitionData = {
     {
       id: 'hackathon',
       title: 'Global Hackathon Winner',
-      subtitle: 'Le Mans T2 · Real-time ML racing system',
+      subtitle: "ClearRoute x Le Mans 24h Hackathon · project Le Man's T2",
       color: 'amber',
+      href: '/projects/le-mans-t2',
+      detail:
+        'A 24-hour build run simultaneously across ClearRoute offices in Sydney, Bulgaria, India, and London, in partnership with United Autosports. Our Bangalore team of five entered a real-time failure prediction system for endurance racing and took the global title. I originated the idea and engineered the architecture.',
+      facts: [
+        { value: '1st', label: 'Global, across 4 offices' },
+        { value: '24h', label: 'Concept to working system' },
+        { value: '5', label: 'Team size' },
+      ],
     },
     {
       id: 'productschool',
       title: 'Product School',
       subtitle: 'CEO-sponsored curriculum',
       color: 'purple',
-      courses: [
-        { name: 'Product Management', level: 'Intermediate', completed: true },
-        { name: 'AI Evals', level: 'Advanced', completed: true },
-        { name: 'AI Product Management', level: 'Intermediate', completed: true },
-        { name: 'Advanced AI Agents', level: 'Advanced', completed: true },
-        { name: 'Go-to-Market', level: 'Advanced', completed: false },
-        { name: 'Vibe Coding', level: 'Advanced', completed: true },
-        { name: 'Product Experimentation', level: 'Advanced', completed: false },
-        { name: 'Product Leadership', level: 'Expert', completed: false },
-        { name: 'Claude Code', level: 'Advanced', completed: true },
-      ],
     },
   ],
 };

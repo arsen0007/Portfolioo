@@ -54,8 +54,12 @@ function Chevron({ color, open }: { color: string; open: boolean }) {
 }
 
 // A plain, readable ledger — no canvas, no graph metaphor. One layout for every screen size.
-export function SkillLedger() {
-  const [openNiches, setOpenNiches] = useState<Set<string>>(new Set());
+export function SkillLedger({ defaultOpenCount = 0 }: { defaultOpenCount?: number } = {}) {
+  // Opening the first few by default: a page of collapsed accordions shows a
+  // visitor nothing, and this is the only place the skills actually live.
+  const [openNiches, setOpenNiches] = useState<Set<string>>(
+    () => new Set(niches.slice(0, defaultOpenCount).map((niche) => niche.id)),
+  );
   const [openSkills, setOpenSkills] = useState<Set<string>>(new Set());
 
   function toggleNiche(id: string) {
@@ -75,7 +79,7 @@ export function SkillLedger() {
   }
 
   return (
-    <div className="mx-auto grid w-full max-w-4xl grid-cols-1 items-start gap-3 px-4 pb-20 pt-4 md:grid-cols-2 md:gap-4">
+    <div className="grid w-full grid-cols-1 items-start gap-3 md:grid-cols-2 md:gap-4">
       {niches.map((niche) => {
         const accent = accentByColor[niche.color];
         const nicheOpen = openNiches.has(niche.id);
