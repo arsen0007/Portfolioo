@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     template: '%s | Tousif Ali',
   },
   description:
-    'I build AI systems that replace manual work. CaseWise saved 433 hours/month and was integrated into the core system. BarHunter sourced 94,363 leads. Global Hackathon Winner.',
+    'I build AI systems that replace manual work. CaseWise saved 433 hours/month and earned CTO backing for core-system integration. BarHunter sourced 94,363 leads. Global Hackathon Winner.',
   keywords: [
     'AI Product Builder',
     'Solutions Architect',

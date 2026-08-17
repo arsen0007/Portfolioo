@@ -163,7 +163,7 @@ export const projects: Project[] = [
     ],
     proof: [
       'Awarded $5,000 Product School scholarship by CEO Alan King.',
-      'CTO directed embedding into UCMS (Core System).',
+      'CTO sponsored embedding it into UCMS (Core System) — work that is ongoing.',
       'Paired with Senior System Architect and AI Team Lead for development.',
       'CISO publicly called the system "Extraordinary".',
     ],
@@ -197,7 +197,7 @@ export const projects: Project[] = [
         'Varying levels of technical and legal expertise among users.',
       ],
       outcome:
-        'CaseWise evolved from a solo prototype to a CTO-backed core system feature, buying back over 5,000 hours of team productivity annually.',
+        'CaseWise evolved from a solo prototype into a CTO-sponsored initiative to fold it into the core system — work that is still ongoing — while already buying back an estimated 5,000+ hours of team productivity annually in its current form.',
     },
   },
   {

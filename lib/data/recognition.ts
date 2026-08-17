@@ -74,7 +74,7 @@ export const recognition: RecognitionData = {
       id: 'cto',
       name: 'Praveen Kodikkambrath',
       role: 'CTO, Workplace Options',
-      highlight: 'Embedded CaseWise into UCMS (Core System)',
+      highlight: "Sponsored CaseWise's integration into UCMS (Core System)",
       quote: 'Paired with Senior System Architect and AI Team Lead for production development.',
       isAction: true,
     },

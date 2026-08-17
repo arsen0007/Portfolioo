@@ -222,16 +222,16 @@ function ActionCard({ item }: { item: LeadershipRecognition }) {
               background: colorMix(accent, 13),
             }}
           >
-            <p className="font-mono text-[9px] uppercase tracking-[0.1em] text-textMuted">Outcome</p>
+            <p className="font-mono text-[9px] uppercase tracking-[0.1em] text-textMuted">Direction</p>
             <p className="mt-1.5 font-display text-sm font-medium" style={{ color: accent }}>
               Core System
             </p>
-            <p className="mt-0.5 font-body text-[11px] text-textMuted">Company-wide integration</p>
+            <p className="mt-0.5 font-body text-[11px] text-textMuted">Company-wide integration, in progress</p>
           </div>
         </div>
 
         <p className="mt-5 font-body text-[12px] leading-[1.7] text-textMuted">
-          No quote needed. The CTO directing production integration is the endorsement.
+          No quote needed. The CTO backing production integration is the endorsement.
         </p>
       </div>
     </RevealDiv>

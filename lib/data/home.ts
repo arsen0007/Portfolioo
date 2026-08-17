@@ -28,7 +28,7 @@ export const heroMetrics: HeroMetric[] = [
 
 /** Third-party validation, in descending order of how hard it is to fake. */
 export const heroCredentials = [
-  'CTO-integrated into the core system',
+  'CTO-backed core-system integration',
   'CEO-sponsored',
   'Featured by Workplace Options',
   'Global Hackathon Winner',
@@ -65,8 +65,8 @@ export const bridgePillars: BridgePillar[] = [
     accent: 'green',
     role: 'Product',
     claim: 'I get it adopted',
-    body: 'A prototype nobody uses is a hobby. I took CaseWise to the C-suite myself, earned a CEO-sponsored scholarship on the strength of it, and the CTO then directed it into the core case management system alongside a senior architect and the AI team lead.',
-    evidence: ['CEO-sponsored', 'CTO-integrated · Publicly featured'],
+    body: 'A prototype nobody uses is a hobby. I took CaseWise to the C-suite myself, earned a CEO-sponsored scholarship on the strength of it, and the CTO backed folding it into the core case management system — work that is still ongoing, alongside a senior architect and the AI team lead.',
+    evidence: ['CEO-sponsored', 'CTO-backed integration · Publicly featured'],
   },
 ];
 
@@ -93,9 +93,9 @@ export const featuredSystems: FeaturedSystem[] = [
   {
     id: 'casewise',
     name: 'CaseWise',
-    proves: 'The one that got institutionalized',
+    proves: 'The one leadership put its weight behind',
     accent: 'blue',
-    status: 'Confidential · In production',
+    status: 'Confidential · Still in progress',
     summary:
       'A legal team of seven was hand-classifying roughly 2,700 cases a month against 31 issue types, waiting on senior guidance for anything complex. I built an AI pipeline that reads the case straight out of the existing case management system, classifies it, writes the summary, and drafts the attorney outreach — then hands it back for a human to approve.',
     tradeoff:
@@ -187,7 +187,7 @@ export const proofPoints: ProofPoint[] = [
     attribution: 'Praveen Kodikkambrath · Workplace Options',
     quote:
       'Paired with Senior System Architect and AI Team Lead for production development.',
-    consequence: 'Directed CaseWise into the core case management system',
+    consequence: "Sponsored CaseWise's integration into the core case management system",
   },
   {
     id: 'public',

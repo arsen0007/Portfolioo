@@ -379,7 +379,7 @@ export const niches: Niche[] = [
         name: 'MVP Scoping & Iteration',
         status: 'shipped',
         evidenceProjectIds: ['genie', 'casewise'],
-        note: 'Genie staged V1 -> V2 -> V3; CaseWise went prototype -> CTO-backed core system.',
+        note: 'Genie staged V1 -> V2 -> V3; CaseWise went prototype -> CTO-backed core-system initiative (still in progress).',
         tools: [],
       },
       {
@@ -403,7 +403,7 @@ export const niches: Niche[] = [
         name: 'Product Management',
         status: 'shipped',
         evidenceProjectIds: ['casewise'],
-        note: 'CaseWise: owned problem discovery, MVP development, and delivery from solo prototype to a CTO-backed core-system feature.',
+        note: 'CaseWise: owned problem discovery, MVP development, and delivery from solo prototype to a CTO-backed core-system initiative, still in progress.',
         tools: [],
       },
     ],

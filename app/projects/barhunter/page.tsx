@@ -443,16 +443,6 @@ export default function BarHunterPage() {
             </svg>
           </a>
           <Link
-            href="/projects/arsens-lab"
-            className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] transition-all duration-200"
-            style={{ borderColor: colorMix(themeColors.cyan, 28), color: themeColors.cyan, background: colorMix(themeColors.cyan, 8) }}
-          >
-            The infrastructure behind it
-            <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 12 12" aria-hidden="true">
-              <path d="M2.5 9.5l7-7M9.5 2.5H4m5.5 0v5.5" />
-            </svg>
-          </Link>
-          <Link
             href="/projects"
             className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] text-textMuted transition-colors hover:text-textPrimary"
             style={{ borderColor: 'var(--surface-border)' }}

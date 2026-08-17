@@ -34,7 +34,7 @@ const endorsements = [
     name: 'Praveen Kodikkambrath',
     role: 'CTO',
     color: themeColors.blue,
-    action: 'Integrated into core UCMS',
+    action: 'Sponsored integration into core UCMS',
     quote: 'Paired with Senior System Architect and AI Team Lead for production development.',
   },
   {
@@ -219,6 +219,38 @@ export default function CaseWisePage() {
           </RevealDiv>
         </div>
 
+        {/* The Apprenticeship — what the C-suite attention actually turned into */}
+        <RevealDiv className="mt-4" {...fadeUp(0.21)}>
+          <div
+            className="bento-card p-7"
+            style={{
+              borderColor: colorMix(themeColors.green, 22),
+              background: `radial-gradient(ellipse 60% 90% at 100% 0%, ${colorMix(themeColors.green, 8)}, transparent 55%), var(--surface)`,
+            }}
+          >
+            <p className="font-mono text-[10px] uppercase tracking-[0.12em]" style={{ color: themeColors.green }}>
+              What the Attention Turned Into
+            </p>
+            <h2 className="mt-3 font-display text-[22px] font-medium text-textPrimary">
+              The room most case studies leave out
+            </h2>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {['Senior System Architect', 'AI Team Lead', 'Product Designer'].map((role) => (
+                <span
+                  key={role}
+                  className="rounded-full px-3 py-1 font-mono text-[10px] uppercase tracking-[0.1em]"
+                  style={{ background: colorMix(themeColors.green, 10), color: themeColors.green, border: `1px solid ${colorMix(themeColors.green, 24)}` }}
+                >
+                  {role}
+                </span>
+              ))}
+            </div>
+            <p className="mt-4 max-w-[640px] font-body text-[14px] leading-[1.85] text-textSecondary">
+              For months, I worked directly with a Senior System Architect and an AI Team Lead — learning how architecture gets diagrammed before it&apos;s built, how to evaluate a model instead of trusting a demo, and how to put a real cost on an idea instead of just being enthusiastic about it. A product designer showed me how a workflow actually gets pitched to a room full of executives. None of it came with a syllabus. It came from treating my own project as the classroom.
+            </p>
+          </div>
+        </RevealDiv>
+
         {/* Leadership endorsements — full width, 3 cards */}
         <RevealDiv className="mt-4" {...fadeUp(0.22)}>
           <div
@@ -301,16 +333,6 @@ export default function CaseWisePage() {
 
         {/* CTA row */}
         <RevealDiv className="mt-8 flex flex-wrap gap-3" {...fadeUp(0.3)}>
-          <Link
-            href="/projects/arsens-lab"
-            className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] transition-all duration-200"
-            style={{ borderColor: colorMix(themeColors.cyan, 28), color: themeColors.cyan, background: colorMix(themeColors.cyan, 8) }}
-          >
-            The infrastructure behind it
-            <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 12 12" aria-hidden="true">
-              <path d="M2.5 9.5l7-7M9.5 2.5H4m5.5 0v5.5" />
-            </svg>
-          </Link>
           <Link
             href="/recognition"
             className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] transition-all duration-200"

@@ -2,7 +2,7 @@
 
 Personal portfolio of **Tousif Ali**, AI Product & Systems Builder. Live at [tousifali.com](https://tousifali.com).
 
-The homepage is an interactive orbit — a systems map of my work — built from scratch with SVG, CSS conic gradients, and Framer Motion. Every project featured runs in production with real users: [CaseWise](https://tousifali.com/projects/casewise) (AI legal intake, 96% time reduction, CTO-integrated), [BarHunter](https://tousifali.com/projects/barhunter) (94,363 legal leads sourced), [Genie](https://tousifali.com/projects/genie) (an agent runtime built from scratch on a Raspberry Pi), and more.
+The homepage is an interactive orbit — a systems map of my work — built from scratch with SVG, CSS conic gradients, and Framer Motion. Every project featured runs in production with real users: [CaseWise](https://tousifali.com/projects/casewise) (AI legal intake, 96% time reduction, CTO-backed for core-system integration), [BarHunter](https://tousifali.com/projects/barhunter) (94,363 legal leads sourced), [Genie](https://tousifali.com/projects/genie) (an agent runtime built from scratch on a Raspberry Pi), and more.
 
 ## Stack
 

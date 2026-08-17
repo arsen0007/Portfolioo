@@ -19,7 +19,7 @@ const cardCopy: Record<string, { line: string; role: string; tag?: string }> = {
   },
   casewise: {
     role: 'AI legal intake',
-    line: 'An AI pipeline that replaced manual case processing — CEO-sponsored, CTO-integrated into the core system.',
+    line: 'An AI pipeline that replaced manual case processing — CEO-sponsored, CTO-backed for core-system integration.',
   },
   mailmerge: {
     role: 'Outreach preparation',
@@ -77,7 +77,7 @@ function StatusBadge({ project }: { project: Project }) {
           className="h-1.5 w-1.5 rounded-full"
           style={{ background: themeColors.amber, boxShadow: `0 0 8px ${themeColors.amber}` }}
         />
-        Confidential · In production
+        Confidential · Still in progress
       </span>
     );
   }
