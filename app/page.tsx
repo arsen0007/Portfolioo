@@ -72,7 +72,7 @@ function Hero() {
           </FadeIn>
 
           <FadeIn delay={0.06}>
-            <h1 className="mt-7 text-balance font-display text-[38px] font-semibold leading-[1.06] tracking-[-0.025em] text-textPrimary sm:text-[46px] lg:text-[52px]">
+            <h1 className="mt-7 text-balance font-display text-[42px] font-semibold leading-[1.04] tracking-[-0.030em] text-textPrimary sm:text-[52px] lg:text-[58px]">
               I build AI systems for work I used to do by hand.
             </h1>
           </FadeIn>
@@ -183,10 +183,10 @@ function Hero() {
 
 function Bridge() {
   return (
-    <section className="relative mx-auto max-w-6xl px-6 py-14 lg:py-20">
+    <section className="relative mx-auto max-w-6xl px-6 py-16 lg:py-24">
       <FadeIn className="max-w-2xl">
         <Eyebrow>How I work</Eyebrow>
-        <h2 className="mt-4 text-balance font-display text-[32px] font-semibold leading-[1.12] tracking-[-0.02em] text-textPrimary md:text-[40px]">
+        <h2 className="mt-4 text-balance font-display text-[34px] font-semibold leading-[1.08] tracking-[-0.025em] text-textPrimary md:text-[48px]">
           Most AI projects die in the handoff.
         </h2>
         <p className="mt-5 max-w-[620px] font-body text-[16px] leading-[1.75] text-textSecondary">
@@ -260,7 +260,7 @@ function Bridge() {
       </div>
 
       <FadeIn delay={0.2}>
-        <p className="mx-auto mt-10 max-w-[720px] text-balance text-center font-display text-[19px] font-medium leading-snug text-textSecondary md:text-[22px]">
+        <p className="mx-auto mt-16 max-w-[720px] text-balance text-center font-display text-[21px] font-medium leading-snug text-textSecondary md:mt-20 md:text-[26px]">
           CaseWise exists because I spent years doing legal intake{' '}
           <span className="text-textPrimary">before I ever wrote a line of it.</span>
         </p>
@@ -273,11 +273,11 @@ function Bridge() {
 
 function Systems() {
   return (
-    <section className="relative mx-auto max-w-6xl px-6 py-14 lg:py-20">
+    <section className="relative mx-auto max-w-6xl px-6 py-16 lg:py-24">
       <FadeIn className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
         <div className="max-w-2xl">
           <Eyebrow>Selected systems</Eyebrow>
-          <h2 className="mt-4 text-balance font-display text-[32px] font-semibold leading-[1.12] tracking-[-0.02em] text-textPrimary md:text-[40px]">
+          <h2 className="mt-4 text-balance font-display text-[34px] font-semibold leading-[1.08] tracking-[-0.025em] text-textPrimary md:text-[48px]">
             Four systems, four different kinds of hard.
           </h2>
         </div>
@@ -319,7 +319,7 @@ function Systems() {
                       </span>
                     </div>
 
-                    <h3 className="mt-4 font-display text-[30px] font-semibold leading-none tracking-[-0.02em] text-textPrimary md:text-[36px]">
+                    <h3 className="mt-4 font-display text-[32px] font-bold leading-none tracking-[-0.026em] text-textPrimary md:text-[44px]">
                       {system.name}
                     </h3>
 
@@ -398,10 +398,10 @@ function Systems() {
 
 function Proof() {
   return (
-    <section className="relative mx-auto max-w-6xl px-6 py-14 lg:py-20">
+    <section className="relative mx-auto max-w-6xl px-6 py-16 lg:py-24">
       <FadeIn className="max-w-2xl">
         <Eyebrow>What happened next</Eyebrow>
-        <h2 className="mt-4 text-balance font-display text-[32px] font-semibold leading-[1.12] tracking-[-0.02em] text-textPrimary md:text-[40px]">
+        <h2 className="mt-4 text-balance font-display text-[34px] font-semibold leading-[1.08] tracking-[-0.025em] text-textPrimary md:text-[48px]">
           The proof isn&apos;t the praise. It&apos;s what they did after.
         </h2>
         <p className="mt-5 max-w-[580px] font-body text-[16px] leading-[1.75] text-textSecondary">
@@ -482,7 +482,7 @@ function Closing() {
             }}
           />
 
-          <h2 className="mx-auto max-w-[680px] text-balance font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.02em] text-textPrimary md:text-[36px]">
+          <h2 className="mx-auto max-w-[680px] text-balance font-display text-[30px] font-semibold leading-[1.12] tracking-[-0.026em] text-textPrimary md:text-[42px]">
             If your team is doing something by hand that a system should own, that is my
             favourite kind of problem.
           </h2>
