@@ -22,7 +22,7 @@ async function getMailMergeStats(): Promise<MailMergeStats | null> {
       `${SUPABASE_URL}/rest/v1/metrics_totals?select=files_cleaned,rows_processed,sessions`,
       {
         headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
-        next: { revalidate: 300 },
+        next: { revalidate: 86400 },
       },
     );
     if (!res.ok) return null;
