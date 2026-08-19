@@ -10,7 +10,31 @@ const fadeUp = (delay = 0) => ({
   transition: { delay, duration: 0.42, ease: [0.16, 1, 0.3, 1] as const },
 });
 
-export default function MailMergePage() {
+const SUPABASE_URL = 'https://ttgisyqbfdloplrvnlxn.supabase.co';
+const SUPABASE_ANON_KEY =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0Z2lzeXFiZmRsb3BscnZubHhuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY4MDc0ODQsImV4cCI6MjEwMjM4MzQ4NH0.qsaDH1M0wSY5ZGXGlTGqlVrEStgZLmVzrPsJLXzWmeA';
+
+type MailMergeStats = { files_cleaned: number; rows_processed: number; sessions: number };
+
+async function getMailMergeStats(): Promise<MailMergeStats | null> {
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/metrics_totals?select=files_cleaned,rows_processed,sessions`,
+      {
+        headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
+        next: { revalidate: 300 },
+      },
+    );
+    if (!res.ok) return null;
+    const rows: MailMergeStats[] = await res.json();
+    return rows[0] ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export default async function MailMergePage() {
+  const liveStats = await getMailMergeStats();
   return (
     <main className="dot-grid relative min-h-screen pb-24">
       <div
@@ -37,8 +61,9 @@ export default function MailMergePage() {
           </h1>
           <p className="mt-4 max-w-[600px] font-body text-[17px] leading-[1.8] text-textSecondary">
             Messy spreadsheets were reaching outreach campaigns and causing duplicate sends
-            and broken columns. This cleans the data before it gets there — dedupe, split,
-            export — with every step visible, so a non-technical teammate can see what
+            and broken columns. It has since grown from a single cleanup step into a small
+            three-tool suite — dedupe the list, build the merge template, follow the guide
+            to send it — with every step visible, so a non-technical teammate can see what
             changed and trust the file before it goes out.
           </p>
         </RevealDiv>
@@ -46,7 +71,7 @@ export default function MailMergePage() {
         <div className="mt-12 grid gap-4 md:grid-cols-3">
           {[
             { value: 'Live', label: 'Still in use', color: themeColors.green },
-            { value: '3', label: 'Steps — dedupe, split, export', color: themeColors.cyan },
+            { value: '3', label: 'Tools — cleaner, templates, guide', color: themeColors.cyan },
             { value: '0', label: 'Technical setup for the user', color: themeColors.blue },
           ].map((stat, i) => (
             <RevealDiv key={stat.label} {...fadeUp(0.12 + i * 0.07)}>
@@ -62,25 +87,37 @@ export default function MailMergePage() {
         <RevealDiv className="mt-4" {...fadeUp(0.18)}>
           <div className="bento-card overflow-hidden" style={{ borderColor: colorMix(themeColors.cyan, 18) }}>
             <div className="px-4 pt-4 pb-3">
-              <p className="font-mono text-[9px] uppercase tracking-[0.12em]" style={{ color: themeColors.cyan }}>Live · Mail Merge Pro · Guided workflow</p>
+              <p className="font-mono text-[9px] uppercase tracking-[0.12em]" style={{ color: themeColors.cyan }}>Live · Mail Merge Pro · Clean, template, send</p>
             </div>
             <Image
-                alt="Mail Merge Pro upload step"
+                alt="Mail Merge Pro home screen with Email Cleaner, Template Builder, and Tutorial tools"
                 className="block h-auto w-full"
-                height={889}
+                height={865}
                 sizes="(min-width: 1024px) 900px, 100vw"
                 src="/screenshots/mailmerge.png"
-                width={1920}
+                width={1600}
               />
           </div>
         </RevealDiv>
+
+        {liveStats && (
+          <RevealDiv className="mt-3 flex items-center gap-2 px-1" {...fadeUp(0.22)}>
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" style={{ background: themeColors.green }} />
+              <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: themeColors.green }} />
+            </span>
+            <p className="font-mono text-[11px] text-textMuted">
+              Live from production — {liveStats.files_cleaned} files cleaned · {liveStats.rows_processed.toLocaleString()} rows processed · {liveStats.sessions} sessions
+            </p>
+          </RevealDiv>
+        )}
 
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           <RevealDiv {...fadeUp(0.18)}>
             <div className="bento-card p-7 h-full" style={{ borderColor: colorMix(themeColors.cyan, 20) }}>
               <p className="font-mono text-[10px] uppercase tracking-[0.12em]" style={{ color: themeColors.cyan }}>How it works</p>
               <div className="mt-5 space-y-4">
-                {['Upload contacts CSV from BarHunter export', 'Define message template with variable slots', 'Preview personalised output per recipient', 'Execute bulk send with audit trail'].map((step, i) => (
+                {['Upload a contact list (CSV or XLSX) and pick the email column', 'Review the dedupe ledger — original rows, duplicates removed, final recipients, with a report of what got cut', 'Build the merge template with variable slots and export it as a Word doc', 'Follow the built-in Outlook tutorial to run the actual send'].map((step, i) => (
                   <div key={step} className="flex items-start gap-3">
                     <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full font-mono text-[9px] font-bold mt-0.5" style={{ background: colorMix(themeColors.cyan, 20), color: themeColors.cyan, border: `1px solid ${colorMix(themeColors.cyan, 35)}` }}>{i + 1}</div>
                     <p className="font-body text-[14px] text-textSecondary leading-snug">{step}</p>
@@ -93,7 +130,7 @@ export default function MailMergePage() {
             <div className="bento-card p-7 h-full" style={{ borderColor: colorMix(themeColors.blue, 18) }}>
               <p className="font-mono text-[10px] uppercase tracking-[0.12em]" style={{ color: themeColors.blue }}>Stack</p>
               <div className="mt-4 flex flex-wrap gap-2">
-                {['React', 'Vite', 'Flask', 'Python', 'Pandas', 'SQLite', 'Tailwind CSS'].map((t) => (
+                {['Next.js', 'TypeScript', 'Supabase', 'PostgreSQL', 'Tailwind CSS', 'Vercel'].map((t) => (
                   <span key={t} className="tech-badge">{t}</span>
                 ))}
               </div>
