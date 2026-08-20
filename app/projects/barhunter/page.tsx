@@ -69,6 +69,21 @@ const pipelineParts = [
   },
 ] as const;
 
+const screenshots = [
+  {
+    src: '/screenshots/barhunter-login.png',
+    alt: 'BarHunter login page',
+    caption: 'Login · Find the right attorneys. Faster.',
+    color: themeColors.green,
+  },
+  {
+    src: '/screenshots/barhunter-dashboard.png',
+    alt: 'BarHunter dashboard showing attorney search results',
+    caption: 'Dashboard · 23,528 leads · California filter',
+    color: themeColors.cyan,
+  },
+];
+
 export default function BarHunterPage() {
   const [activePipelinePart, setActivePipelinePart] = useState<0 | 1>(0);
   const [isPipelinePaused, setIsPipelinePaused] = useState(false);
@@ -169,37 +184,24 @@ export default function BarHunterPage() {
         </div>
 
         {/* Screenshots */}
-        <div className="mt-4 grid gap-3 md:grid-cols-2">
-          <motion.div {...fadeUp(0.13)}>
-            <div className="bento-card overflow-hidden" style={{ borderColor: colorMix(themeColors.green, 18) }}>
-              <div className="px-4 pt-4 pb-3">
-                <p className="font-mono text-[9px] uppercase tracking-[0.12em]" style={{ color: themeColors.green }}>Login · Find the right attorneys. Faster.</p>
+        <div className="mt-4 grid gap-3">
+          {screenshots.map((shot, i) => (
+            <motion.div key={shot.src} {...fadeUp(0.13 + i * 0.04)}>
+              <div className="bento-card overflow-hidden" style={{ borderColor: colorMix(shot.color, 18) }}>
+                <div className="px-4 pt-4 pb-3">
+                  <p className="font-mono text-[9px] uppercase tracking-[0.12em]" style={{ color: shot.color }}>{shot.caption}</p>
+                </div>
+                <Image
+                  alt={shot.alt}
+                  className="block h-auto w-full"
+                  height={1080}
+                  sizes="(min-width: 1024px) 928px, 100vw"
+                  src={shot.src}
+                  width={1920}
+                />
               </div>
-              <Image
-                alt="BarHunter login page"
-                className="block h-auto w-full"
-                height={889}
-                sizes="(min-width: 768px) 50vw, 100vw"
-                src="/screenshots/barhunter-login.png"
-                width={1920}
-              />
-            </div>
-          </motion.div>
-          <motion.div {...fadeUp(0.17)}>
-            <div className="bento-card overflow-hidden" style={{ borderColor: colorMix(themeColors.cyan, 18) }}>
-              <div className="px-4 pt-4 pb-3">
-                <p className="font-mono text-[9px] uppercase tracking-[0.12em]" style={{ color: themeColors.cyan }}>Dashboard · 23,528 leads · California filter</p>
-              </div>
-              <Image
-                alt="BarHunter dashboard showing attorney search results"
-                className="block h-auto w-full"
-                height={889}
-                sizes="(min-width: 768px) 50vw, 100vw"
-                src="/screenshots/barhunter-dashboard.png"
-                width={1920}
-              />
-            </div>
-          </motion.div>
+            </motion.div>
+          ))}
         </div>
 
         {/* Two-col: problem + pipeline */}
