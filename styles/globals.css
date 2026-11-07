@@ -76,7 +76,6 @@
   --panel-shadow-strong: none;
   --center-blue-shadow: none;
   --center-green-shadow: none;
-  --orbit-node-base-shadow: none;
   --proof-strip-background: var(--canvas);
 }
 
@@ -211,6 +210,25 @@ body:has(dialog[open]) {
   }
 }
 
+/* Bars that grow from the left when they first appear (the home page figure).
+   Drawn at full width and scaled, so the final state is the real, to-scale one. */
+@media (prefers-reduced-motion: no-preference) {
+  .bar-grow {
+    transform-origin: left center;
+    animation: bar-grow 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+  }
+
+  @keyframes bar-grow {
+    from {
+      transform: scaleX(0);
+    }
+
+    to {
+      transform: scaleX(1);
+    }
+  }
+}
+
 /* Reveal-on-scroll for pages not yet migrated (components/ui/FadeIn.tsx).
    Scoped to .js so that without JavaScript every section renders visible
    instead of being stranded at opacity 0. */
@@ -243,12 +261,6 @@ body:has(dialog[open]) {
     transition-duration: 0.01ms !important;
   }
 
-  /* Purely decorative motion is removed rather than sped up. */
-  .orbit-core-hud__scan,
-  .orbit-core-hud__spark-ring {
-    display: none !important;
-  }
-
   /* Never leave revealed content stuck at opacity 0. */
   .js .fade-in {
     opacity: 1 !important;
@@ -263,8 +275,7 @@ body:has(dialog[open]) {
 
 /* Flattened: no dot grid, no glow, no shimmer. Class names stay defined so
    unmigrated pages render without change to their markup. */
-.dot-grid,
-.canvas-grid {
+.dot-grid {
   background-color: var(--canvas);
 }
 
@@ -274,11 +285,6 @@ body:has(dialog[open]) {
 
 .theme-node-border {
   border-width: 1px;
-}
-
-.bento-grid {
-  display: grid;
-  gap: 12px;
 }
 
 .bento-card {
@@ -351,160 +357,3 @@ body:has(dialog[open]) {
   }
 }
 
-/* HeroOrbit (components/home/HeroOrbit.tsx) — removed with the orbit hero in
-   the home page rebuild. Copied unchanged from the previous stylesheet. */
-
-.orbit-icon-node {
-  backdrop-filter: blur(14px);
-  background: var(--node-surface);
-}
-
-.dark .orbit-icon-node {
-  background: color-mix(in srgb, var(--node-surface) 92%, transparent);
-}
-
-.orbit-core-hud {
-  --orbit-core-accent: var(--blue);
-  border-radius: 999px;
-  filter: drop-shadow(0 0 24px color-mix(in srgb, var(--orbit-core-accent) 44%, transparent));
-  pointer-events: none;
-}
-
-.orbit-core-hud[data-orbit-mode='projects'] {
-  --orbit-core-accent: var(--green);
-}
-
-.orbit-core-hud > span {
-  border-radius: inherit;
-  inset: 0;
-  position: absolute;
-}
-
-.orbit-core-hud__halo {
-  background:
-    radial-gradient(circle, color-mix(in srgb, var(--orbit-core-accent) 12%, transparent) 0 31%, transparent 49%),
-    radial-gradient(circle, transparent 0 40%, color-mix(in srgb, var(--orbit-core-accent) 16%, transparent) 41% 43%, transparent 46%),
-    radial-gradient(circle, color-mix(in srgb, var(--orbit-core-accent) 7%, transparent) 0 58%, transparent 74%);
-  opacity: 0.76;
-}
-
-.orbit-core-hud__outer {
-  animation: orbit-core-spin 12s linear infinite;
-  background:
-    conic-gradient(
-      from 0deg,
-      transparent 0deg 34deg,
-      color-mix(in srgb, var(--orbit-core-accent) 80%, transparent) 36deg 55deg,
-      transparent 58deg 118deg,
-      color-mix(in srgb, var(--orbit-core-accent) 50%, transparent) 121deg 135deg,
-      transparent 138deg 238deg,
-      color-mix(in srgb, var(--orbit-core-accent) 70%, transparent) 241deg 259deg,
-      transparent 262deg 360deg
-    );
-  mask: radial-gradient(circle, transparent 0 35%, #000 36% 41%, transparent 42%);
-  opacity: 0.88;
-}
-
-.orbit-core-hud__ticks {
-  animation: orbit-core-counter-spin 22s linear infinite;
-  background:
-    repeating-conic-gradient(
-      from 0deg,
-      color-mix(in srgb, var(--orbit-core-accent) 70%, transparent) 0deg 1.4deg,
-      transparent 1.4deg 7.5deg
-    );
-  mask: radial-gradient(circle, transparent 0 44%, #000 45% 49%, transparent 50%);
-  opacity: 0.74;
-}
-
-.orbit-core-hud__scan {
-  animation: orbit-core-spin 6s linear infinite;
-  background:
-    conic-gradient(
-      from 0deg,
-      transparent 0deg 300deg,
-      color-mix(in srgb, var(--orbit-core-accent) 12%, transparent) 306deg,
-      color-mix(in srgb, var(--orbit-core-accent) 95%, transparent) 325deg,
-      transparent 344deg 360deg
-    );
-  mask: radial-gradient(circle, transparent 0 31%, #000 32% 38%, transparent 39%);
-  opacity: 0.88;
-}
-
-.orbit-core-hud__pulse {
-  animation: orbit-core-pulse 3.2s ease-in-out infinite;
-  border: 1px solid color-mix(in srgb, var(--orbit-core-accent) 34%, transparent);
-  inset: 48px !important;
-  opacity: 0.65;
-}
-
-.orbit-core-hud__spark-ring {
-  animation: orbit-core-flicker 2.6s ease-in-out infinite;
-  background:
-    repeating-conic-gradient(
-      from 4deg,
-      color-mix(in srgb, var(--orbit-core-accent) 74%, transparent) 0deg 0.7deg,
-      transparent 0.7deg 14deg
-    );
-  mask: radial-gradient(circle, transparent 0 51%, #000 52% 54%, transparent 55%);
-  opacity: 0.5;
-}
-
-.orbit-anchor-points circle {
-  filter: drop-shadow(0 0 9px var(--blue));
-}
-
-.orbit-core-hud--still .orbit-core-hud__outer,
-.orbit-core-hud--still .orbit-core-hud__ticks,
-.orbit-core-hud--still .orbit-core-hud__scan,
-.orbit-core-hud--still .orbit-core-hud__pulse,
-.orbit-core-hud--still .orbit-core-hud__spark-ring {
-  animation: none;
-}
-
-.orbit-ring-rotate {
-  animation: orbit-ring-spin 60s linear infinite;
-  transform-box: view-box;
-}
-
-@keyframes orbit-ring-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes orbit-core-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes orbit-core-counter-spin {
-  to {
-    transform: rotate(-360deg);
-  }
-}
-
-@keyframes orbit-core-pulse {
-  0%,
-  100% {
-    opacity: 0.3;
-    transform: scale(0.96);
-  }
-
-  50% {
-    opacity: 0.68;
-    transform: scale(1.05);
-  }
-}
-
-@keyframes orbit-core-flicker {
-  0%,
-  100% {
-    opacity: 0.34;
-  }
-
-  50% {
-    opacity: 0.62;
-  }
-}
