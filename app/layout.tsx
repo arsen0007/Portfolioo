@@ -1,18 +1,24 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import { Instrument_Sans, JetBrains_Mono, Syne } from 'next/font/google';
+import { Instrument_Sans, JetBrains_Mono, Newsreader } from 'next/font/google';
 import '@/styles/globals.css';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
-import { PageTransition } from '@/components/layout/PageTransition';
 import { cn } from '@/lib/utils';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 
-const syne = Syne({
+// Display serif. A variable font with an optical-size axis, so headlines get
+// tighter forms at large sizes and sturdier ones when small.
+const newsreader = Newsreader({
   subsets: ['latin'],
-  weight: ['500', '600', '700', '800'],
+  style: ['normal', 'italic'],
+  axes: ['opsz'],
   variable: '--font-display',
   display: 'swap',
+  // Next cannot derive size-adjust metrics for this family; Georgia is a close
+  // match in width, so the swap is nearly invisible without them.
+  adjustFontFallback: false,
+  fallback: ['Georgia', 'Times New Roman', 'serif'],
 });
 
 const instrumentSans = Instrument_Sans({
@@ -31,9 +37,11 @@ const jetBrainsMono = JetBrains_Mono({
 
 export const viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: dark)', color: '#0a0a0f' },
-    { media: '(prefers-color-scheme: light)', color: '#f7f8fb' },
+    { media: '(prefers-color-scheme: dark)', color: '#0e0e0d' },
+    { media: '(prefers-color-scheme: light)', color: '#faf8f5' },
   ],
+  // Lets the page extend under notches; the header and menu pad for it.
+  viewportFit: 'cover',
 };
 
 export const metadata: Metadata = {
@@ -108,16 +116,20 @@ export default function RootLayout({
                 // never added and .fade-in content simply renders visible, so
                 // nothing below the fold can get stuck at opacity 0.
                 document.documentElement.classList.add('js');
+                // Theme: an explicit choice (stored by the toggle) wins;
+                // otherwise follow the device setting.
+                var systemDark = false;
+                try {
+                  systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                } catch (error) {}
+                var dark = systemDark;
                 try {
                   var saved = localStorage.getItem('theme');
-                  if (saved === 'light') {
-                    // explicit light choice — respect it
-                  } else {
-                    document.documentElement.classList.add('dark');
+                  if (saved === 'dark' || saved === 'light') {
+                    dark = saved === 'dark';
                   }
-                } catch (error) {
-                  document.documentElement.classList.add('dark');
-                }
+                } catch (error) {}
+                document.documentElement.classList.toggle('dark', dark);
               })();
             `,
           }}
@@ -125,7 +137,7 @@ export default function RootLayout({
       </head>
       <body
         className={cn(
-          syne.variable,
+          newsreader.variable,
           instrumentSans.variable,
           jetBrainsMono.variable,
           'bg-canvas font-body text-textPrimary antialiased',
@@ -164,9 +176,7 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <Header />
         </Suspense>
-        <div id="main-content">
-          <PageTransition>{children}</PageTransition>
-        </div>
+        <div id="main-content">{children}</div>
         <Footer />
         <GoogleAnalytics measurementId="G-JMYVGZQCKT" />
       </body>

@@ -1,17 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { cn } from '@/lib/utils';
+import { useEffect } from 'react';
 
 type ThemeMode = 'dark' | 'light';
 
-function getPreferredTheme(): ThemeMode {
-  if (typeof window === 'undefined') {
-    return 'dark';
+function readStoredTheme(): ThemeMode | null {
+  try {
+    const saved = window.localStorage.getItem('theme');
+    return saved === 'dark' || saved === 'light' ? saved : null;
+  } catch {
+    return null;
   }
-  // Matches the inline script in layout.tsx: dark by default unless
-  // the user has explicitly chosen light.
-  return window.localStorage.getItem('theme') === 'light' ? 'light' : 'dark';
 }
 
 function applyTheme(theme: ThemeMode): void {
@@ -22,7 +21,7 @@ function MoonIcon() {
   return (
     <svg
       aria-hidden="true"
-      className="h-4 w-4"
+      className="h-[18px] w-[18px]"
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"
@@ -39,7 +38,7 @@ function SunIcon() {
   return (
     <svg
       aria-hidden="true"
-      className="h-4 w-4"
+      className="h-[18px] w-[18px]"
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"
@@ -53,40 +52,47 @@ function SunIcon() {
   );
 }
 
+/**
+ * The theme is set before first paint by the inline script in app/layout.tsx:
+ * a stored choice wins, otherwise the device setting. This button only flips
+ * it, and the icon is chosen by CSS from the `dark` class, so there is no
+ * wrong-icon flash and no hydration mismatch.
+ */
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<ThemeMode>('dark');
-
+  // Follow the device setting live, but only until the visitor picks a theme.
   useEffect(() => {
-    const preferredTheme = getPreferredTheme();
-    setTheme(preferredTheme);
-    applyTheme(preferredTheme);
+    const query = window.matchMedia('(prefers-color-scheme: dark)');
+    const onChange = (event: MediaQueryListEvent) => {
+      if (readStoredTheme() === null) {
+        applyTheme(event.matches ? 'dark' : 'light');
+      }
+    };
+    query.addEventListener('change', onChange);
+    return () => query.removeEventListener('change', onChange);
   }, []);
 
   function toggleTheme(): void {
-    setTheme((current) => {
-      const nextTheme = current === 'dark' ? 'light' : 'dark';
-      window.localStorage.setItem('theme', nextTheme);
-      applyTheme(nextTheme);
-
-      return nextTheme;
-    });
+    const next: ThemeMode = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+    applyTheme(next);
+    try {
+      window.localStorage.setItem('theme', next);
+    } catch {
+      // Storage unavailable (private mode): the choice simply lasts this visit.
+    }
   }
-
-  const isDark = theme === 'dark';
 
   return (
     <button
-      aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
-      aria-pressed={isDark}
-      className="theme-toggle relative grid h-9 w-9 place-items-center rounded-full border outline-none transition-all duration-200 ease-in-out hover:text-textPrimary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+      aria-label="Switch between light and dark theme"
+      className="grid h-11 w-11 place-items-center rounded-control border border-surfaceBorder text-textSecondary transition-colors duration-200 hover:border-surfaceBorderStrong hover:text-textPrimary"
       onClick={toggleTheme}
-      suppressHydrationWarning
       type="button"
     >
-      <span
-        className={cn('grid h-full w-full place-items-center rounded-full text-textPrimary')}
-      >
-        {isDark ? <MoonIcon /> : <SunIcon />}
+      <span className="dark:hidden">
+        <MoonIcon />
+      </span>
+      <span className="hidden dark:block">
+        <SunIcon />
       </span>
     </button>
   );

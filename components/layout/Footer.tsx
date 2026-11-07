@@ -1,6 +1,5 @@
-'use client';
-
 import Link from 'next/link';
+import { Container } from '@/components/ui/Container';
 import { navigationItems } from '@/lib/constants/navigation';
 
 // Résumé link removed until public/resume.pdf is a real document (see forresume.md).
@@ -10,60 +9,58 @@ const socialLinks = [
   { href: 'https://github.com/arsen0007', label: 'GitHub' },
 ] as const;
 
+const linkClass =
+  'inline-flex min-h-11 items-center text-small text-textSecondary transition-colors duration-200 hover:text-textPrimary';
+
 export function Footer() {
   return (
-    <footer
-      className="relative border-t"
-      style={{
-        borderColor: 'var(--surface-border)',
-        background: 'color-mix(in srgb, var(--surface) 40%, transparent)',
-      }}
-    >
-      <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-10 md:flex-row md:items-center md:justify-between">
-        <div className="flex items-center gap-3">
-          <span aria-hidden="true" className="grid h-5 w-5 grid-cols-2 gap-[3px]">
-            {[0, 1, 2, 3].map((dot) => (
-              <span
-                className="h-[5px] w-[5px] rounded-full"
-                key={dot}
-                style={{ background: 'var(--blue)', boxShadow: '0 0 8px var(--blue)' }}
-              />
-            ))}
-          </span>
+    <footer className="border-t border-surfaceBorder">
+      <Container className="py-10">
+        <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
           <div>
-            <p className="font-display text-[14px] font-medium text-textPrimary">Tousif Ali</p>
-            <p className="font-body text-[12px] text-textMuted">
-              Building AI systems in production · Bengaluru, India
+            <p className="font-display text-xl font-medium tracking-tight text-textPrimary">
+              Tousif Ali
+            </p>
+            <p className="mt-1 max-w-xs text-small text-textMuted">
+              Building AI systems in production. Bengaluru, India.
             </p>
           </div>
+
+          <nav aria-label="Footer" className="flex flex-wrap gap-x-6">
+            {navigationItems.map((item) => (
+              <Link className={linkClass} href={item.href} key={item.href}>
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+
+          <ul className="flex flex-wrap gap-x-6">
+            {socialLinks.map((link) => {
+              const external = link.href.startsWith('http');
+
+              return (
+                <li key={link.label}>
+                  <a
+                    className={linkClass}
+                    href={link.href}
+                    rel={external ? 'noopener noreferrer' : undefined}
+                    target={external ? '_blank' : undefined}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
         </div>
 
-        <nav aria-label="Footer navigation" className="flex flex-wrap items-center gap-x-6 gap-y-2">
-          {navigationItems.map((item) => (
-            <Link
-              className="font-body text-[13px] text-textSecondary transition-colors duration-200 hover:text-textPrimary"
-              href={item.href}
-              key={item.href}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-5">
-          {socialLinks.map((link) => (
-            <a
-              className="font-mono text-[11px] uppercase tracking-[0.1em] text-textMuted transition-colors duration-200 hover:text-textPrimary"
-              href={link.href}
-              key={link.label}
-              rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-              target={link.href.startsWith('http') ? '_blank' : undefined}
-            >
-              {link.label}
-            </a>
-          ))}
+        <div className="mt-8 flex items-center justify-between border-t border-surfaceBorder pt-6 text-caption text-textMuted">
+          <p>© {new Date().getFullYear()} Tousif Ali</p>
+          <a className="inline-flex min-h-11 items-center hover:text-textPrimary" href="#main-content">
+            Back to top
+          </a>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

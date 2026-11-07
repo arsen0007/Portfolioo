@@ -16,7 +16,7 @@ export function Breadcrumb({ className, items }: BreadcrumbProps) {
     <nav
       aria-label="Breadcrumb"
       className={cn(
-        'mx-auto flex w-full max-w-6xl items-center gap-2 px-6 pt-20 font-mono text-[11px] font-normal',
+        'mx-auto flex w-full max-w-6xl items-center gap-2 px-5 pt-[calc(var(--header-h)+1rem)] text-caption font-normal sm:px-8',
         className,
       )}
     >
@@ -27,13 +27,13 @@ export function Breadcrumb({ className, items }: BreadcrumbProps) {
           <span className="inline-flex items-center gap-2" key={`${item.label}-${index}`}>
             {item.href && !isLast ? (
               <Link
-                className="text-textMuted transition-colors duration-200 hover:text-textSecondary"
+                className="inline-flex min-h-11 items-center text-textMuted transition-colors duration-200 hover:text-textPrimary"
                 href={item.href}
               >
                 {item.label}
               </Link>
             ) : (
-              <span className={isLast ? 'text-textSecondary' : 'text-textMuted'}>
+              <span aria-current={isLast ? 'page' : undefined} className={isLast ? 'text-textSecondary' : 'text-textMuted'}>
                 {item.label}
               </span>
             )}

@@ -1,50 +1,88 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import Link from 'next/link';
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
-export type ButtonVariant = 'primary' | 'ghost' | 'outline';
-export type ButtonSize = 'sm' | 'md' | 'lg';
+export type ButtonVariant = 'primary' | 'secondary' | 'link';
+export type ButtonSize = 'md' | 'lg';
 
-export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+const base =
+  'inline-flex items-center justify-center gap-2 rounded-control font-body font-medium transition-colors duration-200';
+
+const variantClasses: Record<ButtonVariant, string> = {
+  primary: 'bg-accent text-accentFg hover:opacity-90',
+  secondary:
+    'border border-surfaceBorderStrong bg-transparent text-textPrimary hover:border-textMuted',
+  link: 'text-accent underline decoration-1 underline-offset-4 hover:decoration-2',
+};
+
+// Every size meets the 44px minimum touch target.
+const sizeClasses: Record<ButtonSize, string> = {
+  md: 'min-h-11 px-5 text-small',
+  lg: 'min-h-12 px-6 text-base',
+};
+
+export function buttonClasses(
+  variant: ButtonVariant = 'primary',
+  size: ButtonSize = 'md',
+  className?: string,
+): string {
+  return cn(base, variantClasses[variant], variant === 'link' ? 'min-h-11' : sizeClasses[size], className);
+}
+
+type CommonProps = {
   children: ReactNode;
   variant?: ButtonVariant;
   size?: ButtonSize;
 };
 
-const variantClasses: Record<ButtonVariant, string> = {
-  primary:
-    'border border-blue bg-blue text-white hover:shadow-blue',
-  ghost:
-    'border border-transparent bg-transparent text-textSecondary hover:text-textPrimary',
-  outline:
-    'border border-surfaceBorder bg-transparent text-textPrimary hover:border-blue',
-};
-
-const sizeClasses: Record<ButtonSize, string> = {
-  sm: 'h-8 px-3 text-[13px]',
-  md: 'h-10 px-4 text-sm',
-  lg: 'h-12 px-5 text-base',
-};
+export type ButtonProps = CommonProps & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export function Button({
   children,
   className,
-  variant = 'primary',
   size = 'md',
   type = 'button',
+  variant = 'primary',
   ...props
 }: ButtonProps) {
   return (
-    <button
-      className={cn(
-        'inline-flex items-center justify-center rounded-lg font-body font-medium transition-all duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue',
-        variantClasses[variant],
-        sizeClasses[size],
-        className,
-      )}
-      type={type}
-      {...props}
-    >
+    <button className={buttonClasses(variant, size, className)} type={type} {...props}>
       {children}
     </button>
+  );
+}
+
+export type ButtonLinkProps = CommonProps &
+  Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & { href: string };
+
+/** A real link that looks like a button, so navigation stays an <a>. */
+export function ButtonLink({
+  children,
+  className,
+  href,
+  size = 'md',
+  variant = 'primary',
+  ...props
+}: ButtonLinkProps) {
+  const external = href.startsWith('http') || href.startsWith('mailto:');
+
+  if (external) {
+    return (
+      <a
+        className={buttonClasses(variant, size, className)}
+        href={href}
+        rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+        target={href.startsWith('http') ? '_blank' : undefined}
+        {...props}
+      >
+        {children}
+      </a>
+    );
+  }
+
+  return (
+    <Link className={buttonClasses(variant, size, className)} href={href} {...props}>
+      {children}
+    </Link>
   );
 }
