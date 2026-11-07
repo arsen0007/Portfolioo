@@ -98,7 +98,8 @@ export default function CertificationsPage() {
             does not.
           </p>
           <p className="mx-auto mt-5 font-mono text-[11px] uppercase tracking-[0.12em] text-textMuted">
-            CEO sponsored&nbsp;&middot;&nbsp;Product School&nbsp;&middot;&nbsp;{completedCount} completed&nbsp;&middot;&nbsp;{inProgressCount} in progress
+            CEO sponsored&nbsp;&middot;&nbsp;Product School&nbsp;&middot;&nbsp;{completedCount} completed
+            {inProgressCount > 0 && <>&nbsp;&middot;&nbsp;{inProgressCount} in progress</>}
           </p>
         </motion.div>
 

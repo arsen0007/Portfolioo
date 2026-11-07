@@ -6,6 +6,10 @@ import { colorMix, themeColors } from '@/lib/constants/colors';
 import type { AccentColor } from '@/lib/constants/colors';
 import { SkillLedger } from '@/components/skills/SkillLedger';
 import { niches } from '@/lib/data/skillTree';
+import { certs } from '@/lib/data/certifications';
+
+const completedCertCount = certs.filter((c) => c.status === 'completed').length;
+const inProgressCertCount = certs.filter((c) => c.status === 'in-progress').length;
 
 type PathChapter = {
   body: string;
@@ -649,10 +653,11 @@ export default function AboutPage() {
                 CREDENTIALS · PRODUCT SCHOOL
               </p>
               <h2 className="mt-3 font-display text-[26px] font-medium leading-tight text-textPrimary md:text-[30px]">
-                7 certifications earned.
+                {completedCertCount} certifications earned.
               </h2>
               <p className="mt-2 font-body text-[14px] leading-[1.7] text-textSecondary">
-                CEO sponsored. 3 more in progress.
+                CEO sponsored.
+                {inProgressCertCount > 0 && ` ${inProgressCertCount} more in progress.`}
               </p>
             </div>
             <Link

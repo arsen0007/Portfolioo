@@ -5,6 +5,7 @@ import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { OrbitNodeIcon, type OrbitIconName } from '@/components/orbit/OrbitNode';
 import type { AccentColor } from '@/lib/constants/colors';
 import { colorMix, themeColors } from '@/lib/constants/colors';
+import { certs } from '@/lib/data/certifications';
 
 type HeroOrbitItem = {
   accent: AccentColor;
@@ -22,7 +23,7 @@ type HeroOrbitItem = {
 function buildItems(projectCount: number): HeroOrbitItem[] {
   return [
   { accent: 'cyan', angle: 270, href: '/about', icon: 'about', label: 'About', sublabel: 'The path' },
-  { accent: 'amber', angle: 342, href: '/certifications', icon: 'cert', label: 'Certifications', sublabel: '7 earned' },
+  { accent: 'amber', angle: 342, href: '/certifications', icon: 'cert', label: 'Certifications', sublabel: `${certs.filter((c) => c.status === 'completed').length} earned` },
   { accent: 'green', angle: 54, href: '/projects', icon: 'projects', label: 'Projects', sublabel: `${projectCount} case studies` },
   { accent: 'purple', angle: 126, href: '/recognition', icon: 'recognition', label: 'Recognition', sublabel: 'The receipts' },
   { accent: 'blue', angle: 198, href: '/contact', icon: 'contact', label: 'Contact', sublabel: "Let's talk" },
