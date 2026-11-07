@@ -1,6 +1,7 @@
 import { arsensLab } from './arsens-lab';
 import { barhunter } from './barhunter';
 import { casewise } from './casewise';
+import { feedbackCascade } from './feedback-cascade';
 import { fhoneman } from './fhoneman';
 import { genie } from './genie';
 import { leMansT2 } from './le-mans-t2';
@@ -16,6 +17,7 @@ export const caseStudies: Record<string, CaseStudyContent> = {
   'arsens-lab': arsensLab,
   barhunter,
   'le-mans-t2': leMansT2,
+  'feedback-cascade': feedbackCascade,
   mailmerge,
   fhoneman,
 };

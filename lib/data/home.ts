@@ -13,6 +13,7 @@ export const heroCredentials = [
   'CEO-sponsored',
   'Featured by Workplace Options',
   'Global Hackathon Winner',
+  'Company innovation challenge winner',
 ] as const;
 
 export type BridgePillar = {

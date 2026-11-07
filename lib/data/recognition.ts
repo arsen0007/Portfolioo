@@ -25,6 +25,8 @@ export type CredentialRecognition = {
   href?: string;
   detail?: string;
   facts?: { value: string; label: string }[];
+  /** Evidence for the credential, shown beneath it. */
+  image?: { src: string; alt: string; width: number; height: number; caption?: string };
 };
 
 export type RecognitionData = {
@@ -89,6 +91,27 @@ export const recognition: RecognitionData = {
         { value: '24h', label: 'Concept to working system' },
         { value: '5', label: 'Team size' },
       ],
+    },
+    {
+      id: 'gdp-challenge',
+      title: 'GDP Innovation Challenge winner',
+      subtitle: 'Global Delivery Platform · first-ever challenge · September 2026',
+      href: '/projects/feedback-cascade',
+      detail:
+        "The company's first Global Delivery Platform Innovation Challenge drew five submissions. My team of four won with Feedback Cascade, a way to hear from the 95% of referred members who never give feedback. I originated the idea, led the team and wrote most of the proposal. It now moves forward with support from the Member Experience team. Implementation has not started yet.",
+      facts: [
+        { value: '1 of 5', label: 'Submissions, chosen as the winner' },
+        { value: '4', label: 'People on the team, which I led' },
+        { value: '95%', label: 'Of referred members never give feedback (the problem it targets)' },
+      ],
+      image: {
+        src: '/recognition-gdp-challenge.webp',
+        alt: "The winner announcement for the first GDP Innovation Challenge, naming Feedback Cascade as the winning submission. Three colleagues' names and the results paragraph are covered.",
+        width: 732,
+        height: 915,
+        caption:
+          "The winner announcement on the company's internal network. Three colleagues' names and the results paragraph are covered.",
+      },
     },
     {
       id: 'productschool',

@@ -47,6 +47,12 @@ export const projectCards: Record<string, ProjectCard> = {
     statusLabel: 'Global winner',
     statusTone: 'quiet',
   },
+  'feedback-cascade': {
+    role: 'Innovation challenge winner',
+    line: "Winner of the company's first Global Delivery Platform Innovation Challenge: a way to hear from the 95% of referred members who never give feedback.",
+    statusLabel: 'Winner · implementation next',
+    statusTone: 'quiet',
+  },
   mailmerge: {
     role: 'Outreach preparation',
     line: 'Bulk data cleanup that non-technical teammates can run before every campaign send. Unglamorous, and still in daily use.',
@@ -72,6 +78,7 @@ const displayOrder = [
   'arsens-lab',
   'barhunter',
   'le-mans-t2',
+  'feedback-cascade',
   'mailmerge',
   'fhoneman',
 ] as const;

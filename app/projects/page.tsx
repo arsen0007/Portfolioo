@@ -23,8 +23,8 @@ export default function ProjectsPage() {
     },
     {
       id: 'competition',
-      title: 'Competition',
-      note: 'A 24-hour build is a different kind of thing from a production system, so it is shown on its own.',
+      title: 'Competitions and challenges',
+      note: 'A winning entry in a time-boxed competition or challenge is a different kind of thing from a production system, so these are shown on their own.',
       items: ordered.filter(({ project }) => project.kind === 'competition'),
     },
     {

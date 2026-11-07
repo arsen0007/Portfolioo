@@ -563,4 +563,76 @@ export const projects: Project[] = [
         'Fhoneman gained a live online presence with a practical booking path. The project shows the same pattern at a smaller scale: turn an operational gap into a simple system people can actually use.',
     },
   },
+  {
+    id: 'feedback-cascade',
+    name: 'Feedback Cascade',
+    tagline:
+      "A team proposal that won the company's first Global Delivery Platform Innovation Challenge: a way to hear from the members who never give feedback.",
+    status: 'upcoming',
+    tier: 2,
+    kind: 'competition',
+    problem:
+      "Feedback Cascade was my entry in the first-ever Global Delivery Platform Innovation Challenge. It takes direct aim at one of the organisation's toughest problems: 95% of members who receive a clinical referral never give feedback.",
+    whatIBuilt:
+      'A proposal for a feedback workflow that treats silence as a signal. It reaches members on the channel they already use, stops asking the moment they reply, asks questions that fit what they experienced, and routes the people who stay silent to a care call. It is designed to run entirely on tools the company already has, with Fuel iX connecting the steps and giving leadership real-time visibility.',
+    architecture: [
+      'Channel-first outreach (email, WhatsApp, AI voice)',
+      'Stop-on-reply logic',
+      'Context-aware questioning',
+      'Signal-driven escalation to a care call',
+    ],
+    techStack: ['Email', 'WhatsApp', 'AI voice', 'UCMS data', 'Fuel iX'],
+    impact: [
+      { value: '1 of 5', label: 'Submissions: selected as the winner' },
+      { value: '95%', label: 'Of referred members never give feedback (the problem)' },
+      { value: '4', label: 'People on the team, which I led' },
+    ],
+    proof: [
+      'Selected as the winner of the first-ever GDP Innovation Challenge, from 5 submissions.',
+      'Chosen to move forward with support from the Member Experience team.',
+      'Designed to roll out quickly and at low cost on tools the company already has.',
+    ],
+    story: {
+      role: 'Team lead. I originated the idea, brought the team together and wrote most of the proposal.',
+      scope: 'Idea, proposal and presentation',
+      context:
+        'The challenge was the first of its kind at the company and drew five submissions. The team of four built the entry alongside full-time jobs.',
+      productMove:
+        'Stop treating silence as a missing answer and treat it as a signal: meet members on the channel they already use, end the outreach the moment they respond, and route the people who stay silent to a care call.',
+      decisions: [
+        {
+          title: 'Meet members where they already are',
+          body:
+            'Outreach starts on the channel a member is most likely to answer (email, WhatsApp or AI voice), which raises the likelihood of a response.',
+        },
+        {
+          title: 'Stop the moment they reply',
+          body:
+            'Outreach ends as soon as a member responds, which removes survey fatigue.',
+        },
+        {
+          title: 'Ask questions that fit the experience',
+          body:
+            'Members who report a poor experience are not asked to "recommend us", which preserves data integrity and brand trust.',
+        },
+        {
+          title: 'Turn silence into outreach',
+          body:
+            'Non-respondents are flagged automatically from existing UCMS data and routed to a care call, so silence becomes a prompt for proactive contact.',
+        },
+        {
+          title: 'Build on what already exists',
+          body:
+            'The whole workflow runs on tools the company already has, with Fuel iX tying the steps together, so it can roll out quickly and at low cost.',
+        },
+      ],
+      constraints: [
+        'It had to run on tools the company already has, so it could roll out quickly and cheaply.',
+        'Volume had to be able to grow without adding resources, so AI does the heavy lifting.',
+        'It was built by a team of four alongside their day jobs.',
+      ],
+      outcome:
+        'The team was named the winner, and the idea will move forward with support from the Member Experience team. Implementation has not started yet, so there are no results to report.',
+    },
+  },
 ];

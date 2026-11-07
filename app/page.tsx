@@ -56,7 +56,7 @@ function Hero() {
           <CaseWiseFigure />
         </div>
 
-        <ul className="mt-14 grid gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-14 grid gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-5">
           {heroCredentials.map((credential) => (
             <li
               className="border-t border-surfaceBorder pt-4 text-small text-textSecondary"

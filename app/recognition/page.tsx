@@ -23,7 +23,8 @@ export default function RecognitionPage() {
   const ceo = find('ceo');
   const ciso = find('ciso');
   const cto = find('cto');
-  const hackathon = credentialsTier.find((item) => item.id === 'hackathon');
+  // Every credential that has a story to tell (the Product School list has its own section).
+  const credentials = credentialsTier.filter((item) => item.detail);
 
   const completed = certs.filter((cert) => cert.status === 'completed').length;
 
@@ -135,25 +136,41 @@ export default function RecognitionPage() {
           </div>
         </Split>
 
-        {hackathon ? (
-          <Split eyebrow="Credential" intro={hackathon.subtitle} title={hackathon.title}>
-            {hackathon.detail ? (
-              <p className="max-w-prose text-lead text-textSecondary">{hackathon.detail}</p>
+        {credentials.map((credential) => (
+          <Split
+            eyebrow="Credential"
+            intro={credential.subtitle}
+            key={credential.id}
+            title={credential.title}
+          >
+            {credential.detail ? (
+              <p className="max-w-prose text-lead text-textSecondary">{credential.detail}</p>
             ) : null}
-            {hackathon.facts ? (
+            {credential.facts ? (
               <div className="mt-10 grid gap-8 border-t border-surfaceBorder pt-8 sm:grid-cols-3">
-                {hackathon.facts.map((fact) => (
+                {credential.facts.map((fact) => (
                   <Metric caption={fact.label} key={fact.label} value={fact.value} />
                 ))}
               </div>
             ) : null}
-            {hackathon.href ? (
-              <ButtonLink className="mt-8" href={hackathon.href} variant="link">
+            {credential.image ? (
+              <Figure
+                alt={credential.image.alt}
+                caption={credential.image.caption}
+                className="mt-10 max-w-xl"
+                height={credential.image.height}
+                sizes="(min-width: 1152px) 576px, 100vw"
+                src={credential.image.src}
+                width={credential.image.width}
+              />
+            ) : null}
+            {credential.href ? (
+              <ButtonLink className="mt-8" href={credential.href} variant="link">
                 Read the case study →
               </ButtonLink>
             ) : null}
           </Split>
-        ) : null}
+        ))}
 
         <Split
           eyebrow="Credentials · Product School"
