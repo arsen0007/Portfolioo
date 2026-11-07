@@ -42,39 +42,3 @@ export const bridgePillars: BridgePillar[] = [
     body: 'A prototype nobody uses is a hobby. I took CaseWise to the C-suite myself, earned a CEO-sponsored scholarship on the strength of it, and the CTO backed folding it into the core case management system — work that is still ongoing, alongside a senior architect and the AI team lead.',
   },
 ];
-
-export type ProofPoint = {
-  id: string;
-  label: string;
-  attribution: string;
-  quote: string;
-  /** The action taken, which matters more than the words. */
-  consequence: string;
-};
-
-export const proofPoints: ProofPoint[] = [
-  {
-    id: 'ceo',
-    label: 'CEO',
-    attribution: 'Alan King · Workplace Options',
-    quote:
-      'I think it is extraordinary — not just the work, but the dedication to trying to do something better and to make the organisation better.',
-    consequence: 'Sponsored a $5,000 Product School scholarship',
-  },
-  {
-    id: 'cto',
-    label: 'CTO',
-    attribution: 'Praveen Kodikkambrath · Workplace Options',
-    quote:
-      'Paired with Senior System Architect and AI Team Lead for production development.',
-    consequence: "Sponsored CaseWise's integration into the core case management system",
-  },
-  {
-    id: 'public',
-    label: 'Public record',
-    attribution: 'Workplace Options Blog · July 2025',
-    quote:
-      'Tousif saw an opportunity to streamline and optimize legal case intake. He leveraged his AI expertise and developed a custom tool that enhances note-taking and categorization.',
-    consequence: 'Featured as a company innovation story',
-  },
-];

@@ -1,17 +1,17 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-import { colorMix, themeColors } from '@/lib/constants/colors';
+import { Button } from '@/components/ui/Button';
 import { trackEvent } from '@/lib/analytics';
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 
 const EMAIL = 'tousifarsen@gmail.com';
 
-const fieldStyle = {
-  background: 'var(--surface-raised)',
-  borderColor: 'var(--surface-border-strong)',
-} as const;
+// 16px text stops iOS Safari zooming the page on focus; 48px keeps a comfortable target.
+const fieldClass =
+  'w-full rounded-control border border-surfaceBorderStrong bg-surface px-4 text-base text-textPrimary transition-colors duration-200 placeholder:text-textMuted';
+const labelClass = 'text-small font-medium text-textPrimary';
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>('idle');
@@ -53,98 +53,69 @@ export function ContactForm() {
 
   if (status === 'sent') {
     return (
-      <div
-        aria-live="polite"
-        className="rounded-[18px] border p-8 text-center"
-        style={{
-          borderColor: colorMix(themeColors.green, 32),
-          background: colorMix(themeColors.green, 8),
-        }}
-      >
-        <p className="font-display text-[20px] font-semibold text-textPrimary">
-          Message sent.
-        </p>
-        <p className="mx-auto mt-3 max-w-[380px] font-body text-[14px] leading-[1.7] text-textSecondary">
-          I read everything that comes through here. You should hear back within a day or
-          so.
+      <div aria-live="polite" className="rounded-media border border-success p-8" role="status">
+        <p className="font-display text-h3 text-textPrimary">Message sent.</p>
+        <p className="mt-3 max-w-md text-textSecondary">
+          I read everything that comes through here. You should hear back within a day or so.
         </p>
       </div>
     );
   }
 
   return (
-    <form className="grid gap-4 text-left" noValidate onSubmit={handleSubmit}>
-      {/* Honeypot — visually and programmatically hidden from real users. */}
+    <form className="grid gap-6" noValidate onSubmit={handleSubmit}>
+      {/* Honeypot: hidden from real users and from assistive technology. */}
       <div aria-hidden="true" className="hidden">
         <label htmlFor="company">Company</label>
         <input autoComplete="off" id="company" name="company" tabIndex={-1} type="text" />
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-6 sm:grid-cols-2">
         <div className="grid gap-2">
-          <label
-            className="font-body text-[13px] font-medium text-textSecondary"
-            htmlFor="name"
-          >
+          <label className={labelClass} htmlFor="name">
             Name
           </label>
           <input
             autoComplete="name"
-            className="rounded-[12px] border px-4 py-3 font-body text-[14px] text-textPrimary outline-none transition-colors duration-200"
+            className={`${fieldClass} min-h-12`}
             id="name"
             name="name"
             required
-            style={fieldStyle}
             type="text"
           />
         </div>
 
         <div className="grid gap-2">
-          <label
-            className="font-body text-[13px] font-medium text-textSecondary"
-            htmlFor="email"
-          >
+          <label className={labelClass} htmlFor="email">
             Email
           </label>
           <input
             autoComplete="email"
-            className="rounded-[12px] border px-4 py-3 font-body text-[14px] text-textPrimary outline-none transition-colors duration-200"
+            className={`${fieldClass} min-h-12`}
             id="email"
+            inputMode="email"
             name="email"
             required
-            style={fieldStyle}
             type="email"
           />
         </div>
       </div>
 
       <div className="grid gap-2">
-        <label
-          className="font-body text-[13px] font-medium text-textSecondary"
-          htmlFor="message"
-        >
+        <label className={labelClass} htmlFor="message">
           What does the work look like today?
         </label>
         <textarea
-          className="min-h-[140px] resize-y rounded-[12px] border px-4 py-3 font-body text-[14px] leading-[1.7] text-textPrimary outline-none transition-colors duration-200"
+          className={`${fieldClass} min-h-40 resize-y py-3 leading-relaxed`}
           id="message"
           name="message"
           placeholder="The manual process, roughly how much time it eats, and who does it today."
           required
-          style={fieldStyle}
         />
       </div>
 
       {status === 'error' && error ? (
-        <p
-          aria-live="assertive"
-          className="rounded-[12px] border px-4 py-3 font-body text-[13.5px] leading-[1.6]"
-          style={{
-            borderColor: colorMix(themeColors.amber, 34),
-            background: colorMix(themeColors.amber, 8),
-            color: themeColors.amber,
-          }}
-        >
+        <p className="rounded-control border border-danger px-4 py-3 text-small text-textPrimary" role="alert">
           {error}{' '}
           <a className="underline underline-offset-2" href={`mailto:${EMAIL}`}>
             {EMAIL}
@@ -152,29 +123,10 @@ export function ContactForm() {
         </p>
       ) : null}
 
-      <div className="mt-1 flex flex-wrap items-center gap-4">
-        <button
-          className="inline-flex items-center gap-2.5 rounded-full px-6 py-3.5 font-body text-[15px] font-semibold transition-transform duration-200 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
-          disabled={status === 'sending'}
-          style={{
-            background: themeColors.blue,
-            color: '#ffffff',
-            boxShadow: `0 10px 30px ${colorMix(themeColors.blue, 30)}`,
-          }}
-          type="submit"
-        >
+      <div>
+        <Button className="w-full sm:w-auto" disabled={status === 'sending'} size="lg" type="submit">
           {status === 'sending' ? 'Sending…' : 'Send message'}
-        </button>
-
-        <p className="font-body text-[13px] text-textMuted">
-          Or email{' '}
-          <a
-            className="text-textSecondary underline underline-offset-2 transition-colors duration-200 hover:text-textPrimary"
-            href={`mailto:${EMAIL}`}
-          >
-            {EMAIL}
-          </a>
-        </p>
+        </Button>
       </div>
     </form>
   );

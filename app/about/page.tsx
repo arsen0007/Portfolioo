@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { ButtonLink } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
@@ -6,6 +5,7 @@ import { Figure } from '@/components/ui/Figure';
 import { Metric } from '@/components/ui/Metric';
 import { Quote } from '@/components/ui/Quote';
 import { Eyebrow, Section } from '@/components/ui/Section';
+import { Split } from '@/components/ui/Split';
 import { SkillLedger } from '@/components/skills/SkillLedger';
 import { certs } from '@/lib/data/certifications';
 import { projects } from '@/lib/data/projects';
@@ -82,32 +82,6 @@ const howIWork = [
     body: "How something works is where most people finish. I keep going to why it was built that way, what the people who built it were trading off, and what I would do differently. It is slower. It is also the only reason I can make the call when the answer is not in a tutorial.",
   },
 ] as const;
-
-/** A two-column section: a label and heading on the left, content on the right. */
-function Split({
-  children,
-  eyebrow,
-  intro,
-  title,
-}: {
-  children: ReactNode;
-  eyebrow: string;
-  intro?: string;
-  title: string;
-}) {
-  return (
-    <Section ruled>
-      <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
-        <div className="lg:col-span-4">
-          <Eyebrow>{eyebrow}</Eyebrow>
-          <h2 className="mt-4 text-balance font-display text-h2 text-textPrimary">{title}</h2>
-          {intro ? <p className="mt-4 text-textSecondary">{intro}</p> : null}
-        </div>
-        <div className="lg:col-span-7 lg:col-start-6">{children}</div>
-      </div>
-    </Section>
-  );
-}
 
 export default function AboutPage() {
   const allSkills = niches.flatMap((niche) => niche.skills);
@@ -272,8 +246,8 @@ export default function AboutPage() {
               {inProgressCerts > 0 && ` ${inProgressCerts} more in progress.`}
             </p>
           </div>
-          <ButtonLink href="/certifications" size="lg" variant="secondary">
-            Explore certifications
+          <ButtonLink href="/recognition#certifications" size="lg" variant="secondary">
+            See the certifications
           </ButtonLink>
         </div>
       </Section>

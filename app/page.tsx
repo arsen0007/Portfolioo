@@ -6,10 +6,11 @@ import { Metric } from '@/components/ui/Metric';
 import { Quote } from '@/components/ui/Quote';
 import { Eyebrow, Section } from '@/components/ui/Section';
 import { ProjectRow } from '@/components/work/ProjectRow';
-import { bridgePillars, heroCredentials, proofPoints } from '@/lib/data/home';
+import { bridgePillars, heroCredentials } from '@/lib/data/home';
 import { getOrderedProjects } from '@/lib/data/projectCards';
+import { recognition } from '@/lib/data/recognition';
 
-const ceo = proofPoints.find((point) => point.id === 'ceo');
+const ceo = recognition.leadershipTier.find((person) => person.id === 'ceo');
 
 /* ─────────────────────────── Hero ─────────────────────────── */
 
@@ -176,7 +177,7 @@ function Proof() {
         </div>
 
         <div className="lg:col-span-7 lg:col-start-6">
-          <Quote attribution={`${ceo.label}, ${ceo.attribution}`} consequence={ceo.consequence}>
+          <Quote attribution={`${ceo.name}, ${ceo.role}`} consequence={ceo.highlight}>
             {ceo.quote}
           </Quote>
           <ButtonLink className="mt-8" href="/recognition" variant="link">

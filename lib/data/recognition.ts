@@ -61,7 +61,7 @@ export const recognition: RecognitionData = {
       role: 'Direct Manager, Workplace Options',
       highlight: 'Excellence · January 2026',
       quote: "Tousif's brain needs to be uploaded into the cloud and shared with everyone.",
-      kudoImage: '/recognition.png',
+      kudoImage: '/recognition.webp',
     },
     {
       id: 'ciso',

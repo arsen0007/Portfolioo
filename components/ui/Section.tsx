@@ -22,6 +22,8 @@ export function Section({ children, className, id, narrow, ruled }: SectionProps
       className={cn(
         'py-[clamp(3.5rem,9vw,7.5rem)]',
         ruled && 'border-t border-surfaceBorder',
+        // Anchored sections (e.g. #certifications) must not hide under the fixed header.
+        id && 'scroll-mt-[var(--header-h)]',
         className,
       )}
       id={id}

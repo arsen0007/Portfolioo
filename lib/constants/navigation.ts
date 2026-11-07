@@ -30,8 +30,7 @@ export type NavigationItem = {
 
 export const navigationItems: NavigationItem[] = [
   { href: '/about', label: 'About', section: 'about' },
-  { href: '/projects', label: 'Projects', section: 'projects' },
-  { href: '/certifications', label: 'Certifications', section: 'certifications' },
+  { href: '/projects', label: 'Work', section: 'projects' },
   { href: '/recognition', label: 'Recognition', section: 'recognition' },
   { href: '/contact', label: 'Contact', section: 'contact' },
 ];
