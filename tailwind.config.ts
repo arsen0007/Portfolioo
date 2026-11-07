@@ -10,7 +10,6 @@ const themeColors = {
   surfaceRaised: "var(--surface-raised)",
   surfaceBorder: "var(--surface-border)",
   surfaceBorderStrong: "var(--surface-border-strong)",
-  nodeSurface: "var(--node-surface)",
 
   accent: "var(--accent)",
   accentFg: "var(--accent-fg)",
@@ -23,27 +22,6 @@ const themeColors = {
   textPrimary: "var(--text-primary)",
   textSecondary: "var(--text-secondary)",
   textMuted: "var(--text-muted)",
-
-  // Compatibility layer: pages not yet migrated still use these names.
-  // Every hue resolves to the single accent. Removed with the last migration.
-  blue: "var(--blue)",
-  blueGlow: "var(--blue-glow)",
-  blueDim: "var(--blue-dim)",
-  green: "var(--green)",
-  greenGlow: "var(--green-glow)",
-  greenDim: "var(--green-dim)",
-  cyan: "var(--cyan)",
-  cyanGlow: "var(--cyan-glow)",
-  cyanDim: "var(--cyan-dim)",
-  amber: "var(--amber)",
-  amberGlow: "var(--amber-glow)",
-  amberDim: "var(--amber-dim)",
-  purple: "var(--purple)",
-  purpleGlow: "var(--purple-glow)",
-  purpleDim: "var(--purple-dim)",
-  gridLine: "var(--grid-line)",
-  connectionLine: "var(--connection-line)",
-  connectionActive: "var(--connection-active)",
 };
 
 const config: Config = {
@@ -63,9 +41,7 @@ const config: Config = {
         mono: ["var(--font-mono)", "JetBrains Mono", "ui-monospace", "monospace"],
       },
       /**
-       * Fluid type scale. Named (not text-2xl etc.) so it does not change the
-       * sizes of pages that have not been migrated yet. 12px is the floor;
-       * body copy is 16px.
+       * Fluid type scale. 12px is the floor; body copy is 16px.
        */
       fontSize: {
         caption: ["0.75rem", { lineHeight: "1.5" }],
@@ -79,29 +55,6 @@ const config: Config = {
       borderRadius: {
         control: "6px",
         media: "12px",
-        // Legacy names, kept until their last user is migrated.
-        node: "12px",
-        panel: "12px",
-        tag: "6px",
-      },
-      boxShadow: {
-        // No glows. Legacy keys stay defined as `none` so unmigrated pages
-        // that still ask for shadow-blue etc. simply render flat.
-        blue: "none",
-        green: "none",
-        cyan: "none",
-        amber: "none",
-        purple: "none",
-        panel: "none",
-      },
-      keyframes: {
-        "status-pulse": {
-          "0%, 100%": { opacity: "0.45", transform: "scale(0.9)" },
-          "50%": { opacity: "1", transform: "scale(1.15)" },
-        },
-      },
-      animation: {
-        "status-pulse": "status-pulse 1.8s ease-in-out infinite",
       },
     },
   },

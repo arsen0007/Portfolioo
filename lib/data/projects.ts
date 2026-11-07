@@ -1,5 +1,3 @@
-import type { AccentColor } from '@/lib/constants/colors';
-
 export type ProjectStatus = 'live' | 'active' | 'completed' | 'upcoming';
 
 export type ProjectImpactMetric = {
@@ -26,7 +24,6 @@ export type Project = {
   id: string;
   name: string;
   tagline: string;
-  color: AccentColor;
   status: ProjectStatus;
   tier: number;
   /**
@@ -50,7 +47,6 @@ export const projects: Project[] = [
     id: 'barhunter',
     name: 'BarHunter',
     tagline: 'A full-stack lead sourcing platform built for legal recruiters - attorney profiles scraped from state bar databases across the US and Canada, normalized, and searchable in one place.',
-    color: 'green',
     status: 'live',
     tier: 1,
     liveUrl: 'https://barhunter.vercel.app/',
@@ -133,7 +129,6 @@ export const projects: Project[] = [
     id: 'casewise',
     name: 'CaseWise',
     tagline: 'An AI pipeline that replaced manual legal case processing - built in-house, adopted at the company level.',
-    color: 'blue',
     status: 'live',
     tier: 1,
     confidential: true,
@@ -148,12 +143,14 @@ export const projects: Project[] = [
       'Human Review',
     ],
     techStack: [
-      'AI/LLM Workflows',
-      'Browser Automation',
-      'Next.js',
+      'Gemini API',
+      'AI agents',
+      'AI workflows',
+      'DOM scraping',
+      'Prompt engineering',
+      'Next.js 14',
       'TypeScript',
-      'Product Management',
-      'UCMS Integration',
+      'Tailwind CSS',
     ],
     impact: [
       { value: '96%', label: 'Time reduction' },
@@ -205,7 +202,6 @@ export const projects: Project[] = [
     name: "Arsen's Lab",
     tagline:
       'Self-hosted AI infrastructure on a Raspberry Pi — MCP servers, agents, workflows, and a control plane. Fourteen services I am responsible for keeping alive.',
-    color: 'cyan',
     status: 'active',
     tier: 1,
     problem:
@@ -291,7 +287,6 @@ export const projects: Project[] = [
     name: 'Genie',
     tagline:
       'A custom agent runtime built from scratch on a Raspberry Pi — dispatch pipeline, memory system, multi-LLM provider switching, and 19 voice-controlled skills. Built to understand how agents actually work at the implementation level.',
-    color: 'purple',
     status: 'active',
     tier: 1,
     liveUrl: 'https://github.com/arsen0007/Genie-Agent-Runtime',
@@ -373,7 +368,6 @@ export const projects: Project[] = [
     name: "Le Man's T2",
     tagline:
       'Real-time failure prediction for endurance racing. Built in 24 hours by a team of five; won the ClearRoute x Le Mans 24h Hackathon globally.',
-    color: 'amber',
     status: 'completed',
     tier: 2,
     kind: 'competition',
@@ -452,7 +446,6 @@ export const projects: Project[] = [
     id: 'mailmerge',
     name: 'Mail Merge Tool',
     tagline: 'Bulk data cleanup and outreach preparation',
-    color: 'cyan',
     status: 'live',
     tier: 2,
     problem:
@@ -513,7 +506,6 @@ export const projects: Project[] = [
     id: 'fhoneman',
     name: 'Fhoneman',
     tagline: 'Phone repair business website with booking workflow',
-    color: 'purple',
     status: 'live',
     tier: 3,
     liveUrl: 'https://fhoneman.in',

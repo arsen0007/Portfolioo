@@ -1,36 +1,11 @@
-import type { AccentColor } from './colors';
-
-export type SectionId =
-  | 'home'
-  | 'projects'
-  | 'about'
-  | 'recognition'
-  | 'contact'
-  | 'learning'
-  | 'certifications'
-  | 'skills';
-
-export const sectionColors = {
-  home: 'blue',
-  projects: 'green',
-  about: 'cyan',
-  recognition: 'amber',
-  contact: 'blue',
-  learning: 'purple',
-  certifications: 'amber',
-  skills: 'purple',
-} satisfies Record<SectionId, AccentColor>;
-
 export type NavigationItem = {
   href: string;
   label: string;
-  section: Exclude<SectionId, 'home' | 'learning'>;
 };
 
-
 export const navigationItems: NavigationItem[] = [
-  { href: '/about', label: 'About', section: 'about' },
-  { href: '/projects', label: 'Work', section: 'projects' },
-  { href: '/recognition', label: 'Recognition', section: 'recognition' },
-  { href: '/contact', label: 'Contact', section: 'contact' },
+  { href: '/about', label: 'About' },
+  { href: '/projects', label: 'Work' },
+  { href: '/recognition', label: 'Recognition' },
+  { href: '/contact', label: 'Contact' },
 ];

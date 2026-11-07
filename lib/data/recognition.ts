@@ -1,5 +1,3 @@
-import type { AccentColor } from '@/lib/constants/colors';
-
 export type TopTierRecognition = {
   id: string;
   title: string;
@@ -23,7 +21,6 @@ export type CredentialRecognition = {
   id: string;
   title: string;
   subtitle: string;
-  color: AccentColor;
   /** Where the full story lives, when there is one. */
   href?: string;
   detail?: string;
@@ -84,7 +81,6 @@ export const recognition: RecognitionData = {
       id: 'hackathon',
       title: 'Global Hackathon Winner',
       subtitle: "ClearRoute x Le Mans 24h Hackathon · project Le Man's T2",
-      color: 'amber',
       href: '/projects/le-mans-t2',
       detail:
         'A 24-hour build run simultaneously across ClearRoute offices in Sydney, Bulgaria, India, and London, in partnership with United Autosports. Our Bangalore team of five entered a real-time failure prediction system for endurance racing and took the global title. I originated the idea and engineered the architecture.',
@@ -98,7 +94,6 @@ export const recognition: RecognitionData = {
       id: 'productschool',
       title: 'Product School',
       subtitle: 'CEO-sponsored curriculum',
-      color: 'purple',
     },
   ],
 };

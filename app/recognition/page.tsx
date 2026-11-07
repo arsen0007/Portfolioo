@@ -141,11 +141,11 @@ export default function RecognitionPage() {
               <p className="max-w-prose text-lead text-textSecondary">{hackathon.detail}</p>
             ) : null}
             {hackathon.facts ? (
-              <dl className="mt-10 grid gap-8 border-t border-surfaceBorder pt-8 sm:grid-cols-3">
+              <div className="mt-10 grid gap-8 border-t border-surfaceBorder pt-8 sm:grid-cols-3">
                 {hackathon.facts.map((fact) => (
                   <Metric caption={fact.label} key={fact.label} value={fact.value} />
                 ))}
-              </dl>
+              </div>
             ) : null}
             {hackathon.href ? (
               <ButtonLink className="mt-8" href={hackathon.href} variant="link">

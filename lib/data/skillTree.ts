@@ -1,5 +1,3 @@
-import type { AccentColor } from '@/lib/constants/colors';
-
 export type SkillStatus = 'shipped' | 'applied';
 
 export type Skill = {
@@ -14,7 +12,6 @@ export type Skill = {
 export type Niche = {
   id: string;
   name: string;
-  color: AccentColor;
   skills: Skill[];
 };
 
@@ -22,7 +19,6 @@ export const niches: Niche[] = [
   {
     id: 'llm-engineering',
     name: 'LLM Engineering',
-    color: 'blue',
     skills: [
       {
         id: 'prompt-engineering',
@@ -74,7 +70,6 @@ export const niches: Niche[] = [
   {
     id: 'agentic-systems-automation',
     name: 'Agentic Systems & Automation',
-    color: 'purple',
     skills: [
       {
         id: 'system-architecture-design',
@@ -160,7 +155,6 @@ export const niches: Niche[] = [
   {
     id: 'voice-ai-telephony',
     name: 'Voice AI & Telephony',
-    color: 'cyan',
     skills: [
       {
         id: 'stt-integration',
@@ -206,7 +200,6 @@ export const niches: Niche[] = [
   {
     id: 'fullstack-product-engineering',
     name: 'Full-Stack Product Engineering',
-    color: 'green',
     skills: [
       {
         id: 'fullstack-web-app-dev',
@@ -277,7 +270,6 @@ export const niches: Niche[] = [
   {
     id: 'infrastructure-security-edge',
     name: 'Infrastructure, Security & Edge Systems',
-    color: 'amber',
     skills: [
       {
         id: 'linux-sysadmin',
@@ -356,7 +348,6 @@ export const niches: Niche[] = [
   {
     id: 'product-strategy-client-delivery',
     name: 'Product Strategy & Client Delivery',
-    color: 'blue',
     skills: [
       {
         id: 'problem-discovery-scoping',

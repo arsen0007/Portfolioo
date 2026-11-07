@@ -20,7 +20,6 @@
   --surface-raised: #f3f0ea;
   --surface-border: #e4dfd6;
   --surface-border-strong: #cfc8bb;
-  --node-surface: #ffffff;
 
   --text-primary: #16140f;
   --text-secondary: #4a463e;
@@ -45,38 +44,6 @@
   --scrollbar-track: transparent;
   --scrollbar-thumb: #cfc8bb;
 
-  /* ── Compatibility layer ─────────────────────────────────────────────────
-     Pages not yet migrated still ask for five hues and glows. Every hue now
-     resolves to the single accent, and every glow to nothing, so those pages
-     keep working (and go monochrome) until they are rebuilt. Each page
-     migration removes its own uses; the families are deleted at the end of
-     the redesign. */
-  --blue: var(--accent);
-  --green: var(--accent);
-  --cyan: var(--accent);
-  --amber: var(--accent);
-  --purple: var(--accent);
-
-  --blue-glow: transparent;
-  --green-glow: transparent;
-  --cyan-glow: transparent;
-  --amber-glow: transparent;
-  --purple-glow: transparent;
-
-  --blue-dim: color-mix(in srgb, var(--accent) 10%, var(--canvas));
-  --green-dim: var(--blue-dim);
-  --cyan-dim: var(--blue-dim);
-  --amber-dim: var(--blue-dim);
-  --purple-dim: var(--blue-dim);
-
-  --grid-line: transparent;
-  --connection-line: var(--surface-border-strong);
-  --connection-active: var(--accent);
-  --scrollbar-thumb-hover: var(--accent);
-  --panel-shadow-strong: none;
-  --center-blue-shadow: none;
-  --center-green-shadow: none;
-  --proof-strip-background: var(--canvas);
 }
 
 .dark {
@@ -87,7 +54,6 @@
   --surface-raised: #1d1d1b;
   --surface-border: #2a2926;
   --surface-border-strong: #3a3935;
-  --node-surface: #161615;
 
   --text-primary: #ece8e1;
   --text-secondary: #bdb8ae;
@@ -229,22 +195,6 @@ body:has(dialog[open]) {
   }
 }
 
-/* Reveal-on-scroll for pages not yet migrated (components/ui/FadeIn.tsx).
-   Scoped to .js so that without JavaScript every section renders visible
-   instead of being stranded at opacity 0. */
-.js .fade-in {
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
-}
-
-.js .fade-in--shown {
-  opacity: 1;
-  transform: none;
-}
-
 /* One global guard: no animation escapes it. */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -261,99 +211,4 @@ body:has(dialog[open]) {
     transition-duration: 0.01ms !important;
   }
 
-  /* Never leave revealed content stuck at opacity 0. */
-  .js .fade-in {
-    opacity: 1 !important;
-    transform: none !important;
-  }
 }
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   Legacy — pages not yet migrated.
-   Each block below is deleted together with the page that uses it.
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-/* Flattened: no dot grid, no glow, no shimmer. Class names stay defined so
-   unmigrated pages render without change to their markup. */
-.dot-grid {
-  background-color: var(--canvas);
-}
-
-.panel-shadow {
-  box-shadow: none;
-}
-
-.theme-node-border {
-  border-width: 1px;
-}
-
-.bento-card {
-  position: relative;
-  overflow: hidden;
-  border-radius: var(--radius-media);
-  border: 1px solid var(--surface-border);
-  background: var(--surface);
-  transition: border-color 0.2s ease;
-}
-
-.bento-card:hover {
-  border-color: var(--surface-border-strong);
-}
-
-.bento-shimmer,
-.scan-line {
-  display: none;
-}
-
-.stat-pulse,
-.available-pulse {
-  animation: none;
-}
-
-.tech-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: var(--radius-control);
-  border: 1px solid var(--surface-border-strong);
-  background: var(--surface);
-  font-family: var(--font-mono), 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  transition: border-color 0.2s, color 0.2s;
-}
-
-.tech-badge:hover {
-  border-color: var(--accent);
-  color: var(--text-primary);
-}
-
-.quote-hero-text {
-  font-family: var(--font-display), 'Newsreader', serif;
-  font-size: clamp(1.65rem, 3.8vw, 3.1rem);
-  font-weight: 500;
-  line-height: 1.2;
-  letter-spacing: -0.015em;
-}
-
-.about-stat-number {
-  font-family: var(--font-display), 'Newsreader', serif;
-  font-size: clamp(1.75rem, 4vw, 3rem);
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
-}
-
-.dark .kudo-image-wrapper {
-  filter: brightness(0.9) saturate(0.95);
-}
-
-@layer utilities {
-  .rounded-panel,
-  .rounded-node {
-    border-radius: var(--radius-media);
-  }
-}
-

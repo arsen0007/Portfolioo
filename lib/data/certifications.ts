@@ -1,5 +1,3 @@
-import type { AccentColor } from '@/lib/constants/colors';
-
 /**
  * Single source of truth for certifications.
  *
@@ -15,7 +13,6 @@ export type Cert = {
   subtitle?: string;
   level: 'Intermediate' | 'Advanced' | 'Expert';
   status: 'completed' | 'in-progress';
-  color: AccentColor;
   file: string | null;
   issuer: string;
   issued?: string;
@@ -36,7 +33,6 @@ export const certs: Cert[] = [
     subtitle: 'Certification™',
     level: 'Intermediate',
     status: 'completed',
-    color: 'green',
     file: '/certificates/product-manager.webp',
     issuer: 'Product School',
     appliedTo: { label: "Pitched CaseWise to the C-suite and ran its problem discovery", href: '/projects/casewise' },
@@ -48,7 +44,6 @@ export const certs: Cert[] = [
     title: 'AI Evals',
     level: 'Advanced',
     status: 'completed',
-    color: 'cyan',
     file: '/certificates/ai-evals.webp',
     issuer: 'Product School',
     appliedTo: { label: "Model selection across Genie's nine LLMs; formal eval work still in progress", href: '/projects/genie' },
@@ -60,7 +55,6 @@ export const certs: Cert[] = [
     title: 'AI Product Management',
     level: 'Intermediate',
     status: 'completed',
-    color: 'blue',
     file: '/certificates/ai-product-management.webp',
     issuer: 'Product School',
     appliedTo: { label: "Shaped the CaseWise pipeline and its human-in-the-loop review step", href: '/projects/casewise' },
@@ -72,7 +66,6 @@ export const certs: Cert[] = [
     title: 'Advanced AI Agents',
     level: 'Advanced',
     status: 'completed',
-    color: 'purple',
     file: '/certificates/advanced-ai-agents.webp',
     issuer: 'Product School',
     appliedTo: { label: "Genie — an agent runtime built from scratch, dispatch pipeline and all", href: '/projects/genie' },
@@ -84,7 +77,6 @@ export const certs: Cert[] = [
     title: 'Go-to-Market',
     level: 'Advanced',
     status: 'completed',
-    color: 'amber',
     file: '/certificates/go-to-market.webp',
     issuer: 'Product School',
     issued: 'July 23, 2026',
@@ -95,7 +87,6 @@ export const certs: Cert[] = [
     title: 'Vibe Coding',
     level: 'Advanced',
     status: 'completed',
-    color: 'blue',
     file: '/certificates/vibe-coding.webp',
     issuer: 'Product School',
     issued: 'July 2, 2026',
@@ -106,7 +97,6 @@ export const certs: Cert[] = [
     title: 'Product Experimentation',
     level: 'Advanced',
     status: 'completed',
-    color: 'cyan',
     file: '/certificates/product-experimentation.webp',
     issuer: 'Product School',
     issued: 'August 24, 2026',
@@ -117,7 +107,6 @@ export const certs: Cert[] = [
     title: 'AI Product Strategy for Leaders',
     level: 'Expert',
     status: 'completed',
-    color: 'green',
     file: '/certificates/ai-product-strategy.webp',
     issuer: 'Product School',
     issued: 'September 16, 2026',
@@ -128,7 +117,6 @@ export const certs: Cert[] = [
     title: 'Product Leadership',
     level: 'Expert',
     status: 'completed',
-    color: 'purple',
     file: '/certificates/product-leadership.webp',
     issuer: 'Product School',
     issued: 'September 30, 2026',
@@ -139,7 +127,6 @@ export const certs: Cert[] = [
     title: 'Claude Code',
     level: 'Advanced',
     status: 'completed',
-    color: 'green',
     file: '/certificates/claude-code.webp',
     issuer: 'Product School',
     appliedTo: { label: "Built Arsen's Lab and this site with it", href: '/projects/arsens-lab' },

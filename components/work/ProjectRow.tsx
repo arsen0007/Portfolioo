@@ -38,7 +38,6 @@ export function ProjectRow({ card, index, project, variant = 'compact' }: Projec
   return (
     <li className="border-t border-surfaceBorder last:border-b">
       <Link
-        aria-label={`${project.name}: read the case study`}
         className="group grid grid-cols-[2rem_1fr] gap-x-4 gap-y-3 py-7 sm:grid-cols-[3rem_1fr_auto] sm:gap-x-6 md:py-9"
         href={`/projects/${project.id}`}
       >
@@ -57,11 +56,11 @@ export function ProjectRow({ card, index, project, variant = 'compact' }: Projec
             <>
               <dl className="mt-6 flex flex-wrap gap-x-10 gap-y-4">
                 {metrics.map((metric) => (
-                  <div key={metric.label}>
+                  <div className="flex flex-col-reverse" key={metric.label}>
+                    <dt className="mt-1 text-small text-textMuted">{metric.label}</dt>
                     <dd className="font-display text-xl font-medium tabular-nums text-textPrimary">
                       {metric.value}
                     </dd>
-                    <dt className="mt-1 text-small text-textMuted">{metric.label}</dt>
                   </div>
                 ))}
               </dl>

@@ -14,9 +14,11 @@ const newsreader = Newsreader({
   style: ['normal', 'italic'],
   axes: ['opsz'],
   variable: '--font-display',
-  display: 'swap',
-  // Next cannot derive size-adjust metrics for this family; Georgia is a close
-  // match in width, so the swap is nearly invisible without them.
+  // `optional`: use the web font only if it is ready almost immediately,
+  // otherwise keep the serif fallback for this page view. That removes the
+  // font-swap layout shift. Next cannot derive size-adjust metrics for this
+  // family, so a late swap would move the content below every headline.
+  display: 'optional',
   adjustFontFallback: false,
   fallback: ['Georgia', 'Times New Roman', 'serif'],
 });
@@ -72,20 +74,11 @@ export const metadata: Metadata = {
     title: 'Tousif Ali — AI systems that replace manual work',
     description:
       'Building systems that create measurable impact. 94,363 leads sourced. 433 hours/month saved. Global Hackathon Winner.',
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Tousif Ali — AI systems that replace manual work',
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Tousif Ali — AI systems that replace manual work',
     description: 'I build AI systems that replace manual work. 94,363 leads sourced. 433h saved monthly.',
-    images: ['/og-image.png'],
   },
   robots: {
     index: true,
@@ -112,10 +105,6 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
-                // Arms the reveal-on-scroll animations. Without JS the class is
-                // never added and .fade-in content simply renders visible, so
-                // nothing below the fold can get stuck at opacity 0.
-                document.documentElement.classList.add('js');
                 // Theme: an explicit choice (stored by the toggle) wins;
                 // otherwise follow the device setting.
                 var systemDark = false;

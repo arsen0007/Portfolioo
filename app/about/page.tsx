@@ -151,13 +151,13 @@ export default function AboutPage() {
               ))}
             </div>
 
-            <dl className="mt-12 grid gap-8 border-t border-surfaceBorder pt-8 sm:grid-cols-3">
+            <div className="mt-12 grid gap-8 border-t border-surfaceBorder pt-8 sm:grid-cols-3">
               <Metric caption="in operations, and still in the seat" value="8+ years" />
               <Metric caption="systems built, not counting the 24-hour competition" value={String(systemsBuilt)} />
               {/* Deliberately not "in production": Genie and Arsen's Lab are
                   infrastructure I depend on, not products with users. */}
               <Metric caption="of them used by other people" value="4" />
-            </dl>
+            </div>
           </div>
         </div>
       </Container>

@@ -1,4 +1,6 @@
-import Link from 'next/link';
+import { ButtonLink } from '@/components/ui/Button';
+import { Container } from '@/components/ui/Container';
+import { Eyebrow } from '@/components/ui/Section';
 
 export const metadata = {
   title: 'Page not found',
@@ -6,48 +8,24 @@ export const metadata = {
 
 export default function NotFound() {
   return (
-    <main className="dot-grid relative flex min-h-screen items-center justify-center overflow-hidden px-6">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            'radial-gradient(ellipse 60% 40% at 50% 42%, color-mix(in srgb, var(--blue) 14%, transparent), transparent)',
-        }}
-      />
-
-      <div className="relative text-center">
-        <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-textMuted">
-          Signal lost · 404
-        </p>
-        <h1 className="mt-5 font-display text-[44px] font-semibold leading-[1.05] tracking-tight text-textPrimary md:text-[64px]">
-          This node doesn&apos;t exist.
+    <main className="flex min-h-dvh items-center pb-16 pt-[calc(var(--header-h)+2rem)]">
+      <Container>
+        <Eyebrow>404</Eyebrow>
+        <h1 className="mt-4 max-w-3xl text-balance font-display text-h1 text-textPrimary">
+          This page doesn&apos;t exist.
         </h1>
-        <p className="mx-auto mt-5 max-w-[420px] font-body text-[15px] leading-[1.8] text-textSecondary">
-          The page you&apos;re looking for was moved, renamed, or never wired into the system.
+        <p className="mt-6 max-w-xl text-lead text-textSecondary">
+          It was moved, renamed, or never existed. The work is easy to find from here.
         </p>
-
-        <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-          <Link
-            className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] transition-colors duration-200"
-            href="/"
-            style={{
-              borderColor: 'color-mix(in srgb, var(--blue) 32%, transparent)',
-              background: 'color-mix(in srgb, var(--blue) 10%, transparent)',
-              color: 'var(--blue)',
-            }}
-          >
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <ButtonLink href="/" size="lg">
             Back to the homepage
-          </Link>
-          <Link
-            className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] text-textSecondary transition-colors duration-200 hover:text-textPrimary"
-            href="/projects"
-            style={{ borderColor: 'var(--surface-border)' }}
-          >
-            View projects
-          </Link>
+          </ButtonLink>
+          <ButtonLink href="/projects" size="lg" variant="secondary">
+            See the work
+          </ButtonLink>
         </div>
-      </div>
+      </Container>
     </main>
   );
 }
