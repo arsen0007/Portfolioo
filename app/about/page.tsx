@@ -284,7 +284,7 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="lg:col-span-4 lg:col-start-9 lg:justify-self-end">
-            <ButtonLink href="/recognition#certifications" size="lg" variant="secondary">
+            <ButtonLink href="/certifications" size="lg" variant="secondary">
               See the certifications
             </ButtonLink>
           </div>

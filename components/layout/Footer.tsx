@@ -1,3 +1,4 @@
+import { FooterCta } from '@/components/layout/FooterCta';
 import { LocalTime } from '@/components/layout/LocalTime';
 import { Magnetic } from '@/components/motion/Magnetic';
 import { TransitionLink } from '@/components/motion/TransitionLink';
@@ -18,6 +19,19 @@ export function Footer() {
       <div className="mx-auto w-full max-w-page px-[var(--gutter)] pt-[clamp(4rem,10vw,8rem)]">
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-7">
+            <FooterCta
+              fallback={
+                <div>
+                  <p className="flex items-center gap-2.5 text-xl font-semibold tracking-[-0.03em] text-textPrimary">
+                    <span aria-hidden="true" className="live-dot" /> Tousif Ali
+                  </p>
+                  <p className="mt-3 max-w-sm text-textSecondary">
+                    AI systems that replace manual work, built from the seat where the work happens.{' '}
+                    <span className="font-serif italic text-textPrimary">Bengaluru.</span>
+                  </p>
+                </div>
+              }
+            >
             <p className="label flex items-center gap-2 text-textMuted">
               <span aria-hidden="true" className="live-dot" /> Available for the right problem · 2026
             </p>
@@ -43,6 +57,7 @@ export function Footer() {
                 </TransitionLink>
               </Magnetic>
             </div>
+            </FooterCta>
           </div>
 
           <div className="grid grid-cols-2 gap-8 lg:col-span-4 lg:col-start-9">

@@ -33,7 +33,8 @@ export function buildWorkItems(): WorkItem[] {
     statusLabel: card.statusLabel,
     live: card.statusTone === 'live',
     kind: project.kind === 'competition' ? 'competition' : 'system',
-    metric: project.impact[0] ?? { value: '', label: '' },
+    // Skip a headline metric that only repeats the status label ("Live").
+    metric: project.impact.find((m) => !/^(live|v\d+)$/i.test(m.value)) ?? project.impact[0] ?? { value: '', label: '' },
     stack: project.techStack.slice(0, 4),
     image: screenshots[project.id],
   }));

@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import { SceneIntentOnMount } from '@/components/canvas/SceneTrigger';
 import { Reveal } from '@/components/motion/Reveal';
-import { CertificateGallery } from '@/components/recognition/CertificateGallery';
 import { LeaderQuote } from '@/components/recognition/LeaderQuote';
 import { Plaque } from '@/components/recognition/Plaque';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
@@ -35,6 +34,7 @@ export default function RecognitionPage() {
     .filter((item) => item.detail)
     .sort((a, b) => plaqueOrder.indexOf(a.id) - plaqueOrder.indexOf(b.id));
 
+  const teaser = certs.filter((cert) => cert.file).slice(0, 4);
   const completed = certs.filter((cert) => cert.status === 'completed').length;
 
   return (
@@ -193,25 +193,32 @@ export default function RecognitionPage() {
         </Container>
       </section>
 
-      {/* 05 · Certificates, as a draggable strip */}
+      {/* 05 · Certificates: a teaser; the full record lives at /certifications */}
       <section className="scroll-mt-[var(--header-h)] border-t border-surfaceBorder" id="certifications">
-        <Container className="pt-[clamp(4.5rem,10vw,9rem)]">
-          <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
-            <div className="lg:col-span-8">
+        <Container className={sectionPad}>
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
+            <div className="lg:col-span-6">
               <Eyebrow index="05">Credentials · Product School</Eyebrow>
               <Reveal as="h2" className="mt-5 text-balance font-display text-h1 font-medium text-textPrimary">
                 <span className="tabular-nums">{completed}</span>{' '}
                 <em className="font-serif font-normal italic tracking-[-0.02em]">certifications</em> earned.
               </Reveal>
+              <p className="mt-6 max-w-md text-textSecondary">
+                A CEO-sponsored curriculum, each certificate matched to the shipped work it fed into.
+              </p>
+              <ButtonLink className="mt-8" href="/certifications" variant="secondary">
+                Open the learning record
+              </ButtonLink>
             </div>
-            <p className="text-textSecondary lg:col-span-3 lg:col-start-10">
-              A CEO-sponsored curriculum. Each certificate links to the issuer&apos;s own verification page.
-            </p>
+            <ul aria-hidden="true" className="grid grid-cols-4 gap-3 lg:col-span-5 lg:col-start-8">
+              {teaser.map((cert) => (
+                <li className="relative aspect-[1.42/1] overflow-hidden border border-surfaceBorder bg-surface" key={cert.id}>
+                  <Image alt="" className="object-cover" fill sizes="(min-width: 1024px) 140px, 22vw" src={cert.file!} />
+                </li>
+              ))}
+            </ul>
           </div>
         </Container>
-        <div className="mt-[clamp(2.5rem,5vw,4rem)]">
-          <CertificateGallery />
-        </div>
       </section>
     </main>
   );

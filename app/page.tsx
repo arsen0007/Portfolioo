@@ -28,7 +28,9 @@ const SECTION = 'relative py-[clamp(5rem,12vw,11rem)]';
 function Hero() {
   return (
     <SceneTrigger as="section" className="relative" layout="full" shape="noise" signal={0.06} turbulence={0.8}>
-      <div className="flex min-h-[100svh] flex-col pt-[calc(var(--header-h)+1.5rem)]">
+      {/* Full-height from sm up; on phones the hero hugs its content so the
+          headline is not stranded below an empty screen. */}
+      <div className="flex flex-col pt-[calc(var(--header-h)+1.5rem)] sm:min-h-[100svh]">
         <Container className="flex flex-1 flex-col">
           <HeroReveal as="div" mode="fade">
             <div className="label flex flex-wrap items-center gap-x-6 gap-y-2 text-textMuted">
@@ -42,7 +44,7 @@ function Hero() {
             </div>
           </HeroReveal>
 
-          <div className="flex flex-1 flex-col justify-end pb-10 pt-12 lg:pb-14">
+          <div className="flex flex-1 flex-col justify-end pb-12 pt-20 sm:pb-10 sm:pt-12 lg:pb-14">
             <h1 className="sr-only">I build AI systems for work I used to do by hand.</h1>
             <HeroReveal
               as="p"
@@ -60,13 +62,13 @@ function Hero() {
                   Years inside clinical, legal and sales operations taught me where the hours actually go.
                   Then I learned to build. Now I ship AI into the tools those teams already use.
                 </HeroReveal>
-                <HeroReveal as="div" className="mt-7 flex flex-col gap-3 sm:flex-row" delay={0.4} mode="fade">
-                  <Magnetic>
-                    <ButtonLink href="/projects" size="lg">
+                <HeroReveal as="div" className="mt-7 grid grid-cols-2 gap-3 sm:flex sm:flex-row" delay={0.4} mode="fade">
+                  <Magnetic className="block sm:inline-block">
+                    <ButtonLink className="w-full" href="/projects" size="lg">
                       See the work
                     </ButtonLink>
                   </Magnetic>
-                  <ButtonLink href="/contact" size="lg" variant="secondary">
+                  <ButtonLink className="w-full sm:w-auto" href="/contact" size="lg" variant="secondary">
                     Contact
                   </ButtonLink>
                 </HeroReveal>
