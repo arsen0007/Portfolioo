@@ -25,7 +25,7 @@ export function Counter({ className, duration = dur.xl, value }: CounterProps) {
       const el = ref.current;
       if (!el || !match) return;
       if (!motionAllowed()) {
-        gsap.set(el, { visibility: 'visible' });
+        gsap.set(el, { opacity: 1, visibility: 'visible' });
         return;
       }
       const [, prefix, num, suffix] = match;
@@ -38,7 +38,7 @@ export function Counter({ className, duration = dur.xl, value }: CounterProps) {
         return useCommas ? Number(fixed).toLocaleString('en-US') : fixed;
       };
 
-      gsap.set(el, { visibility: 'visible' });
+      gsap.set(el, { opacity: 1, visibility: 'visible' });
       el.textContent = `${prefix}${format(0)}${suffix}`;
       gsap.to(state, {
         n: target,

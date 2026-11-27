@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { caseStudySlugs } from '@/lib/loader-routes';
+import { trackEvent } from '@/lib/analytics';
 import { INTRO_KEY, loaderWillRun, signalLoaderExit } from '@/lib/loader';
 import { navigationItems } from '@/lib/constants/navigation';
 import { useScene } from '@/lib/store/scene';
@@ -104,8 +105,13 @@ export function Loader() {
     const prevOverflow = html.style.overflow;
     html.style.overflow = 'hidden';
 
-    const setLine = (key: string, value: string) =>
+    // Only re-render when a line actually changes (the store updates often).
+    const lineValues: Record<string, string> = {};
+    const setLine = (key: string, value: string) => {
+      if (lineValues[key] === value) return;
+      lineValues[key] = value;
       setLines((ls) => ls.map((l) => (l.key === key ? { ...l, value } : l)));
+    };
 
     /* ---------------- real work ---------------- */
     const t0 = performance.now();
@@ -286,6 +292,17 @@ export function Loader() {
     const finish = () => {
       if (finished) return;
       finished = true;
+      const st = useScene.getState();
+      let sortedCount = 0;
+      for (let i = 0; i < N; i++) sortedCount += sorted[i];
+      trackEvent('intro_complete', {
+        tier: st.tier,
+        fps: st.fps ?? -1,
+        skipped: fast,
+        duration_ms: Math.round(performance.now() - t0),
+        sorted: Math.round((sortedCount / N) * 100),
+        touch: window.matchMedia('(pointer: coarse)').matches,
+      });
       cancelAnimationFrame(raf);
       html.classList.remove('ta-intro');
       html.style.overflow = prevOverflow;

@@ -1,5 +1,6 @@
 'use client';
 
+import { trackEvent } from '@/lib/analytics';
 import { useState } from 'react';
 import { Magnetic } from '@/components/motion/Magnetic';
 import { Scramble } from '@/components/motion/Scramble';
@@ -17,6 +18,7 @@ export function CopyEmail({ email }: { email: string }) {
   async function copy() {
     try {
       await navigator.clipboard.writeText(email);
+      trackEvent('email_copy', { location: 'contact' });
       setState('copied');
     } catch {
       setState('failed');

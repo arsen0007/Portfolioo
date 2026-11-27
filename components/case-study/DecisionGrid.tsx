@@ -56,7 +56,7 @@ export function DecisionGrid({ decisions }: { decisions: ProjectDecision[] }) {
             <span className="font-display text-h1 font-medium tabular-nums leading-none tracking-[-0.05em] text-textMuted transition-colors duration-500 group-hover/card:text-accent">
               {String(i + 1).padStart(2, '0')}
             </span>
-            <h4 className="mt-8 font-display text-h3 font-medium text-textPrimary">{decision.title}</h4>
+            <h3 className="mt-8 font-display text-h3 font-medium text-textPrimary">{decision.title}</h3>
             <p className="mt-4 max-w-prose text-textSecondary">{decision.body}</p>
           </div>
         </li>

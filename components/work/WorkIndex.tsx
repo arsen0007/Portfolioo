@@ -174,12 +174,15 @@ export function WorkIndex({ items }: { items: WorkItem[] }) {
               <button
                 aria-pressed={filter === f.id}
                 className="label inline-flex min-h-11 items-center gap-2 rounded-full border border-surfaceBorderStrong px-4 text-textSecondary transition-colors duration-300 hover:border-textPrimary hover:text-textPrimary aria-pressed:border-textPrimary aria-pressed:bg-textPrimary aria-pressed:text-canvas"
+                data-track="filter_use"
+                data-track-filter={f.id}
+                data-track-page="work"
                 key={f.id}
                 onClick={() => changeFilter(f.id)}
                 type="button"
               >
                 {f.label}
-                <span className="tabular-nums opacity-60">{pad(count)}</span>
+                <span className="tabular-nums opacity-80">{pad(count)}</span>
               </button>
             );
           })}
@@ -190,6 +193,9 @@ export function WorkIndex({ items }: { items: WorkItem[] }) {
             <button
               aria-pressed={view === v}
               className="label inline-flex min-h-11 items-center gap-2 rounded-full border border-transparent px-4 text-textMuted transition-colors duration-300 hover:text-textPrimary aria-pressed:border-surfaceBorderStrong aria-pressed:text-textPrimary"
+              data-track="filter_use"
+              data-track-filter={`view:${v}`}
+              data-track-page="work"
               key={v}
               onClick={() => changeView(v)}
               type="button"

@@ -43,6 +43,12 @@ export function SmoothScroll() {
   // positions are why a reveal could fire late or not at all.
   useEffect(() => {
     window.__lenis?.scrollTo(0, { immediate: true });
+    // First load: ScrollTrigger already refreshes on window load. Extra
+    // refreshes there re-measure a long page several times on a slow phone
+    // (each one forces layout of every trigger), so only route changes and
+    // late-loading images schedule one here.
+    const initial = !mountedOnce;
+    mountedOnce = true;
     let alive = true;
     let queued = 0;
     // Debounced: a refresh measures every trigger, so batch the bursts.
@@ -50,10 +56,10 @@ export function SmoothScroll() {
       window.clearTimeout(queued);
       queued = window.setTimeout(() => {
         if (alive) ScrollTrigger.refresh();
-      }, 120);
+      }, 200);
     };
-    const ids = [0, 900].map((d) => window.setTimeout(refresh, d));
-    document.fonts?.ready.then(refresh);
+    const ids = initial ? [] : [window.setTimeout(refresh, 0)];
+    if (!initial && document.fonts?.status !== 'loaded') document.fonts?.ready.then(refresh);
     const imgs = Array.from(document.querySelectorAll<HTMLImageElement>('#main-content img'));
     const onImg = () => refresh();
     imgs.forEach((img) => {
@@ -69,6 +75,8 @@ export function SmoothScroll() {
 
   return null;
 }
+
+let mountedOnce = false;
 
 declare global {
   interface Window {

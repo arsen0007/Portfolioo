@@ -103,8 +103,12 @@ export default function ContactPage() {
           <dl className="mt-10 grid border-l border-t border-surfaceBorderStrong md:grid-cols-3">
             {whatYouGetBack.map((item, index) => (
               <div className="border-b border-r border-surfaceBorderStrong p-6 sm:p-8" key={item.label}>
-                <p className="label text-accent">{String(index + 1).padStart(2, '0')}</p>
-                <dt className="mt-6 font-display text-h3 font-medium text-textPrimary">{item.label}</dt>
+                <dt className="font-display text-h3 font-medium text-textPrimary">
+                  <span aria-hidden="true" className="label mb-6 block text-accent">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  {item.label}
+                </dt>
                 <dd className="mt-3 max-w-[34ch] text-textSecondary">{item.value}</dd>
               </div>
             ))}

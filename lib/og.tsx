@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og';
+import { SITE_HOST } from '@/lib/site';
 
 export const ogSize = { width: 1200, height: 630 };
 export const ogContentType = 'image/png';
@@ -190,7 +191,7 @@ export async function renderOgCard({ accent, eyebrow, subtitle, title }: OgCardP
                 textTransform: 'uppercase',
               }}
             >
-              tousifali.com
+              {SITE_HOST}
             </div>
           </div>
         </div>

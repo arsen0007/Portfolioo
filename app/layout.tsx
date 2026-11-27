@@ -5,10 +5,13 @@ import '@/styles/globals.css';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { cn } from '@/lib/utils';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { ClickTracker } from '@/components/analytics/ClickTracker';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import { SceneRoot } from '@/components/canvas/SceneRoot';
 import { Loader } from '@/components/loader/Loader';
 import { INTRO_DECISION_SCRIPT } from '@/lib/loader';
+import { SITE_URL } from '@/lib/site';
 import { Cursor } from '@/components/motion/Cursor';
 import { SmoothScroll } from '@/components/motion/SmoothScroll';
 import { TransitionResolver } from '@/components/motion/TransitionLink';
@@ -51,7 +54,7 @@ export const viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://tousifali.com'),
+  metadataBase: new URL(SITE_URL),
   alternates: { canonical: './' },
   title: {
     default: 'Tousif Ali — AI systems that replace manual work',
@@ -73,7 +76,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://tousifali.com',
+    url: SITE_URL,
     siteName: 'Tousif Ali Portfolio',
     title: 'Tousif Ali — AI systems that replace manual work',
     description:
@@ -143,7 +146,7 @@ export default function RootLayout({
               '@context': 'https://schema.org',
               '@type': 'Person',
               name: 'Tousif Ali',
-              url: 'https://tousifali.com',
+              url: SITE_URL,
               email: 'mailto:tousifarsen@gmail.com',
               address: {
                 '@type': 'PostalAddress',
@@ -181,6 +184,8 @@ export default function RootLayout({
         <SmoothScroll />
         <TransitionResolver />
         <GoogleAnalytics measurementId="G-JMYVGZQCKT" />
+        <ClickTracker />
+        <SpeedInsights />
       </body>
     </html>
   );

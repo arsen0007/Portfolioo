@@ -44,7 +44,7 @@ export function Reveal({
       const el = ref.current;
       if (!el) return;
       if (!motionAllowed()) {
-        gsap.set(el, { visibility: 'visible' });
+        gsap.set(el, { opacity: 1, visibility: 'visible' });
         return;
       }
 
@@ -52,16 +52,25 @@ export function Reveal({
       let tween: gsap.core.Tween | undefined;
       let done = false;
 
-      const play = () => {
+      /**
+       * Split now, animate when `gate` resolves (or at once). Splitting early
+       * matters under the intro loader: SplitText creates new elements, and
+       * new text painted late would push Largest Contentful Paint to the end of
+       * the intro. Moving existing lines later does not.
+       */
+      const play = (gate?: Promise<void>) => {
         if (done || !ref.current) return;
         done = true;
+        const after = (fn: () => void) => (gate ? void gate.then(fn) : fn());
 
         if (mode === 'fade') {
-          tween = gsap.fromTo(
-            el,
-            { autoAlpha: 0, y: 28 },
-            { autoAlpha: 1, y: 0, duration: dur.md, ease: ease.out, delay },
-          );
+          after(() => {
+            tween = gsap.fromTo(
+              el,
+              { autoAlpha: 0, y: 28 },
+              { autoAlpha: 1, y: 0, duration: dur.md, ease: ease.out, delay },
+            );
+          });
           return;
         }
 
@@ -69,18 +78,26 @@ export function Reveal({
           type: mode === 'lines' ? 'lines' : 'words,lines',
           mask: mode === 'lines' ? 'lines' : 'words',
           linesClass: 'split-line',
+          // The default ('auto') adds aria-label to the element, which is not
+          // allowed on <p>/<div>. Split spans keep the words in reading order.
+          aria: 'none',
           autoSplit: mode === 'lines',
           onSplit(self) {
-            gsap.set(el, { visibility: 'visible' });
-            const targets = mode === 'lines' ? self.lines : self.words;
             // autoSplit re-runs this on resize: only animate the first time.
             if (tween) return;
-            tween = gsap.from(targets, {
-              yPercent: 112,
-              duration: dur.lg,
-              ease: ease.out,
-              stagger: mode === 'lines' ? staggerTokens.lines : staggerTokens.words,
-              delay,
+            if (!gate) gsap.set(el, { opacity: 1, visibility: 'visible' });
+            after(() => {
+              if (tween) return;
+              // `split` is unset while create() is still running; `self` is not.
+              const current = split ?? self;
+              gsap.set(el, { opacity: 1, visibility: 'visible' });
+              tween = gsap.from(mode === 'lines' ? current.lines : current.words, {
+                yPercent: 112,
+                duration: dur.lg,
+                ease: ease.out,
+                stagger: mode === 'lines' ? staggerTokens.lines : staggerTokens.words,
+                delay,
+              });
             });
             return tween;
           },
@@ -94,10 +111,7 @@ export function Reveal({
       };
 
       if (immediate) {
-        whenFonts(() => {
-          if (waitFor) void waitFor().then(play);
-          else play();
-        });
+        whenFonts(() => play(waitFor ? waitFor() : undefined));
         return () => {
           tween?.kill();
           split?.revert();
@@ -111,12 +125,12 @@ export function Reveal({
         trigger: el,
         start: 'top 92%',
         once: true,
-        onEnter: () => whenFonts(play),
+        onEnter: () => whenFonts(() => play()),
         onRefresh: (self) => {
-          if (unreachable(self)) whenFonts(play);
+          if (unreachable(self)) whenFonts(() => play());
         },
       });
-      if (unreachable(st)) whenFonts(play);
+      if (unreachable(st)) whenFonts(() => play());
 
       return () => {
         st.kill();

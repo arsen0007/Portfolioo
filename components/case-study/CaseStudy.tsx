@@ -6,6 +6,7 @@ import { CaseStudyBlockView } from '@/components/case-study/CaseStudyBlocks';
 import { DecisionGrid } from '@/components/case-study/DecisionGrid';
 import { Em, EmPhrase, taglineEmphasis } from '@/components/case-study/emphasis';
 import { NextCase } from '@/components/case-study/NextCase';
+import { TrackOnView } from '@/components/analytics/TrackOnView';
 import { Magnetic } from '@/components/motion/Magnetic';
 import { Reveal } from '@/components/motion/Reveal';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
@@ -98,6 +99,7 @@ export function CaseStudy({ card, content, extras, project }: CaseStudyProps) {
   return (
     <main className="pb-0">
       <SceneIntentOnMount layout="right" shape={`project:${project.id}`} signal={0.5} />
+      <TrackOnView event="case_study_view" params={{ project: project.id }} when="mount" />
 
       <Breadcrumb
         items={[
@@ -317,6 +319,8 @@ export function CaseStudy({ card, content, extras, project }: CaseStudyProps) {
         </div>
       </Container>
 
+      {/* Reaching the end of the story counts as a full read. */}
+      <TrackOnView event="case_study_complete" params={{ project: project.id }} />
       {next && next.project.id !== project.id ? (
         <NextCase next={next} position={((position + 1) % ordered.length) + 1} total={ordered.length} />
       ) : null}

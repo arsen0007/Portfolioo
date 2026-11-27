@@ -2,7 +2,8 @@
 
 import Script from 'next/script';
 import { usePathname } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { trackEvent } from '@/lib/analytics';
 
 declare global {
   interface Window {
@@ -17,11 +18,19 @@ interface GoogleAnalyticsProps {
 
 export function GoogleAnalytics({ measurementId }: GoogleAnalyticsProps) {
   const pathname = usePathname();
+  const first = useRef(true);
 
+  // gtag('config') records the landing page itself; only client-side route
+  // changes need an explicit page_view (sending both double-counted it).
   useEffect(() => {
-    if (typeof window.gtag !== 'function') return;
-    window.gtag('event', 'page_view', {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    trackEvent('page_view', {
+      page_location: window.location.href,
       page_path: pathname,
+      page_title: document.title,
     });
   }, [pathname]);
 

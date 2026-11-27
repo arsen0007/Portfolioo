@@ -1,5 +1,7 @@
 'use client';
 
+import { trackEvent } from '@/lib/analytics';
+
 type ThemeMode = 'dark' | 'light';
 
 function applyTheme(theme: ThemeMode): void {
@@ -51,6 +53,7 @@ export function ThemeToggle() {
   function toggleTheme(): void {
     const next: ThemeMode = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
     applyTheme(next);
+    trackEvent('theme_change', { theme: next });
     try {
       window.localStorage.setItem('theme', next);
     } catch {

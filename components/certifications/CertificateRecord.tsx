@@ -110,6 +110,9 @@ export function CertificateRecord() {
             <button
               aria-pressed={track === t.id}
               className={pill}
+              data-track="filter_use"
+              data-track-filter={t.id}
+              data-track-page="certifications"
               key={t.id}
               onClick={() => {
                 setHover(null);
@@ -118,7 +121,7 @@ export function CertificateRecord() {
               type="button"
             >
               {t.label}
-              <span className="tabular-nums opacity-60">{pad(trackCount(t.id))}</span>
+              <span className="tabular-nums opacity-80">{pad(trackCount(t.id))}</span>
             </button>
           ))}
         </div>
@@ -134,6 +137,9 @@ export function CertificateRecord() {
               <button
                 aria-pressed={status === s.id}
                 className="label inline-flex min-h-11 items-center rounded-full border border-transparent px-4 text-textMuted transition-colors hover:text-textPrimary aria-pressed:border-surfaceBorderStrong aria-pressed:text-textPrimary"
+                data-track="filter_use"
+                data-track-filter={`status:${s.id}`}
+                data-track-page="certifications"
                 key={s.id}
                 onClick={() => {
                   setHover(null);
@@ -152,6 +158,7 @@ export function CertificateRecord() {
         Showing {visible.length} of {recordItems.length} certificates
       </p>
 
+      <h2 className="sr-only">All certifications</h2>
       <ol className="mt-2" ref={listRef}>
         {visible.map((item) => {
           const done = item.status === 'completed';
@@ -199,6 +206,8 @@ export function CertificateRecord() {
                       aria-haspopup="dialog"
                       className="block text-left after:absolute after:inset-0 after:content-['']"
                       data-cert-open={item.id}
+                      data-track="certificate_open"
+                      data-track-certificate={item.id}
                       onClick={(e) => open(item.id, e.currentTarget)}
                       type="button"
                     >
