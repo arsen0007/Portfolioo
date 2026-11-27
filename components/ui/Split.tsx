@@ -19,7 +19,7 @@ export function Split({ children, eyebrow, id, intro, title }: SplitProps) {
       <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
         <div className="lg:col-span-4">
           <Eyebrow>{eyebrow}</Eyebrow>
-          <h2 className="mt-4 text-balance font-display text-h2 text-textPrimary">{title}</h2>
+          <h2 className="mt-5 text-balance font-display text-h2 font-medium text-textPrimary">{title}</h2>
           {intro ? <p className="mt-4 text-textSecondary">{intro}</p> : null}
         </div>
         <div className="lg:col-span-7 lg:col-start-6">{children}</div>

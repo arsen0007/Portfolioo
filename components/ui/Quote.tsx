@@ -9,20 +9,21 @@ type QuoteProps = {
   className?: string;
 };
 
-/** A pull quote in the display serif. */
+/** A pull quote in Instrument Serif: the human voice of the system. */
 export function Quote({ attribution, children, className, consequence }: QuoteProps) {
   return (
-    <figure className={cn('max-w-3xl', className)}>
-      <blockquote className="text-pretty font-display text-h3 text-textPrimary">
+    <figure className={cn('max-w-4xl', className)}>
+      <blockquote className="text-pretty font-serif text-[clamp(1.6rem,1.2rem+1.6vw,2.6rem)] leading-[1.15] tracking-[-0.01em] text-textPrimary">
         <p>
           <span aria-hidden="true">“</span>
           {children}
           <span aria-hidden="true">”</span>
         </p>
       </blockquote>
-      <figcaption className="mt-5 text-small text-textMuted">{attribution}</figcaption>
+      <figcaption className="label mt-6 text-textMuted">— {attribution}</figcaption>
       {consequence ? (
-        <p className="mt-4 border-t border-surfaceBorder pt-4 text-small font-medium text-textPrimary">
+        <p className="mt-5 flex items-start gap-3 border-t border-surfaceBorder pt-5 text-small font-medium text-textPrimary">
+          <span aria-hidden="true" className="live-dot mt-1.5 shrink-0" />
           {consequence}
         </p>
       ) : null}

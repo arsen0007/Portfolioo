@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { Counter } from '@/components/motion/Counter';
 import { cn } from '@/lib/utils';
 
 type MetricProps = {
@@ -12,7 +13,7 @@ type MetricProps = {
 };
 
 /**
- * A number set in the display serif with its denominator underneath. A number
+ * A number set large in Geist (counting up on first view) with its denominator underneath. A number
  * without a denominator ("40% faster") is unfalsifiable, so the caption is
  * required.
  *
@@ -28,7 +29,7 @@ export function Metric({ caption, className, emphasis = false, size = 'inline', 
       <div className="flex flex-col-reverse">
         <dt
           className={cn(
-            'mt-3 text-small text-textSecondary',
+            'mt-4 text-small text-textSecondary',
             size === 'hero' ? 'max-w-sm' : 'max-w-[16rem]',
           )}
         >
@@ -36,12 +37,12 @@ export function Metric({ caption, className, emphasis = false, size = 'inline', 
         </dt>
         <dd
           className={cn(
-            'font-display font-medium tabular-nums leading-none',
+            'font-display font-medium tabular-nums leading-none tracking-[-0.05em]',
             size === 'hero' ? 'text-display' : 'text-h2',
             emphasis ? 'text-accent' : 'text-textPrimary',
           )}
         >
-          {value}
+          <Counter value={value} />
         </dd>
       </div>
     </dl>

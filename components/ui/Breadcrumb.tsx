@@ -16,7 +16,7 @@ export function Breadcrumb({ className, items }: BreadcrumbProps) {
     <nav
       aria-label="Breadcrumb"
       className={cn(
-        'mx-auto flex w-full max-w-6xl items-center gap-2 px-5 pt-[calc(var(--header-h)+1rem)] text-caption font-normal sm:px-8',
+        'label mx-auto flex w-full max-w-page items-center gap-2 px-[var(--gutter)] pt-[calc(var(--header-h)+1.5rem)]',
         className,
       )}
     >

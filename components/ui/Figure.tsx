@@ -30,10 +30,13 @@ export function Figure({
 }: FigureProps) {
   return (
     <figure className={className}>
-      <div className="overflow-hidden rounded-media border border-surfaceBorder bg-surface">
+      <div className="group overflow-hidden rounded-media border border-surfaceBorder bg-surface">
         <Image
           alt={alt}
-          className={cn('h-auto w-full', cover && 'h-full object-cover')}
+          className={cn(
+            'h-auto w-full transition-transform duration-[1.2s] ease-out group-hover:scale-[1.015]',
+            cover && 'h-full object-cover',
+          )}
           height={height}
           priority={priority}
           sizes={sizes}
@@ -41,7 +44,10 @@ export function Figure({
           width={width}
         />
       </div>
-      {caption ? <figcaption className="mt-3 text-small text-textMuted">{caption}</figcaption> : null}
+      {caption ? <figcaption className="mt-4 flex gap-3 text-small text-textMuted">
+          <span aria-hidden="true" className="label pt-0.5 text-accent">Fig.</span>
+          <span>{caption}</span>
+        </figcaption> : null}
     </figure>
   );
 }

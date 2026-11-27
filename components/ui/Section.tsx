@@ -12,17 +12,13 @@ type SectionProps = {
   narrow?: boolean;
 };
 
-/**
- * Vertical rhythm for every page section: generous on desktop, tighter on
- * phones, always from one place.
- */
+/** Vertical rhythm for every page section, from one place. */
 export function Section({ children, className, id, narrow, ruled }: SectionProps) {
   return (
     <section
       className={cn(
-        'py-[clamp(3.5rem,9vw,7.5rem)]',
+        'relative py-[clamp(4.5rem,11vw,10rem)]',
         ruled && 'border-t border-surfaceBorder',
-        // Anchored sections (e.g. #certifications) must not hide under the fixed header.
         id && 'scroll-mt-[var(--header-h)]',
         className,
       )}
@@ -36,20 +32,26 @@ export function Section({ children, className, id, narrow, ruled }: SectionProps
 type EyebrowProps = {
   children: ReactNode;
   className?: string;
+  /** Signal colour: use for the one eyebrow on a screen that marks "live". */
   accent?: boolean;
+  /** Section index shown before the label, e.g. "01". */
+  index?: string;
 };
 
-/** A short label above a heading. One per section; never smaller than 12px. */
-export function Eyebrow({ accent = false, children, className }: EyebrowProps) {
+/**
+ * The system voice: a mono, uppercase label above a heading, optionally
+ * numbered like an engineering log ("01 — Selected work").
+ */
+export function Eyebrow({ accent = false, children, className, index }: EyebrowProps) {
   return (
-    <p
-      className={cn(
-        'text-caption font-medium uppercase tracking-[0.08em]',
-        accent ? 'text-accent' : 'text-textMuted',
-        className,
-      )}
-    >
-      {children}
+    <p className={cn('label flex items-center gap-3', accent ? 'text-accent' : 'text-textMuted', className)}>
+      {index ? (
+        <>
+          <span className="text-accent">{index}</span>
+          <span aria-hidden="true" className="h-px w-8 bg-surfaceBorderStrong" />
+        </>
+      ) : null}
+      <span>{children}</span>
     </p>
   );
 }

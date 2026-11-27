@@ -1,8 +1,8 @@
-import Link from 'next/link';
-import { Container } from '@/components/ui/Container';
+import { LocalTime } from '@/components/layout/LocalTime';
+import { Magnetic } from '@/components/motion/Magnetic';
+import { TransitionLink } from '@/components/motion/TransitionLink';
 import { navigationItems } from '@/lib/constants/navigation';
 
-// Résumé link removed until public/resume.pdf is a real document (see forresume.md).
 const socialLinks = [
   { href: 'mailto:tousifarsen@gmail.com', label: 'Email' },
   { href: 'https://www.linkedin.com/in/tousif-ali--/', label: 'LinkedIn' },
@@ -10,57 +10,103 @@ const socialLinks = [
 ] as const;
 
 const linkClass =
-  'inline-flex min-h-11 items-center text-small text-textSecondary transition-colors duration-200 hover:text-textPrimary';
+  'link-draw inline-flex min-h-11 items-center text-small text-textSecondary transition-colors duration-300 hover:text-textPrimary';
 
 export function Footer() {
   return (
-    <footer className="border-t border-surfaceBorder">
-      <Container className="py-10">
-        <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
-          <div>
-            <p className="font-display text-xl font-medium tracking-tight text-textPrimary">
-              Tousif Ali
+    <footer className="relative z-10 overflow-hidden border-t border-surfaceBorder bg-canvas">
+      <div className="mx-auto w-full max-w-page px-[var(--gutter)] pt-[clamp(4rem,10vw,8rem)]">
+        <div className="grid gap-12 lg:grid-cols-12">
+          <div className="lg:col-span-7">
+            <p className="label flex items-center gap-2 text-textMuted">
+              <span aria-hidden="true" className="live-dot" /> Available for the right problem · 2026
             </p>
-            <p className="mt-1 max-w-xs text-small text-textMuted">
-              Building AI systems in production. Bengaluru, India.
+            <p className="mt-6 text-balance text-h1 font-medium text-textPrimary">
+              Got work your team still does{' '}
+              <span className="font-serif font-normal italic tracking-[-0.02em] text-accent">by hand?</span>
             </p>
+            <div className="mt-10">
+              <Magnetic>
+                <TransitionLink
+                  className="group relative inline-flex min-h-14 items-center gap-3 overflow-hidden rounded-full bg-textPrimary px-8 text-base font-medium text-canvas"
+                  data-cursor="link"
+                  href="/contact"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-0 translate-y-full rounded-full bg-accent transition-transform duration-500 ease-out group-hover:translate-y-0"
+                  />
+                  <span className="relative">Start a conversation</span>
+                  <span aria-hidden="true" className="relative transition-transform duration-500 ease-out group-hover:translate-x-1">
+                    →
+                  </span>
+                </TransitionLink>
+              </Magnetic>
+            </div>
           </div>
 
-          <nav aria-label="Footer" className="flex flex-wrap gap-x-6">
-            {navigationItems.map((item) => (
-              <Link className={linkClass} href={item.href} key={item.href}>
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-
-          <ul className="flex flex-wrap gap-x-6">
-            {socialLinks.map((link) => {
-              const external = link.href.startsWith('http');
-
-              return (
-                <li key={link.label}>
-                  <a
-                    className={linkClass}
-                    href={link.href}
-                    rel={external ? 'noopener noreferrer' : undefined}
-                    target={external ? '_blank' : undefined}
-                  >
-                    {link.label}
-                  </a>
+          <div className="grid grid-cols-2 gap-8 lg:col-span-4 lg:col-start-9">
+            <nav aria-label="Footer">
+              <p className="label text-textMuted">Index</p>
+              <ul className="mt-3">
+                <li>
+                  <TransitionLink className={linkClass} href="/">
+                    Home
+                  </TransitionLink>
                 </li>
-              );
-            })}
-          </ul>
+                {navigationItems.map((item) => (
+                  <li key={item.href}>
+                    <TransitionLink className={linkClass} href={item.href}>
+                      {item.label}
+                    </TransitionLink>
+                  </li>
+                ))}
+                <li>
+                  <TransitionLink className={linkClass} href="/colophon">
+                    Colophon
+                  </TransitionLink>
+                </li>
+              </ul>
+            </nav>
+            <div>
+              <p className="label text-textMuted">Elsewhere</p>
+              <ul className="mt-3">
+                {socialLinks.map((link) => {
+                  const external = link.href.startsWith('http');
+                  return (
+                    <li key={link.label}>
+                      <a
+                        className={linkClass}
+                        href={link.href}
+                        rel={external ? 'noopener noreferrer' : undefined}
+                        target={external ? '_blank' : undefined}
+                      >
+                        {link.label}
+                        {external ? <span aria-hidden="true" className="ml-1 text-textMuted">↗</span> : null}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
         </div>
 
-        <div className="mt-8 flex items-center justify-between border-t border-surfaceBorder pt-6 text-caption text-textMuted">
-          <p>© {new Date().getFullYear()} Tousif Ali</p>
-          <a className="inline-flex min-h-11 items-center hover:text-textPrimary" href="#main-content">
-            Back to top
+        <div className="label mt-20 flex flex-wrap items-center justify-between gap-4 border-t border-surfaceBorder py-6 text-textMuted">
+          <p>© {new Date().getFullYear()} Tousif Ali · Bengaluru, India</p>
+          <LocalTime />
+          <a className="link-draw inline-flex min-h-11 items-center hover:text-textPrimary" href="#main-content">
+            Back to top ↑
           </a>
         </div>
-      </Container>
+      </div>
+
+      <p
+        aria-hidden="true"
+        className="text-outline pointer-events-none -mb-[0.2em] select-none whitespace-nowrap text-center text-[19vw] font-semibold leading-[0.8] tracking-[-0.07em]"
+      >
+        TOUSIF ALI
+      </p>
     </footer>
   );
 }

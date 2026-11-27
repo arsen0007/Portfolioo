@@ -1,46 +1,48 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import { Instrument_Sans, JetBrains_Mono, Newsreader } from 'next/font/google';
+import localFont from 'next/font/local';
 import '@/styles/globals.css';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { cn } from '@/lib/utils';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
+import { SceneRoot } from '@/components/canvas/SceneRoot';
+import { Cursor } from '@/components/motion/Cursor';
+import { SmoothScroll } from '@/components/motion/SmoothScroll';
+import { TransitionResolver } from '@/components/motion/TransitionLink';
 
-// Display serif. A variable font with an optical-size axis, so headlines get
-// tighter forms at large sizes and sturdier ones when small.
-const newsreader = Newsreader({
-  subsets: ['latin'],
-  style: ['normal', 'italic'],
-  axes: ['opsz'],
-  variable: '--font-display',
-  // `optional`: use the web font only if it is ready almost immediately,
-  // otherwise keep the serif fallback for this page view. That removes the
-  // font-swap layout shift. Next cannot derive size-adjust metrics for this
-  // family, so a late swap would move the content below every headline.
-  display: 'optional',
-  adjustFontFallback: false,
-  fallback: ['Georgia', 'Times New Roman', 'serif'],
-});
-
-const instrumentSans = Instrument_Sans({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
+// SIGNAL type system, self-hosted (OFL): Geist for display and body, Geist
+// Mono for the system voice, Instrument Serif italic for the human accent.
+const geist = localFont({
+  src: '../assets/fonts/Geist-Variable.woff2',
   variable: '--font-body',
+  weight: '100 900',
   display: 'swap',
+  fallback: ['system-ui', 'Helvetica Neue', 'Arial', 'sans-serif'],
 });
 
-const jetBrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500'],
+const geistMono = localFont({
+  src: '../assets/fonts/GeistMono-Variable.woff2',
   variable: '--font-mono',
+  weight: '100 900',
   display: 'swap',
+  fallback: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+});
+
+const instrumentSerif = localFont({
+  src: [
+    { path: '../assets/fonts/instrument-serif-latin-400-normal.woff2', style: 'normal', weight: '400' },
+    { path: '../assets/fonts/instrument-serif-latin-400-italic.woff2', style: 'italic', weight: '400' },
+  ],
+  variable: '--font-serif',
+  display: 'swap',
+  fallback: ['Georgia', 'Times New Roman', 'serif'],
 });
 
 export const viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: dark)', color: '#0e0e0d' },
-    { media: '(prefers-color-scheme: light)', color: '#faf8f5' },
+    { media: '(prefers-color-scheme: dark)', color: '#08080a' },
+    { media: '(prefers-color-scheme: light)', color: '#08080a' },
   ],
   // Lets the page extend under notches; the header and menu pad for it.
   viewportFit: 'cover',
@@ -105,20 +107,20 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
-                // Theme: an explicit choice (stored by the toggle) wins;
-                // otherwise follow the device setting.
-                var systemDark = false;
-                try {
-                  systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                } catch (error) {}
-                var dark = systemDark;
+                var root = document.documentElement;
+                // Theme: dark-first. An explicit choice (stored by the toggle) wins.
+                var dark = true;
                 try {
                   var saved = localStorage.getItem('theme');
-                  if (saved === 'dark' || saved === 'light') {
-                    dark = saved === 'dark';
+                  if (saved === 'light') dark = false;
+                } catch (error) {}
+                root.classList.toggle('dark', dark);
+                // Motion: reveals hide content only when JS runs and motion is allowed.
+                try {
+                  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    root.classList.add('motion-ok');
                   }
                 } catch (error) {}
-                document.documentElement.classList.toggle('dark', dark);
               })();
             `,
           }}
@@ -126,9 +128,9 @@ export default function RootLayout({
       </head>
       <body
         className={cn(
-          newsreader.variable,
-          instrumentSans.variable,
-          jetBrainsMono.variable,
+          geist.variable,
+          geistMono.variable,
+          instrumentSerif.variable,
           'bg-canvas font-body text-textPrimary antialiased',
         )}
       >
@@ -162,11 +164,18 @@ export default function RootLayout({
         <a className="skip-link" href="#main-content">
           Skip to content
         </a>
+        <SceneRoot />
         <Suspense fallback={null}>
           <Header />
         </Suspense>
-        <div id="main-content">{children}</div>
+        <div className="relative z-10" id="main-content">
+          {children}
+        </div>
         <Footer />
+        <div aria-hidden="true" className="grain" />
+        <Cursor />
+        <SmoothScroll />
+        <TransitionResolver />
         <GoogleAnalytics measurementId="G-JMYVGZQCKT" />
       </body>
     </html>

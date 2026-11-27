@@ -1,17 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
-
 type ThemeMode = 'dark' | 'light';
-
-function readStoredTheme(): ThemeMode | null {
-  try {
-    const saved = window.localStorage.getItem('theme');
-    return saved === 'dark' || saved === 'light' ? saved : null;
-  } catch {
-    return null;
-  }
-}
 
 function applyTheme(theme: ThemeMode): void {
   document.documentElement.classList.toggle('dark', theme === 'dark');
@@ -54,23 +43,11 @@ function SunIcon() {
 
 /**
  * The theme is set before first paint by the inline script in app/layout.tsx:
- * a stored choice wins, otherwise the device setting. This button only flips
+ * dark-first, a stored choice wins. This button only flips
  * it, and the icon is chosen by CSS from the `dark` class, so there is no
  * wrong-icon flash and no hydration mismatch.
  */
 export function ThemeToggle() {
-  // Follow the device setting live, but only until the visitor picks a theme.
-  useEffect(() => {
-    const query = window.matchMedia('(prefers-color-scheme: dark)');
-    const onChange = (event: MediaQueryListEvent) => {
-      if (readStoredTheme() === null) {
-        applyTheme(event.matches ? 'dark' : 'light');
-      }
-    };
-    query.addEventListener('change', onChange);
-    return () => query.removeEventListener('change', onChange);
-  }, []);
-
   function toggleTheme(): void {
     const next: ThemeMode = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
     applyTheme(next);
@@ -84,7 +61,7 @@ export function ThemeToggle() {
   return (
     <button
       aria-label="Switch between light and dark theme"
-      className="grid h-11 w-11 place-items-center rounded-control border border-surfaceBorder text-textSecondary transition-colors duration-200 hover:border-surfaceBorderStrong hover:text-textPrimary"
+      className="grid h-11 w-11 place-items-center rounded-full border border-surfaceBorder text-textSecondary transition-[color,border-color,transform] duration-500 ease-out hover:rotate-45 hover:border-surfaceBorderStrong hover:text-textPrimary"
       onClick={toggleTheme}
       type="button"
     >
