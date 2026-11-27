@@ -46,7 +46,7 @@ export default function ContactPage() {
   return (
     <main className="pb-[clamp(3.5rem,9vw,7.5rem)]">
       {/* The field gathers in the middle and leans in, as if listening. */}
-      <SceneIntentOnMount intensity={0.5} layout="center" shape="sphere" signal={0.6} />
+      <SceneIntentOnMount intensity={0.5} layout="right" shape="sphere" signal={0.6} />
 
       <Breadcrumb
         items={[

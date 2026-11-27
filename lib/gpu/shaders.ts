@@ -107,7 +107,7 @@ void main() {
   // ambient curl noise, scaled by turbulence and scroll velocity
   float sv = abs(uScrollV);
   acc += curl(p * 1.2, uTime * 0.45) * (uTurb * uTurb * 3.4 + sv * 2.0) * (0.55 + 0.9 * aux.y);
-  acc += curl(p * 4.5, uTime * 0.8) * (0.06 + uTurb * 0.34 + sv * 0.4) * (0.6 + 0.8 * aux.z);
+  acc += curl(p * 4.5, uTime * 0.8) * (0.025 + uTurb * 0.16 + sv * 0.3) * (0.6 + 0.8 * aux.z);
   acc.y += uScrollV * 5.0 * (aux.z - 0.35);
 
   // cursor repulsion (decaying trail, in local space)

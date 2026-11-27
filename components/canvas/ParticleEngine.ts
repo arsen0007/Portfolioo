@@ -347,7 +347,10 @@ async function build(opts: EngineOptions, renderer: THREE.WebGLRenderer): Promis
 
     const s = useScene.getState();
     const hovered = s.hoveredProject;
-    const shape: ShapeId = hovered ? (`project:${hovered}` as ShapeId) : s.shape;
+    // The portrait is a luminance halftone of a dark-background photo: on
+    // paper (dark dots) it would read as a negative, so light mode gets the orb.
+    const intended: ShapeId = s.shape === 'portrait' && !isDark ? 'sphere' : s.shape;
+    const shape: ShapeId = hovered ? (`project:${hovered}` as ShapeId) : intended;
     const layout = hovered ? 'right' : s.layout;
     const signal = hovered ? 0.6 : s.signal;
     const intensity = Math.min(Math.max(0, s.intensity), cssW < 768 ? 0.45 : 1);

@@ -365,8 +365,8 @@ const bridgeGen = simple(0.1, () => {
   };
   return (r, o) => {
     const x = r();
-    if (x < 0.4) left(r, o);
-    else if (x < 0.78) right(r, o);
+    if (x < 0.47) left(r, o);
+    else if (x < 0.93) right(r, o);
     else bridge(r, o);
   };
 });
@@ -374,9 +374,9 @@ const bridgeGen = simple(0.1, () => {
 const gridGen: Gen = {
   dust: 0.06,
   build: () => {
-    const nx = 40;
-    const ny = 24;
-    const nz = 14;
+    const nx = 26;
+    const ny = 16;
+    const nz = 8;
     return (_k, r, o, f) => {
       const i = Math.floor(r() * nx);
       const j = Math.floor(r() * ny);
@@ -445,9 +445,6 @@ const barhunterGen = simple(0.1, (rng) => {
     },
   }));
   // a few road-like links between regions
-  prims.push(segment(-1.0, 0.1, -0.7, -0.15, 0, 0.05, 0.01));
-  prims.push(segment(-0.1, -0.05, 0.05, 0.2, 0, 0.05, 0.01));
-  prims.push(segment(0.8, 0.3, 1.0, 0.1, 0, 0.05, 0.01));
   return composite(prims);
 });
 
