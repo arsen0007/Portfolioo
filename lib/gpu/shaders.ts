@@ -27,7 +27,7 @@ vec3 evalTgt(vec4 t, out float dust, out float flow) {
     float u0 = t.x;
     float sp = 0.026 + 0.03 * fract(u0 * 437.13 + 0.31);
     float u = fract(u0 + uTime * sp);
-    float taper = smoothstep(0.0, 0.1, u) * smoothstep(1.0, 0.9, u);
+    float taper = 0.18 + 0.82 * smoothstep(0.0, 0.12, u) * smoothstep(1.0, 0.88, u);
     float pinch = 1.0;
     pinch -= 0.5 * exp(-pow((u - 0.22) / 0.035, 2.0));
     pinch -= 0.5 * exp(-pow((u - 0.50) / 0.035, 2.0));
@@ -102,12 +102,12 @@ void main() {
 
   // organic swirl while morphing
   float act = sin(3.14159 * m.t);
-  acc += curl(p * 0.8, uTime * 0.7) * act * 7.0;
+  acc += curl(p * 0.8, uTime * 0.7) * act * 3.5;
 
   // ambient curl noise, scaled by turbulence and scroll velocity
   float sv = abs(uScrollV);
-  float amp = (0.5 + uTurb * 5.5 + sv * 4.0) * (0.55 + 0.9 * aux.y);
-  acc += curl(p * 1.15, uTime * 0.55) * amp;
+  acc += curl(p * 1.2, uTime * 0.45) * (uTurb * uTurb * 3.4 + sv * 2.0) * (0.55 + 0.9 * aux.y);
+  acc += curl(p * 4.5, uTime * 0.8) * (0.06 + uTurb * 0.34 + sv * 0.4) * (0.6 + 0.8 * aux.z);
   acc.y += uScrollV * 5.0 * (aux.z - 0.35);
 
   // cursor repulsion (decaying trail, in local space)
@@ -190,22 +190,22 @@ void main() {
   gl_Position = projectionMatrix * mv;
 
   float dist = -mv.z;
-  float depthT = clamp((dist - (uCam - 2.4 * uScale)) / (4.8 * uScale), 0.0, 1.0);
+  float depthT = clamp((dist - (uCam - 1.4 * uScale)) / (3.0 * uScale), 0.0, 1.0);
   float speed = length(vel);
   float sig = 1.0 - smoothstep(uSignal - 0.004, uSignal, aRand.w);
 
   float size = mix(1.0, 2.4, pow(aRand.y, 2.6));
-  size *= 1.0 + sig * 0.55;
+  size *= 1.0 + sig * 0.35;
   size *= 1.0 - dust * 0.3;
   size *= 1.0 + min(speed * 0.08, 0.5);
   float persp = clamp(uCam / dist, 0.65, 1.5);
   gl_PointSize = max(1.0, size * uPixel * persp);
 
-  float a = mix(0.2, 0.72, aRand.z);
-  a *= mix(1.0, 0.22, depthT);
+  float a = mix(0.3, 0.95, aRand.z * aRand.z);
+  a *= mix(1.0, 0.1, pow(depthT, 1.15));
   a *= 1.0 - dust * 0.72;
   a *= 1.0 + min(speed * 0.35, 1.4);
-  a *= 1.0 + sig * 0.55;
+  a *= 1.0 + sig * 0.25;
   vAlpha = a * uIntensity;
   vSig = sig;
   vSpeed = min(speed * 0.25, 1.0);

@@ -27,9 +27,9 @@ export function resolveLayout(layout: SceneLayout, viewW: number, viewH: number,
   const fit = (f: number, g: number) => Math.min((f * viewH) / 2 / NOM_H, (g * viewW) / 2 / NOM_W);
   switch (layout) {
     case 'right':
-      return { x: viewW * 0.2, y: 0, scale: fit(0.8, 0.62), fade: 1 };
+      return { x: viewW * 0.2, y: 0, scale: fit(0.8, 0.54), fade: 1 };
     case 'left':
-      return { x: -viewW * 0.2, y: 0, scale: fit(0.8, 0.62), fade: 1 };
+      return { x: -viewW * 0.2, y: 0, scale: fit(0.8, 0.54), fade: 1 };
     case 'top':
       return { x: 0, y: viewH * 0.2, scale: fit(0.5, 0.7), fade: 0.9 };
     case 'bottom':

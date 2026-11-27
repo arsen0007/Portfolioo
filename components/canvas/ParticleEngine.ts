@@ -264,7 +264,7 @@ async function build(opts: EngineOptions, renderer: THREE.WebGLRenderer): Promis
     (u.uAccent.value as THREE.Color).copy(accent);
     (u.uHot.value as THREE.Color).set(isDark ? '#ffffff' : '#000000');
     u.uDark.value = isDark ? 1 : 0;
-    u.uSigBoost.value = isDark ? (composer ? 1.6 : 1.15) : 1.0;
+    u.uSigBoost.value = isDark ? (composer ? 1.25 : 1.0) : 1.0;
     mat.blending = isDark ? THREE.AdditiveBlending : THREE.NormalBlending;
     bg.copy(readBackground());
     renderer.setClearColor(bg, 1);
@@ -312,6 +312,7 @@ async function build(opts: EngineOptions, renderer: THREE.WebGLRenderer): Promis
   /* ---------------- animated state ---------------- */
   const cur = { x: 0, y: 0, scale: 1, signal: 0.15, intensity: 0.7, turb: 0.25, fade: 1, scrollV: 0, rotY: 0, camX: 0, camY: 0 };
   let first = true;
+  const densityComp = tier === 'mid' ? 1.45 : 1;
   let time = 0;
   let morph = 1;
   let last = performance.now();
@@ -349,7 +350,7 @@ async function build(opts: EngineOptions, renderer: THREE.WebGLRenderer): Promis
     const shape: ShapeId = hovered ? (`project:${hovered}` as ShapeId) : s.shape;
     const layout = hovered ? 'right' : s.layout;
     const signal = hovered ? 0.6 : s.signal;
-    const intensity = s.intensity;
+    const intensity = Math.min(Math.max(0, s.intensity), cssW < 768 ? 0.45 : 1);
     const turb = s.turbulence;
 
     if (shape !== wantedShape) {
@@ -367,7 +368,7 @@ async function build(opts: EngineOptions, renderer: THREE.WebGLRenderer): Promis
     cur.scale = damp(cur.scale, L.scale, 2.6 * k, dt);
     cur.fade = damp(cur.fade, L.fade, 2.6 * k, dt);
     cur.signal = damp(cur.signal, signal, 2.4 * k, dt);
-    cur.intensity = damp(cur.intensity, intensity, 2.4 * k, dt);
+    cur.intensity = damp(cur.intensity, intensity, 4 * k, dt);
     cur.turb = damp(cur.turb, turb, 2.4 * k, dt);
     const sv = Math.max(-1, Math.min(1, s.velocity / 60));
     cur.scrollV = damp(cur.scrollV, sv, 5, dt);
@@ -415,7 +416,7 @@ async function build(opts: EngineOptions, renderer: THREE.WebGLRenderer): Promis
     u.uScale.value = cur.scale;
     (u.uRot.value as THREE.Vector2).set(Math.sin(time * 0.09) * 0.04 - cur.camY * 0.05, Math.sin(time * 0.12) * 0.16 + cur.camX * 0.1);
     u.uSignal.value = cur.signal;
-    u.uIntensity.value = cur.intensity * cur.fade * (isDark ? 1.0 : 1.5);
+    u.uIntensity.value = cur.intensity * cur.fade * densityComp * (isDark ? 1.0 : 0.62);
     u.uStretch.value = Math.abs(cur.scrollV) * 0.12;
 
     if (composer) composer.render(dt);
