@@ -1,5 +1,6 @@
 import { FooterCta } from '@/components/layout/FooterCta';
 import { LocalTime } from '@/components/layout/LocalTime';
+import { Mark } from '@/components/layout/Wordmark';
 import { Magnetic } from '@/components/motion/Magnetic';
 import { TransitionLink } from '@/components/motion/TransitionLink';
 import { navigationItems } from '@/lib/constants/navigation';
@@ -22,8 +23,12 @@ export function Footer() {
             <FooterCta
               fallback={
                 <div>
-                  <p className="flex items-center gap-2.5 text-xl font-semibold tracking-[-0.03em] text-textPrimary">
-                    <span aria-hidden="true" className="live-dot" /> Tousif Ali
+                  <p className="flex items-center gap-3 text-textPrimary">
+                    <Mark animate={false} className="h-[26px]" />
+                    <span className="flex items-baseline gap-[0.3em] text-xl leading-none">
+                      <span className="font-semibold tracking-[-0.035em]">Tousif</span>
+                      <span className="font-serif text-[1.3em] italic">Ali</span>
+                    </span>
                   </p>
                   <p className="mt-3 max-w-sm text-textSecondary">
                     AI systems that replace manual work, built from the seat where the work happens.{' '}

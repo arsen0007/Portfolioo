@@ -2,6 +2,7 @@
 
 import { forwardRef, useImperativeHandle, useRef } from 'react';
 import { LocalTime } from '@/components/layout/LocalTime';
+import { Wordmark } from '@/components/layout/Wordmark';
 import { TransitionLink } from '@/components/motion/TransitionLink';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { navigationItems } from '@/lib/constants/navigation';
@@ -117,14 +118,7 @@ export const MobileMenu = forwardRef<MobileMenuHandle, MobileMenuProps>(function
       <div className="flex min-h-full flex-col px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-[env(safe-area-inset-top)] sm:px-8">
         {/* Top bar mirrors the header so the swap feels like one surface. */}
         <div className="flex h-16 shrink-0 items-center justify-between">
-          <TransitionLink
-            aria-label="Tousif Ali, home"
-            className="inline-flex min-h-11 items-center gap-2.5 text-textPrimary"
-            href="/"
-          >
-            <span aria-hidden="true" className="live-dot" />
-            <span className="text-[1.0625rem] font-semibold tracking-[-0.03em]">Tousif Ali</span>
-          </TransitionLink>
+          <Wordmark />
           <button
             autoFocus
             className="label inline-flex min-h-11 items-center gap-2.5 rounded-full border border-surfaceBorderStrong px-4 text-textPrimary"

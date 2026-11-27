@@ -6,28 +6,13 @@ import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { ButtonLink } from '@/components/ui/Button';
 import { LocalTime } from '@/components/layout/LocalTime';
 import { MobileMenu, type MobileMenuHandle } from '@/components/layout/MobileMenu';
+import { Wordmark } from '@/components/layout/Wordmark';
 import { TransitionLink } from '@/components/motion/TransitionLink';
 import { navigationItems } from '@/lib/constants/navigation';
 import { cn } from '@/lib/utils';
 
 function isActivePath(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(`${href}/`);
-}
-
-function Wordmark({ className }: { className?: string }) {
-  return (
-    <TransitionLink
-      aria-label="Tousif Ali, home"
-      className={cn('group inline-flex min-h-11 items-center gap-2.5 text-textPrimary', className)}
-      href="/"
-    >
-      <span aria-hidden="true" className="live-dot" />
-      <span className="text-[1.0625rem] font-semibold tracking-[-0.03em]">Tousif Ali</span>
-      <span aria-hidden="true" className="label hidden text-textMuted transition-colors group-hover:text-accent sm:inline">
-        ©26
-      </span>
-    </TransitionLink>
-  );
 }
 
 /**
@@ -74,7 +59,7 @@ export function Header() {
         onFocusCapture={() => setHidden(false)}
       >
         <div className="mx-auto grid h-16 w-full max-w-page grid-cols-[1fr_auto] items-center gap-4 px-[var(--gutter)] lg:grid-cols-[1fr_auto_1fr]">
-          <Wordmark />
+          <Wordmark descriptor={!scrolled} />
 
           <nav aria-label="Primary" className="hidden lg:block">
             <ul className="flex items-center">
