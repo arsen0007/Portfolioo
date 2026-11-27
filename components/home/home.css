@@ -1,0 +1,63 @@
+/* Home page scene styles. Plain CSS, tokens only. */
+
+/* ── Hero ticker ─────────────────────────────────────────────── */
+.ticker { display: flex; overflow: hidden; }
+.ticker__group { display: flex; flex-shrink: 0; min-width: 100%; align-items: center; justify-content: space-around; gap: 3rem; padding-right: 3rem; }
+.ticker__item { display: inline-flex; align-items: center; gap: 3rem; white-space: nowrap; }
+.ticker__item::after { content: ''; width: 5px; height: 5px; background: var(--text-muted); opacity: 0.6; }
+@media (prefers-reduced-motion: no-preference) {
+  .ticker__group { animation: ticker 48s linear infinite; }
+  .ticker:hover .ticker__group { animation-play-state: paused; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker { flex-wrap: wrap; }
+  .ticker__group { flex-wrap: wrap; justify-content: flex-start; gap: 0.75rem 2rem; padding-right: 0; }
+  .ticker__item { gap: 2rem; }
+  .ticker__group[aria-hidden='true'] { display: none; }
+}
+@keyframes ticker { to { transform: translateX(-100%); } }
+
+/* ── Scroll cue: a thin line that draws ──────────────────────── */
+.scroll-cue { position: relative; width: 1px; height: 4.5rem; background: var(--surface-border); overflow: hidden; }
+.scroll-cue::after { content: ''; position: absolute; inset: 0; background: var(--text-primary); transform-origin: top; transform: scaleY(0); }
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-cue::after { animation: cue-draw 2.4s var(--ease-in-out, cubic-bezier(0.65, 0, 0.35, 1)) 1.6s infinite; }
+}
+@media (prefers-reduced-motion: reduce) { .scroll-cue::after { transform: scaleY(0.35); } }
+@keyframes cue-draw {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  50.01% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* ── Work index ──────────────────────────────────────────────── */
+.work-row { position: relative; transition: opacity 0.5s var(--ease-out, ease); }
+.work-name { display: block; position: relative; overflow: hidden; padding-bottom: 0.06em; }
+.work-name__a, .work-name__b { display: block; transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+.work-name__b { position: absolute; inset: 0; transform: translateY(105%); color: var(--accent); font-family: var(--font-serif), Georgia, serif; font-style: italic; font-weight: 400; letter-spacing: -0.02em; }
+.work-arrow { transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s; }
+
+@media (hover: hover) and (pointer: fine) {
+  .work-list:has(.work-row:hover, .work-row:focus-within) .work-row:not(:hover):not(:focus-within) { opacity: 0.28; }
+  .work-row:hover .work-name__a, .work-row:focus-within .work-name__a { transform: translateY(-105%); }
+  .work-row:hover .work-name__b, .work-row:focus-within .work-name__b { transform: translateY(0); }
+  .work-row:hover .work-arrow, .work-row:focus-within .work-arrow { transform: translateX(0.5rem); color: var(--accent); }
+}
+
+.work-preview { position: fixed; left: 0; top: 0; z-index: 60; width: 22rem; pointer-events: none; opacity: 0; will-change: transform, opacity; }
+@media (hover: none), (pointer: coarse) { .work-preview { display: none; } }
+
+/* ── Number scene ────────────────────────────────────────────── */
+.bignum { font-size: clamp(8.5rem, 34vw, 40rem); line-height: 0.8; letter-spacing: -0.07em; }
+
+/* ── Scrub quote ─────────────────────────────────────────────── */
+.scrub-word { display: inline; }
+
+/* ── Gate line ───────────────────────────────────────────────── */
+.gate-flow { position: relative; height: 1px; background: var(--surface-border-strong); overflow: hidden; }
+.gate-flow::after { content: ''; position: absolute; top: 0; left: 0; height: 1px; width: 22%; background: var(--accent); transform: translateX(-100%); }
+@media (prefers-reduced-motion: no-preference) {
+  .gate-flow::after { animation: gate-run 4.2s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+}
+@keyframes gate-run { to { transform: translateX(460%); } }

@@ -19,46 +19,46 @@ export function CaseWiseFigure() {
 
   return (
     <figure>
-      <div className="rounded-media border border-surfaceBorder bg-surface p-5 sm:p-8">
-        <p className="text-small font-medium text-textPrimary">
-          CaseWise: time to process one legal case
-        </p>
+      <div className="border-t border-surfaceBorder pt-6">
+        <p className="label text-textMuted">CaseWise / time to process one legal case</p>
 
-        <div className="mt-6 space-y-6">
+        <div className="mt-8 space-y-8">
           <div>
             <dl className="flex items-baseline justify-between gap-4">
-              <dt className="text-small text-textSecondary">By hand</dt>
-              <dd className="font-display text-xl font-medium tabular-nums text-textPrimary">15 minutes</dd>
+              <dt className="label text-textSecondary">By hand</dt>
+              <dd className="font-display text-h3 font-medium tabular-nums text-textPrimary">15 minutes</dd>
             </dl>
-            <div aria-hidden="true" className="mt-2 h-3 rounded-[3px] bg-surfaceBorderStrong bar-grow" />
+            <div aria-hidden="true" className="mt-3 h-[10px] bg-surfaceBorderStrong bar-grow" />
           </div>
 
           <div>
             <dl className="flex items-baseline justify-between gap-4">
-              <dt className="text-small text-textSecondary">With CaseWise</dt>
-              <dd className="font-display text-xl font-medium tabular-nums text-accent">30 seconds</dd>
+              <dt className="label flex items-center gap-2 text-textSecondary">
+                <span aria-hidden="true" className="live-dot" /> With CaseWise
+              </dt>
+              <dd className="font-display text-h3 font-medium tabular-nums text-accent">30 seconds</dd>
             </dl>
             <div
               aria-hidden="true"
-              className="mt-2 h-3 min-w-[6px] rounded-[3px] bg-accent bar-grow"
+              className="mt-3 h-[10px] min-w-[6px] bg-accent bar-grow"
               style={{ width: `${afterShare}%` }}
             />
           </div>
         </div>
 
-        <ul className="mt-8 grid gap-6 border-t border-surfaceBorder pt-6 sm:grid-cols-3">
+        <ul className="mt-10 grid gap-8 border-t border-surfaceBorder pt-6 sm:grid-cols-3">
           {facts.map((fact) => (
             <li key={fact.label}>
-              <p className="font-display text-h3 font-medium tabular-nums text-textPrimary">
+              <p className="font-display text-h2 font-medium tabular-nums tracking-[-0.04em] text-textPrimary">
                 {fact.value}
               </p>
-              <p className="mt-1 text-small text-textMuted">{fact.label}</p>
+              <p className="label mt-2 text-textMuted">{fact.label}</p>
             </li>
           ))}
         </ul>
       </div>
 
-      <figcaption className="mt-3 text-small text-textMuted">
+      <figcaption className="label mt-6 text-textMuted">
         Measured on the production pipeline. Case contents are confidential and not shown.
       </figcaption>
     </figure>
