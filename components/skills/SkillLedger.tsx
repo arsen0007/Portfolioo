@@ -32,7 +32,7 @@ export function SkillLedger({ defaultOpenCount = 0 }: { defaultOpenCount?: numbe
             open={nicheIndex < defaultOpenCount}
           >
             <summary className="flex min-h-14 cursor-pointer list-none items-center gap-x-6 py-3 transition-colors duration-300 hover:bg-surface [&::-webkit-details-marker]:hidden">
-              <span className="label w-[4.5rem] shrink-0 pl-1 text-accent">{two(nicheIndex + 1)}.00</span>
+              <span className="label w-10 shrink-0 pl-1 text-accent sm:w-[4.5rem]">{two(nicheIndex + 1)}.00</span>
               <span className="flex min-w-0 flex-1 flex-wrap items-baseline gap-x-5 gap-y-1">
                 <span className="font-display text-lg font-medium tracking-[-0.02em] text-textPrimary sm:text-xl">
                   {niche.name}

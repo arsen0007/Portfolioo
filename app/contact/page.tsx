@@ -89,7 +89,7 @@ export default function ContactPage() {
         </div>
 
         {/* The reading part: the field recedes so the sentence stays legible. */}
-        <SceneTrigger as="div" intensity={0.16} layout="center" shape="sphere" signal={0.6}>
+        <SceneTrigger as="div" intensity={0.16} layout="right" shape="sphere" signal={0.6}>
         {/* The sentence form. */}
         <div className="mt-[clamp(4.5rem,10vw,9rem)] border-t border-surfaceBorder pt-10">
           <Eyebrow index="02">Or write it as a sentence</Eyebrow>
