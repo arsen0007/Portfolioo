@@ -242,7 +242,8 @@ async function build(opts: EngineOptions, renderer: THREE.WebGLRenderer): Promis
         luminanceSmoothing: 0.25,
         mipmapBlur: true,
         radius: 0.72,
-        levels: 6,
+        levels: 5,
+        resolutionScale: 0.5,
       });
       c.addPass(new pp.EffectPass(camera, bloom));
       composer = c as unknown as Composer;

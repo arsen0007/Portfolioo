@@ -2,7 +2,7 @@
 
 import { useRef, type ElementType, type ReactNode } from 'react';
 import { dur, ease, stagger as staggerTokens } from '@/lib/motion/tokens';
-import { gsap, motionAllowed, SplitText, useGSAP } from '@/lib/motion/gsap';
+import { gsap, motionAllowed, ScrollTrigger, SplitText, useGSAP } from '@/lib/motion/gsap';
 
 type SplitRevealProps = {
   as?: ElementType;
@@ -20,6 +20,10 @@ type SplitRevealProps = {
  * The house reveal. Text is real, server-rendered HTML; the motion is applied
  * on top. See the reveal contract in globals.css: hidden only when motion is
  * allowed, with a 2.5s CSS failsafe.
+ *
+ * Performance: text is split lazily, just before the element reaches the
+ * viewport, so a page with dozens of reveals doesn't pay for every split (a
+ * forced layout each) in one long task on mount.
  */
 export function Reveal({
   as: Tag = 'div',
@@ -41,21 +45,23 @@ export function Reveal({
         return;
       }
 
-      const scrollTrigger = immediate ? undefined : { trigger: el, start: 'top 88%', once: true };
-
-      if (mode === 'fade') {
-        gsap.fromTo(
-          el,
-          { autoAlpha: 0, y: 28 },
-          { autoAlpha: 1, y: 0, duration: dur.md, ease: ease.out, delay, scrollTrigger },
-        );
-        return;
-      }
-
       let split: SplitText | undefined;
-      // Fonts change line breaks; split only once they are ready.
-      document.fonts.ready.then(() => {
-        if (!ref.current) return;
+      let tween: gsap.core.Tween | undefined;
+      let done = false;
+
+      const play = () => {
+        if (done || !ref.current) return;
+        done = true;
+
+        if (mode === 'fade') {
+          tween = gsap.fromTo(
+            el,
+            { autoAlpha: 0, y: 28 },
+            { autoAlpha: 1, y: 0, duration: dur.md, ease: ease.out, delay },
+          );
+          return;
+        }
+
         split = SplitText.create(el, {
           type: mode === 'lines' ? 'lines' : 'words,lines',
           mask: mode === 'lines' ? 'lines' : 'words',
@@ -64,19 +70,53 @@ export function Reveal({
           onSplit(self) {
             gsap.set(el, { visibility: 'visible' });
             const targets = mode === 'lines' ? self.lines : self.words;
-            return gsap.from(targets, {
+            // autoSplit re-runs this on resize: only animate the first time.
+            if (tween) return;
+            tween = gsap.from(targets, {
               yPercent: 112,
               duration: dur.lg,
               ease: ease.out,
               stagger: mode === 'lines' ? staggerTokens.lines : staggerTokens.words,
               delay,
-              scrollTrigger,
             });
+            return tween;
           },
         });
-      });
+      };
 
-      return () => split?.revert();
+      // Line breaks depend on the web font; split only once it is ready.
+      const whenFonts = (fn: () => void) => {
+        if (document.fonts?.status === 'loaded') fn();
+        else document.fonts.ready.then(fn);
+      };
+
+      if (immediate) {
+        whenFonts(play);
+        return () => {
+          tween?.kill();
+          split?.revert();
+        };
+      }
+
+      // Content near the very end of a page may never reach the start line:
+      // reveal it straight away rather than leave it hidden.
+      const unreachable = (self: ScrollTrigger) => self.start > ScrollTrigger.maxScroll(window) - 2;
+      const st = ScrollTrigger.create({
+        trigger: el,
+        start: 'top 92%',
+        once: true,
+        onEnter: () => whenFonts(play),
+        onRefresh: (self) => {
+          if (unreachable(self)) whenFonts(play);
+        },
+      });
+      if (unreachable(st)) whenFonts(play);
+
+      return () => {
+        st.kill();
+        tween?.kill();
+        split?.revert();
+      };
     },
     { scope: ref },
   );

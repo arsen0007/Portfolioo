@@ -77,7 +77,7 @@ export function Header() {
         className={cn(
           'fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top)] transition-[transform,background-color,border-color] duration-500 ease-out',
           scrolled
-            ? 'border-b border-surfaceBorder bg-[color-mix(in_srgb,var(--canvas)_72%,transparent)] backdrop-blur-xl'
+            ? 'border-b border-surfaceBorder bg-[color-mix(in_srgb,var(--canvas)_84%,transparent)] backdrop-blur-md'
             : 'border-b border-transparent bg-transparent',
           hidden && !menuOpen ? '-translate-y-full' : 'translate-y-0',
         )}

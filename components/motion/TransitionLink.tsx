@@ -2,7 +2,7 @@
 
 import Link, { type LinkProps } from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, type AnchorHTMLAttributes, type MouseEvent, type ReactNode } from 'react';
+import { useLayoutEffect, type AnchorHTMLAttributes, type MouseEvent, type ReactNode } from 'react';
 
 /**
  * Client navigation wrapped in the View Transitions API, so routes cross-fade
@@ -19,12 +19,15 @@ let pending: (() => void) | null = null;
 /** Mount once (in the root layout): resolves the transition when the new route commits. */
 export function TransitionResolver() {
   const pathname = usePathname();
-  useEffect(() => {
+  // Resolve as soon as the new route has committed to the DOM. Never wait on
+  // requestAnimationFrame here: while a view transition's update callback is
+  // pending the browser suppresses rendering, so rAF would not fire until the
+  // safety timeout — that was a ~2.5s freeze on every navigation.
+  useLayoutEffect(() => {
     if (pending) {
-      // Wait a frame so the new page has painted.
       const resolve = pending;
       pending = null;
-      requestAnimationFrame(() => resolve());
+      resolve();
     }
   }, [pathname]);
   return null;
@@ -55,13 +58,14 @@ export function TransitionLink({ children, href, onClick, ...props }: Transition
       () =>
         new Promise<void>((resolve) => {
           pending = resolve;
-          // Never hang the page if navigation is slow or fails.
+          // Never freeze the page if navigation is slow or fails: release
+          // the snapshot quickly and let the route finish loading visibly.
           window.setTimeout(() => {
             if (pending === resolve) {
               pending = null;
               resolve();
             }
-          }, 1600);
+          }, 450);
           router.push(href);
         }),
     );

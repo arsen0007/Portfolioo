@@ -17,6 +17,7 @@ export function SmoothScroll() {
 
   useEffect(() => {
     if (!motionAllowed()) return;
+    document.documentElement.classList.add('motion-js');
 
     const lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1, syncTouch: false });
     window.__lenis = lenis;
@@ -37,11 +38,33 @@ export function SmoothScroll() {
     };
   }, []);
 
-  // New route: start at the top, recompute triggers once layout settles.
+  // New route: start at the top, then recompute trigger positions as the
+  // layout settles (pins inserted, fonts swapped, images decoded). Stale
+  // positions are why a reveal could fire late or not at all.
   useEffect(() => {
     window.__lenis?.scrollTo(0, { immediate: true });
-    const id = window.setTimeout(() => ScrollTrigger.refresh(), 120);
-    return () => window.clearTimeout(id);
+    let alive = true;
+    let queued = 0;
+    // Debounced: a refresh measures every trigger, so batch the bursts.
+    const refresh = () => {
+      window.clearTimeout(queued);
+      queued = window.setTimeout(() => {
+        if (alive) ScrollTrigger.refresh();
+      }, 120);
+    };
+    const ids = [0, 900].map((d) => window.setTimeout(refresh, d));
+    document.fonts?.ready.then(refresh);
+    const imgs = Array.from(document.querySelectorAll<HTMLImageElement>('#main-content img'));
+    const onImg = () => refresh();
+    imgs.forEach((img) => {
+      if (!img.complete) img.addEventListener('load', onImg, { once: true });
+    });
+    return () => {
+      alive = false;
+      window.clearTimeout(queued);
+      ids.forEach(window.clearTimeout);
+      imgs.forEach((img) => img.removeEventListener('load', onImg));
+    };
   }, [pathname]);
 
   return null;

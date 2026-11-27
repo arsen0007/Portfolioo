@@ -2,8 +2,8 @@ import type { GpuTier } from '@/lib/store/scene';
 
 /** Particle budget per tier. high = 308x308 texture drawing exactly 94,363. */
 export const TIER_CONFIG = {
-  high: { width: 308, height: 308, count: 94363, maxDpr: 2, post: true },
-  mid: { width: 128, height: 256, count: 32768, maxDpr: 1.5, post: false },
+  high: { width: 308, height: 308, count: 94363, maxDpr: 1.5, post: true },
+  mid: { width: 128, height: 256, count: 32768, maxDpr: 1.25, post: false },
 } as const;
 
 export function prefersReducedMotion(): boolean {

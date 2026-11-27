@@ -9,6 +9,9 @@ import { useGSAP } from '@gsap/react';
 // directly, so plugins are always registered.
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
+  // Mobile URL-bar show/hide resizes the viewport constantly; re-measuring
+  // every trigger on each one causes scroll jank.
+  ScrollTrigger.config({ ignoreMobileResize: true });
 }
 
 /** True when the visitor has not asked for reduced motion. */
