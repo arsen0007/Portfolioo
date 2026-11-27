@@ -1,12 +1,15 @@
+import { Belief } from '@/components/about/Belief';
+import { PathScroll } from '@/components/about/PathScroll';
+import { PortraitFrame } from '@/components/about/PortraitFrame';
+import { SceneTrigger } from '@/components/canvas/SceneTrigger';
+import { Reveal } from '@/components/motion/Reveal';
+import { SkillLedger } from '@/components/skills/SkillLedger';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { ButtonLink } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
-import { Figure } from '@/components/ui/Figure';
 import { Metric } from '@/components/ui/Metric';
-import { Quote } from '@/components/ui/Quote';
 import { Eyebrow, Section } from '@/components/ui/Section';
-import { Split } from '@/components/ui/Split';
-import { SkillLedger } from '@/components/skills/SkillLedger';
+import { Counter } from '@/components/motion/Counter';
 import { certs } from '@/lib/data/certifications';
 import { projects } from '@/lib/data/projects';
 import { niches } from '@/lib/data/skillTree';
@@ -96,159 +99,195 @@ export default function AboutPage() {
 
   return (
     <main className="pb-[clamp(3.5rem,9vw,7.5rem)]">
-      <Breadcrumb
-        items={[
-          { href: '/', label: 'Tousif Ali' },
-          { label: 'About' },
-        ]}
-      />
+      {/* 01 · Intro. The particle field forms a halftone portrait to the right. */}
+      <SceneTrigger as="div" intensity={0.8} layout="right" shape="portrait" signal={0.25}>
+        <Breadcrumb
+          items={[
+            { href: '/', label: 'Tousif Ali' },
+            { label: 'About' },
+          ]}
+        />
 
-      <Container className="pt-8 md:pt-12">
-        <header className="max-w-3xl">
-          <Eyebrow>About</Eyebrow>
-          <h1 className="mt-4 text-balance font-display text-h1 text-textPrimary">
-            I see what&apos;s missing. Then I build it.
-          </h1>
-          <p className="mt-6 text-lead text-textSecondary">
-            I&apos;m Tousif. I build AI systems for the work I have spent since 2017 doing by hand
-            — clinical referrals, legal intake, operations. The closest name for it is{' '}
-            <strong className="font-medium text-textPrimary">AI product builder</strong>, which is
-            a description rather than a title. I still read a workflow the way an operator does,
-            and that is the only real advantage I have over someone who has only ever been an
-            engineer.
-          </p>
-        </header>
+        <Container className="pb-[clamp(4rem,9vw,8rem)] pt-10 md:pt-16">
+          <Eyebrow index="01">About</Eyebrow>
+          <Reveal
+            as="h1"
+            className="mt-6 max-w-[16ch] text-balance font-display text-display font-medium text-textPrimary lg:max-w-[12ch]"
+            immediate
+          >
+            I see what&apos;s missing. Then I <em className="font-serif font-normal italic tracking-[-0.03em]">build it.</em>
+          </Reveal>
 
-        <div className="mt-14 grid gap-12 lg:mt-20 lg:grid-cols-12">
-          <Figure
-            alt="Portrait of Tousif Ali"
-            className="max-w-sm lg:col-span-4"
-            height={1280}
-            priority
-            sizes="(min-width: 1024px) 352px, (min-width: 384px) 384px, 100vw"
-            src="/profile.webp"
-            width={960}
-          />
-
-          <div className="lg:col-span-7 lg:col-start-6">
-            <Quote attribution="Field note">
-              Inside operations since 2017 — the gap between what exists and what should exist is
-              always visible. I just can&apos;t walk past it.
-            </Quote>
-
-            <div className="mt-10 space-y-5">
-              {bioParagraphs.map((paragraph, index) => (
-                <p
-                  className={
-                    index === bioParagraphs.length - 1
-                      ? 'text-textPrimary'
-                      : 'text-textSecondary'
-                  }
-                  key={paragraph}
-                >
-                  {paragraph}
+          <div className="mt-14 grid gap-12 lg:mt-24 lg:grid-cols-12 lg:gap-x-12">
+            <div className="lg:col-span-7">
+              <Reveal as="p" className="text-h3 text-textPrimary" mode="lines">
+                I&apos;m Tousif. I build AI systems for the work I have spent since 2017 doing by
+                hand: clinical referrals, legal intake, operations. The closest name for it is{' '}
+                <strong className="font-medium text-accent">AI product builder</strong>, which is a
+                description rather than a title.
+              </Reveal>
+              <div className="mt-10 max-w-[60ch] space-y-6 text-lead text-textSecondary">
+                <p>
+                  I still read a workflow the way an operator does, and that is the only real
+                  advantage I have over someone who has only ever been an engineer.
                 </p>
-              ))}
-            </div>
-
-            <div className="mt-12 grid gap-8 border-t border-surfaceBorder pt-8 sm:grid-cols-3">
-              <Metric caption="in operations, and still in the seat" value="8+ years" />
-              <Metric caption="systems built, not counting the 24-hour competition" value={String(systemsBuilt)} />
-              {/* Deliberately not "in production": Genie and Arsen's Lab are
-                  infrastructure I depend on, not products with users. */}
-              <Metric caption="of them used by other people" value="4" />
+                {bioParagraphs.map((paragraph, index) => (
+                  <p className={index === bioParagraphs.length - 1 ? 'text-textPrimary' : undefined} key={paragraph}>
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      </Container>
 
-      <Split eyebrow="Path" intro="Years of seeing what should exist. Then building exactly that, without leaving the seat." title="From attention to infrastructure.">
-        <ol className="border-t border-surfaceBorder">
-          {pathChapters.map((chapter) => (
-            <li
-              className="grid gap-3 border-b border-surfaceBorder py-8 sm:grid-cols-[9rem_1fr] sm:gap-8"
-              key={chapter.era}
-            >
-              <p className="text-small font-medium text-textMuted">{chapter.era}</p>
-              <div>
-                <h3 className="font-display text-h3 text-textPrimary">{chapter.title}</h3>
-                <p className="mt-3 text-textSecondary">{chapter.body}</p>
+          <div className="mt-20 grid gap-14 lg:mt-28 lg:grid-cols-12 lg:gap-12">
+            <PortraitFrame className="max-w-sm lg:col-span-4" />
+
+            <div className="flex flex-col justify-end lg:col-span-7 lg:col-start-6">
+              <blockquote className="max-w-3xl text-pretty font-serif text-[clamp(1.6rem,1.2rem+1.6vw,2.6rem)] leading-[1.15] text-textPrimary">
+                <p>
+                  <span aria-hidden="true">“</span>
+                  Inside operations since 2017 — the gap between what exists and what should exist is
+                  always visible. I just can&apos;t walk past it.
+                  <span aria-hidden="true">”</span>
+                </p>
+                <footer className="label mt-5 not-italic text-textMuted">— Field note</footer>
+              </blockquote>
+
+              <div className="mt-14 grid gap-8 border-t border-surfaceBorder pt-8 sm:grid-cols-3">
+                <Metric caption="in operations, and still in the seat" value="8+ years" />
+                <Metric
+                  caption="systems built, not counting the 24-hour competition"
+                  value={String(systemsBuilt)}
+                />
+                {/* Deliberately not "in production": Genie and Arsen's Lab are
+                    infrastructure I depend on, not products with users. */}
+                <Metric caption="of them used by other people" value="4" />
               </div>
-            </li>
-          ))}
-        </ol>
-      </Split>
+            </div>
+          </div>
+        </Container>
+      </SceneTrigger>
 
-      <Split eyebrow="Opinions" intro="Each one is a position I have acted on, not a principle I admire." title="Five things I actually believe.">
-        <ul className="border-t border-surfaceBorder">
-          {beliefs.map((belief) => (
-            <li className="border-b border-surfaceBorder py-8" key={belief.claim}>
-              <h3 className="font-display text-h3 text-textPrimary">{belief.claim}</h3>
-              <p className="mt-3 text-textSecondary">{belief.body}</p>
-            </li>
-          ))}
-        </ul>
-      </Split>
+      {/* 02 · Path. Pinned horizontal scroll on desktop, stacked everywhere else. */}
+      <SceneTrigger as="section" className="border-t border-surfaceBorder" intensity={0.4} layout="full" shape="pipeline" signal={0.5}>
+        <PathScroll chapters={pathChapters} />
+      </SceneTrigger>
 
-      <Split eyebrow="How I work" intro="Useful if you are deciding whether to work with me, including the part that costs something." title="I get obsessed. That is the whole thing.">
-        <div className="border-t border-surfaceBorder">
-          {howIWork.map((item) => (
-            <details className="group border-b border-surfaceBorder" key={item.title}>
-              <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-4 [&::-webkit-details-marker]:hidden">
-                <span className="font-display text-xl text-textPrimary">{item.title}</span>
-                <span
-                  aria-hidden="true"
-                  className="text-xl leading-none text-textMuted transition-transform duration-200 group-open:rotate-45"
-                >
-                  +
-                </span>
-              </summary>
-              <p className="max-w-prose pb-6 text-textSecondary">{item.body}</p>
-            </details>
-          ))}
-        </div>
-      </Split>
+      {/* 03 · Beliefs. */}
+      <SceneTrigger as="section" className="border-t border-surfaceBorder" intensity={0.3} layout="right" shape="grid" signal={0.6}>
+        <Container className="pt-[clamp(4.5rem,11vw,9rem)]">
+          <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
+            <div className="lg:col-span-8">
+              <Eyebrow index="03">Opinions</Eyebrow>
+              <Reveal as="h2" className="mt-5 text-balance font-display text-h1 font-medium text-textPrimary">
+                Five things I <em className="font-serif font-normal italic tracking-[-0.02em]">actually</em> believe.
+              </Reveal>
+            </div>
+            <p className="text-textSecondary lg:col-span-3 lg:col-start-10">
+              Each one is a position I have acted on, not a principle I admire.
+            </p>
+          </div>
+          <ol className="mt-12 divide-y divide-surfaceBorder border-t border-surfaceBorder">
+            {beliefs.map((belief, index) => (
+              <Belief
+                body={belief.body}
+                claim={belief.claim}
+                index={String(index + 1).padStart(2, '0')}
+                key={belief.claim}
+                strike={index === 1 ? 'can AI do this' : undefined}
+              />
+            ))}
+          </ol>
+        </Container>
+      </SceneTrigger>
 
+      {/* 04 · How I work. */}
+      <SceneTrigger as="section" intensity={0.3} layout="left" shape="clusters" signal={0.35}>
+        <Container className="border-t border-surfaceBorder pt-[clamp(4.5rem,11vw,9rem)]">
+          <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
+            <div className="lg:col-span-9">
+              <Eyebrow index="04">How I work</Eyebrow>
+              <Reveal as="h2" className="mt-5 text-balance font-display text-h1 font-medium text-textPrimary">
+                I get <em className="font-serif font-normal italic tracking-[-0.02em]">obsessed.</em> That is the whole thing.
+              </Reveal>
+            </div>
+          </div>
+          <div className="mt-12 grid border-l border-t border-surfaceBorderStrong md:grid-cols-2">
+            {howIWork.map((item, index) => (
+              <article className="border-b border-r border-surfaceBorderStrong p-6 sm:p-10" key={item.title}>
+                <p className="label text-accent">{String(index + 1).padStart(2, '0')}</p>
+                <h3 className="mt-6 font-display text-h3 font-medium text-textPrimary">{item.title}</h3>
+                <p className="mt-4 max-w-[52ch] text-textSecondary">{item.body}</p>
+              </article>
+            ))}
+            <div className="flex items-end border-b border-r border-surfaceBorderStrong p-6 sm:p-10">
+              <p className="label max-w-[34ch] leading-relaxed text-textMuted">
+                Useful if you are deciding whether to work with me, including the part that costs
+                something.
+              </p>
+            </div>
+          </div>
+        </Container>
+      </SceneTrigger>
+
+      {/* 05 · Skills as a spec sheet. */}
+      <SceneTrigger as="section" intensity={0.25} layout="right" shape="grid" signal={0.8}>
+        <Container className="pt-[clamp(4.5rem,11vw,9rem)]">
+          <div className="border-t border-surfaceBorder pt-[clamp(4.5rem,11vw,9rem)]">
+            <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
+              <div className="lg:col-span-8">
+                <Eyebrow index="05">Skills · spec sheet</Eyebrow>
+                <Reveal as="h2" className="mt-5 text-balance font-display text-h1 font-medium text-textPrimary">
+                  Every tool has a project <em className="font-serif font-normal italic tracking-[-0.02em]">behind it.</em>
+                </Reveal>
+              </div>
+              <p className="font-mono text-small text-textSecondary lg:col-span-4">
+                <span className="tabular-nums text-textPrimary">{allSkills.length}</span> skills ·{' '}
+                <span className="tabular-nums text-textPrimary">{shippedCount}</span> shipped ·{' '}
+                <span className="tabular-nums text-textPrimary">{appliedCount}</span> applied. No filler:
+                what&apos;s here got used on something real.
+              </p>
+            </div>
+
+            <div className="mt-12">
+              <SkillLedger defaultOpenCount={1} />
+            </div>
+
+            <p className="mt-8 max-w-prose text-small text-textMuted">
+              <strong className="font-medium text-textSecondary">Shipped</strong> means it is
+              load-bearing in something running today, and the projects it links to are the
+              evidence. <strong className="font-medium text-textSecondary">Applied</strong> means I
+              have used it for real but it has not carried a system yet. Nothing here is listed
+              because I read about it.
+            </p>
+          </div>
+        </Container>
+      </SceneTrigger>
+
+      {/* 06 · Credentials. */}
       <Section ruled>
-        <div className="max-w-3xl">
-          <Eyebrow>Skills</Eyebrow>
-          <h2 className="mt-4 text-balance font-display text-h2 text-textPrimary">
-            Every tool has a project behind it.
-          </h2>
-          <p className="mt-4 text-textSecondary">
-            {allSkills.length} skills · {shippedCount} shipped · {appliedCount} applied. No filler:
-            what&apos;s here got used on something real.
-          </p>
-        </div>
-
-        <div className="mt-10">
-          <SkillLedger defaultOpenCount={1} />
-        </div>
-
-        <p className="mt-8 max-w-prose text-small text-textMuted">
-          <strong className="font-medium text-textSecondary">Shipped</strong> means it is
-          load-bearing in something running today, and the projects it links to are the evidence.{' '}
-          <strong className="font-medium text-textSecondary">Applied</strong> means I have used it
-          for real but it has not carried a system yet. Nothing here is listed because I read about
-          it.
-        </p>
-      </Section>
-
-      <Section ruled>
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <div>
-            <Eyebrow>Credentials · Product School</Eyebrow>
-            <h2 className="mt-4 font-display text-h2 text-textPrimary">
-              {completedCerts} certifications earned.
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-7">
+            <Eyebrow index="06">Credentials · Product School</Eyebrow>
+            <h2 className="mt-6 flex flex-wrap items-end gap-x-6 gap-y-2">
+              <span className="font-display text-mega font-medium leading-[0.8] tracking-[-0.06em] tabular-nums text-textPrimary">
+                <Counter value={String(completedCerts)} />
+              </span>
+              <span className="pb-2 font-serif text-h2 font-normal italic text-textPrimary lg:pb-4">
+                certifications earned.
+              </span>
             </h2>
-            <p className="mt-3 text-textSecondary">
+            <p className="mt-6 text-textSecondary">
               CEO sponsored.
               {inProgressCerts > 0 && ` ${inProgressCerts} more in progress.`}
             </p>
           </div>
-          <ButtonLink href="/recognition#certifications" size="lg" variant="secondary">
-            See the certifications
-          </ButtonLink>
+          <div className="lg:col-span-4 lg:col-start-9 lg:justify-self-end">
+            <ButtonLink href="/recognition#certifications" size="lg" variant="secondary">
+              See the certifications
+            </ButtonLink>
+          </div>
         </div>
       </Section>
     </main>

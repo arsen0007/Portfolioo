@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { Metric } from '@/components/ui/Metric';
-import { Split } from '@/components/ui/Split';
+import { BlockShell } from '@/components/case-study/BlockShell';
 
 // TEMPORARY FALLBACK: remove the literals below once NEXT_PUBLIC_SUPABASE_URL
 // and NEXT_PUBLIC_SUPABASE_ANON_KEY are set on Vercel. The anon key is public
@@ -40,17 +40,17 @@ async function MailMergeLiveStats(): Promise<ReactNode> {
   ];
 
   return (
-    <Split
+    <BlockShell
       eyebrow="Live from production"
       intro="Read from the production database and refreshed daily."
       title="What it has processed so far"
     >
-      <dl className="grid gap-8 border-t border-surfaceBorder pt-8 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-8 border-t border-surfaceBorder pt-8 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((item) => (
           <Metric caption={item.label} key={item.label} value={item.value} />
         ))}
-      </dl>
-    </Split>
+      </div>
+    </BlockShell>
   );
 }
 

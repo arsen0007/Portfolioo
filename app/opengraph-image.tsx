@@ -11,5 +11,6 @@ export default function Image() {
     eyebrow: 'AI product builder',
     title: 'I build AI systems for work I used to do by hand.',
     subtitle: '433 hours a month saved. CTO-backed integration. Global hackathon winner.',
+    accent: 'by hand.',
   });
 }

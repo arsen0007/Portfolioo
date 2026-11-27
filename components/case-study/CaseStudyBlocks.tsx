@@ -1,8 +1,8 @@
+import { BlockShell } from '@/components/case-study/BlockShell';
 import { ButtonLink } from '@/components/ui/Button';
 import { Figure } from '@/components/ui/Figure';
 import { Metric } from '@/components/ui/Metric';
 import { Quote } from '@/components/ui/Quote';
-import { Split } from '@/components/ui/Split';
 import type { CaseStudyBlock, QuoteSource } from '@/lib/data/caseStudies';
 import { recognition } from '@/lib/data/recognition';
 
@@ -13,98 +13,106 @@ const quoteIds: Record<QuoteSource, string> = {
   manager: 'fernando',
 };
 
-/** Renders one block of case study content in the shared two-column layout. */
+const pad = (n: number) => String(n).padStart(2, '0');
+
+/** Renders one block of case study content inside a chapter. */
 export function CaseStudyBlockView({ block }: { block: CaseStudyBlock }) {
   switch (block.type) {
     case 'prose':
       return (
-        <Split eyebrow={block.eyebrow} title={block.title}>
-          <div className="max-w-prose space-y-5 text-textSecondary">
+        <BlockShell eyebrow={block.eyebrow} title={block.title}>
+          <div className="max-w-prose space-y-5 text-lead text-textSecondary">
             {block.paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
-        </Split>
+        </BlockShell>
       );
 
     case 'steps':
       return (
-        <Split eyebrow={block.eyebrow} intro={block.intro} title={block.title}>
+        <BlockShell eyebrow={block.eyebrow} intro={block.intro} title={block.title}>
           <ol className="border-t border-surfaceBorder">
             {block.items.map((item, index) => (
               <li
-                className="grid grid-cols-[2.5rem_1fr] gap-x-4 border-b border-surfaceBorder py-6"
+                className="grid grid-cols-[2.75rem_1fr] gap-x-4 border-b border-surfaceBorder py-7 md:grid-cols-[4rem_minmax(0,1fr)_minmax(0,1.3fr)] md:gap-x-8"
                 key={item.label}
               >
-                <span className="pt-0.5 text-small tabular-nums text-textMuted">
-                  {String(index + 1).padStart(2, '0')}
-                </span>
-                <div>
-                  <h3 className="font-medium text-textPrimary">{item.label}</h3>
-                  <p className="mt-2 max-w-prose text-textSecondary">{item.body}</p>
-                </div>
+                <span className="label pt-1.5 tabular-nums text-accent">{pad(index + 1)}</span>
+                <h4 className="font-display text-h3 font-medium text-textPrimary">{item.label}</h4>
+                <p className="col-start-2 mt-3 max-w-prose text-textSecondary md:col-start-3 md:mt-0">{item.body}</p>
               </li>
             ))}
           </ol>
-          {block.note ? <p className="mt-6 max-w-prose text-small text-textMuted">{block.note}</p> : null}
-        </Split>
+          {block.note ? <p className="label mt-6 max-w-prose text-textMuted">{block.note}</p> : null}
+        </BlockShell>
       );
 
     case 'facts':
       return (
-        <Split eyebrow={block.eyebrow} intro={block.intro} title={block.title}>
-          <div className="grid gap-8 border-t border-surfaceBorder pt-8 sm:grid-cols-2 lg:grid-cols-3">
+        <BlockShell eyebrow={block.eyebrow} intro={block.intro} title={block.title}>
+          <div className="grid gap-x-8 gap-y-12 border-t border-surfaceBorder pt-10 sm:grid-cols-2">
             {block.items.map((item) => (
               <Metric caption={item.label} key={item.label} value={item.value} />
             ))}
           </div>
-        </Split>
+        </BlockShell>
       );
 
     case 'list':
       return (
-        <Split eyebrow={block.eyebrow} intro={block.intro} title={block.title}>
+        <BlockShell eyebrow={block.eyebrow} intro={block.intro} title={block.title}>
           <ul className="border-t border-surfaceBorder">
-            {block.items.map((item) => (
-              <li className="border-b border-surfaceBorder py-6" key={item.title ?? item.body}>
-                {item.title ? <h3 className="font-display text-h3 text-textPrimary">{item.title}</h3> : null}
-                <p className={item.title ? 'mt-3 max-w-prose text-textSecondary' : 'max-w-prose text-textSecondary'}>
-                  {item.body}
-                </p>
+            {block.items.map((item, index) => (
+              <li
+                className="grid grid-cols-[2.75rem_1fr] gap-x-4 border-b border-surfaceBorder py-7 md:grid-cols-[4rem_minmax(0,1fr)_minmax(0,1.3fr)] md:gap-x-8"
+                key={item.title ?? item.body}
+              >
+                <span className="label pt-1.5 tabular-nums text-textMuted">{pad(index + 1)}</span>
+                {item.title ? (
+                  <>
+                    <h4 className="font-display text-h3 font-medium text-textPrimary">{item.title}</h4>
+                    <p className="col-start-2 mt-3 max-w-prose text-textSecondary md:col-start-3 md:mt-0">{item.body}</p>
+                  </>
+                ) : (
+                  <p className="max-w-prose text-textSecondary md:col-span-2">{item.body}</p>
+                )}
               </li>
             ))}
           </ul>
-        </Split>
+        </BlockShell>
       );
 
     case 'terminal':
       return (
-        <Split eyebrow={block.eyebrow} intro={block.intro} title={block.title}>
+        <BlockShell eyebrow={block.eyebrow} intro={block.intro} title={block.title}>
           {/* A focusable, labelled region so keyboard users can scroll wide lines. */}
           <pre
             aria-label={block.title}
-            className="overflow-x-auto rounded-media border border-surfaceBorder bg-surfaceRaised p-4 font-mono text-small leading-relaxed text-textPrimary"
+            className="overflow-x-auto rounded-media border border-surfaceBorder bg-surfaceRaised p-5 font-mono text-small leading-relaxed text-textPrimary"
             role="region"
             tabIndex={0}
           >
             {block.lines.join('\n')}
           </pre>
-          {block.caption ? <p className="mt-3 text-small text-textMuted">{block.caption}</p> : null}
-        </Split>
+          {block.caption ? <p className="label mt-4 text-textMuted">{block.caption}</p> : null}
+        </BlockShell>
       );
 
     case 'figure':
       return (
-        <Split eyebrow={block.eyebrow} title={block.title}>
-          <Figure
-            alt={block.alt}
-            caption={block.caption}
-            height={block.height}
-            sizes="(min-width: 1152px) 640px, 100vw"
-            src={block.src}
-            width={block.width}
-          />
-        </Split>
+        <BlockShell eyebrow={block.eyebrow} title={block.title}>
+          <div data-cursor="view" data-cursor-label="View">
+            <Figure
+              alt={block.alt}
+              caption={block.caption}
+              height={block.height}
+              sizes="(min-width: 1152px) 880px, 100vw"
+              src={block.src}
+              width={block.width}
+            />
+          </div>
+        </BlockShell>
       );
 
     case 'quote': {
@@ -112,32 +120,28 @@ export function CaseStudyBlockView({ block }: { block: CaseStudyBlock }) {
       if (!person) return null;
 
       return (
-        <Split eyebrow={block.eyebrow} title={block.title}>
+        <BlockShell eyebrow={block.eyebrow} title={block.title}>
           <Quote attribution={`${person.name}, ${person.role}`} consequence={person.highlight}>
             {person.quote}
           </Quote>
-        </Split>
+        </BlockShell>
       );
     }
 
     case 'links':
       return (
-        <Split eyebrow={block.eyebrow} title={block.title}>
+        <BlockShell eyebrow={block.eyebrow} title={block.title}>
           <ul className="border-t border-surfaceBorder">
             {block.items.map((item) => (
               <li className="border-b border-surfaceBorder" key={item.href}>
-                <ButtonLink
-                  className="w-full justify-between !px-0 py-3"
-                  href={item.href}
-                  variant="link"
-                >
+                <ButtonLink className="w-full justify-between !px-0 py-3" href={item.href} variant="link">
                   {item.label}
                   <span aria-hidden="true">↗</span>
                 </ButtonLink>
               </li>
             ))}
           </ul>
-        </Split>
+        </BlockShell>
       );
   }
 }
