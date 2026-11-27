@@ -7,6 +7,8 @@ import { Header } from '@/components/layout/Header';
 import { cn } from '@/lib/utils';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import { SceneRoot } from '@/components/canvas/SceneRoot';
+import { Loader } from '@/components/loader/Loader';
+import { INTRO_DECISION_SCRIPT } from '@/lib/loader';
 import { Cursor } from '@/components/motion/Cursor';
 import { SmoothScroll } from '@/components/motion/SmoothScroll';
 import { TransitionResolver } from '@/components/motion/TransitionLink';
@@ -122,6 +124,7 @@ export default function RootLayout({
                   }
                 } catch (error) {}
               })();
+              ${INTRO_DECISION_SCRIPT}
             `,
           }}
         />
@@ -164,6 +167,7 @@ export default function RootLayout({
         <a className="skip-link" href="#main-content">
           Skip to content
         </a>
+        <Loader />
         <SceneRoot />
         <Suspense fallback={null}>
           <Header />

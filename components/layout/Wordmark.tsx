@@ -2,6 +2,7 @@
 
 import { useRef } from 'react';
 import { TransitionLink } from '@/components/motion/TransitionLink';
+import { loaderWillRun } from '@/lib/loader';
 import { gsap, motionAllowed, useGSAP } from '@/lib/motion/gsap';
 import { cn } from '@/lib/utils';
 
@@ -56,7 +57,8 @@ export function Mark({ className, animate = true }: { className?: string; animat
       const lit = Array.from(svg.querySelectorAll<SVGCircleElement>('[data-lit]'));
 
       // First paint of the session: dots arrive from noise and lock into place.
-      if (!introPlayed) {
+      // When the intro loader runs, its TA lands on this mark instead.
+      if (!introPlayed && !loaderWillRun()) {
         introPlayed = true;
         gsap.from(lit, {
           x: (i) => scatter(i, 9).x,
@@ -100,6 +102,7 @@ export function Mark({ className, animate = true }: { className?: string; animat
     <svg
       aria-hidden="true"
       className={cn('h-[26px] w-auto shrink-0 overflow-visible', className)}
+      data-mark=""
       ref={ref}
       viewBox={`-0.5 -0.5 ${COLS} ${ROWS}`}
     >

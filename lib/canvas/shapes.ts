@@ -870,7 +870,7 @@ function genFor(id: ShapeId): Gen {
 
 const cache = new Map<string, Float32Array>();
 const inflight = new Map<string, Promise<Float32Array>>();
-const CACHE_MAX = 7;
+const CACHE_MAX = 20; // every shape the site uses, so none is ever regenerated mid-scroll
 
 const tick = () => new Promise<void>((res) => setTimeout(res, 0));
 

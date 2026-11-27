@@ -3,7 +3,7 @@ import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRe
 import { resolveLayout } from '@/lib/canvas/layout';
 import { getShapeData } from '@/lib/canvas/shapes';
 import { pointFragment, pointVertex, positionShader, velocityShader } from '@/lib/gpu/shaders';
-import { FpsWatchdog, TIER_CONFIG } from '@/lib/gpu/tier';
+import { FpsProbe, FpsWatchdog, TIER_CONFIG } from '@/lib/gpu/tier';
 import { useScene, type ShapeId } from '@/lib/store/scene';
 
 export type EngineOptions = {
@@ -13,7 +13,30 @@ export type EngineOptions = {
   forced: boolean;
   onFail: (err: unknown) => void;
   onSlow: () => void;
+  /** Measured fps after warm-up, reported once while the intro loader is up. */
+  onProbe?: (fps: number) => void;
 };
+
+/** Every shape the site asks for, pre-generated while the intro loader runs. */
+const PREWARM: ShapeId[] = [
+  'noise',
+  'text:433',
+  'bridge',
+  'pipeline',
+  'clusters',
+  'grid',
+  'text:TOUSIF ALI',
+  'sphere',
+  'portrait',
+  'project:casewise',
+  'project:barhunter',
+  'project:genie',
+  'project:arsens-lab',
+  'project:le-mans-t2',
+  'project:feedback-cascade',
+  'project:mailmerge',
+  'project:fhoneman',
+];
 
 export type Engine = { dispose: () => void };
 
@@ -272,6 +295,12 @@ async function build(opts: EngineOptions, renderer: THREE.WebGLRenderer): Promis
     if (bloomEffect) bloomEffect.intensity = isDark ? 0.85 : 0;
   };
   applyTheme();
+  // Compile every program now (behind the loader) instead of on first use.
+  try {
+    renderer.compile(scene, camera);
+  } catch {
+    /* compile() is an optimisation only */
+  }
   let themeTimers: number[] = [];
   const mo = new MutationObserver(() => {
     themeTimers.forEach(window.clearTimeout);
@@ -319,6 +348,66 @@ async function build(opts: EngineOptions, renderer: THREE.WebGLRenderer): Promis
   let last = performance.now();
 
   const watchdog = forced ? null : new FpsWatchdog(() => opts.onSlow());
+  const probe =
+    !forced && opts.onProbe && useScene.getState().loaderActive
+      ? new FpsProbe((fps) => {
+          useScene.getState().setFps(Math.round(fps));
+          opts.onProbe?.(fps);
+        })
+      : null;
+
+  // Pre-generate every shape while the loader is up, one after another
+  // (each is chunked to ~6ms slices, so frames keep flowing).
+  const prewarm = async () => {
+    const list = PREWARM.filter((id) => id !== currentShape);
+    useScene.getState().setPrewarm({ done: 0, total: list.length });
+    for (let n = 0; n < list.length; n++) {
+      if (disposed) return;
+      try {
+        await getShapeData(list[n], total);
+      } catch {
+        /* a failed shape is generated again on demand */
+      }
+      useScene.getState().setPrewarm({ done: n + 1, total: list.length });
+    }
+  };
+
+  /**
+   * Re-seed the simulation from the loader's dots: every particle starts on
+   * one of the dots the visitor just saw (a small jittered cloud each), at
+   * rest, then springs out to the current shape. The loader never ends; it
+   * becomes the field.
+   */
+  const seedFrom = (h: { points: Float32Array; width: number; height: number }) => {
+    const n = h.points.length / 2;
+    if (!n) return;
+    const data = new Float32Array(total * 4);
+    const rng = mulberry32(99);
+    const toWorldX = viewW / h.width;
+    const toWorldY = viewH / h.height;
+    for (let i = 0; i < total; i++) {
+      const k = (i % n) * 2;
+      // gaussian-ish jitter of ~5 css px so stacked particles don't flare
+      const jx = (rng() + rng() + rng() - 1.5) * 6;
+      const jy = (rng() + rng() + rng() - 1.5) * 6;
+      const wx = (h.points[k] + jx - h.width / 2) * toWorldX;
+      const wy = (h.height / 2 - (h.points[k + 1] + jy)) * toWorldY;
+      data[i * 4] = (wx - cur.x) / cur.scale;
+      data[i * 4 + 1] = (wy - cur.y) / cur.scale;
+      data[i * 4 + 2] = (rng() - 0.5) * 0.12;
+      data[i * 4 + 3] = 0;
+    }
+    const posTex = new THREE.DataTexture(data as unknown as BufferSource, W, H, THREE.RGBAFormat, THREE.FloatType);
+    posTex.needsUpdate = true;
+    const zeroTex = new THREE.DataTexture(new Float32Array(total * 4) as unknown as BufferSource, W, H, THREE.RGBAFormat, THREE.FloatType);
+    zeroTex.needsUpdate = true;
+    for (const rt of posVar.renderTargets) gpu.renderTexture(posTex, rt);
+    for (const rt of velVar.renderTargets) gpu.renderTexture(zeroTex, rt);
+    posTex.dispose();
+    zeroTex.dispose();
+    // Let the burst breathe before the shape pulls it in.
+    cur.turb = Math.max(cur.turb, 0.9);
+  };
 
   const requestShape = (id: ShapeId) => {
     getShapeData(id, total)
@@ -345,8 +434,18 @@ async function build(opts: EngineOptions, renderer: THREE.WebGLRenderer): Promis
     last = now;
     time += dt;
     watchdog?.tick(now);
+    probe?.tick(now);
 
     const s = useScene.getState();
+    if (s.handoff) {
+      const h = s.handoff;
+      s.setHandoff(null);
+      try {
+        seedFrom(h);
+      } catch {
+        /* hand-off is cosmetic; the field simply keeps its own positions */
+      }
+    }
     const hovered = s.hoveredProject;
     // The portrait is a luminance halftone of a dark-background photo: on
     // paper (dark dots) it would read as a negative, so light mode gets the orb.
@@ -429,6 +528,7 @@ async function build(opts: EngineOptions, renderer: THREE.WebGLRenderer): Promis
     if (first) {
       first = false;
       useScene.getState().setReady(true);
+      if (useScene.getState().loaderActive) void prewarm();
     }
   };
 

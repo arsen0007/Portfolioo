@@ -29,36 +29,27 @@ function probeWebGL(): Probe {
 
 const SOFTWARE = /swiftshader|llvmpipe|software|basic render|softpipe|microsoft basic/i;
 
-function heuristicTier(renderer: string): GpuTier {
+/**
+ * Quality-first tiering. No remote benchmark lookup: the starting tier comes
+ * from local signals, and the *measured* frame rate decides from there (see
+ * FpsProbe and the intro loader, which hides any re-tier from the visitor).
+ *
+ *  - desktop with a real GPU       -> high (94,363 particles + bloom)
+ *  - capable phone / tablet        -> mid, upgraded to high if it measures smooth
+ *  - software renderer, weak phone -> low (static poster)
+ */
+function startingTier(renderer: string): GpuTier {
   if (SOFTWARE.test(renderer)) return 'low';
   const nav = navigator as Navigator & { deviceMemory?: number };
   const cores = nav.hardwareConcurrency ?? 4;
-  const mem = nav.deviceMemory ?? 4;
+  const mem = nav.deviceMemory ?? 4; // Safari does not expose it: assume capable
   const mobile = /Android|iPhone|iPad|Mobile/i.test(navigator.userAgent);
-  if (mobile) return cores >= 6 && mem >= 4 ? 'mid' : 'low';
-  if (cores >= 8 && mem >= 8) return 'high';
-  if (cores >= 4) return 'mid';
-  return 'low';
-}
-
-function withTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
-  return new Promise<T>((resolve, reject) => {
-    const t = window.setTimeout(() => reject(new Error('timeout')), ms);
-    p.then(
-      (v) => {
-        window.clearTimeout(t);
-        resolve(v);
-      },
-      (e) => {
-        window.clearTimeout(t);
-        reject(e);
-      },
-    );
-  });
+  if (mobile) return cores >= 4 && mem >= 3 ? 'mid' : 'low';
+  return cores >= 4 ? 'high' : 'mid';
 }
 
 /**
- * Resolve the device tier. `?tier=high|mid|low|none` overrides everything
+ * Resolve the starting tier. `?tier=high|mid|low|none` overrides everything
  * (testing), and also disables the FPS watchdog.
  */
 export async function detectTier(): Promise<{ tier: GpuTier; forced: boolean }> {
@@ -68,27 +59,41 @@ export async function detectTier(): Promise<{ tier: GpuTier; forced: boolean }> 
   if (prefersReducedMotion()) return { tier: 'none', forced: false };
   const probe = probeWebGL();
   if (!probe.webgl2) return { tier: 'none', forced: false };
+  return { tier: startingTier(probe.renderer), forced: false };
+}
 
-  const mobile = /Android|iPhone|iPad|Mobile/i.test(navigator.userAgent);
-  let tier: GpuTier;
-  try {
-    const { getGPUTier } = await import('detect-gpu');
-    const res = await withTimeout(getGPUTier({ failIfMajorPerformanceCaveat: false }), 3500);
-    if (res.type === 'FALLBACK' || res.type === 'WEBGL_UNSUPPORTED') {
-      tier = heuristicTier(probe.renderer);
-    } else if (SOFTWARE.test(probe.renderer) || res.tier === 0) {
-      tier = 'low';
-    } else if (res.tier === 1) {
-      tier = 'low';
-    } else if (res.tier === 2) {
-      tier = 'mid';
-    } else {
-      tier = res.isMobile || mobile ? 'mid' : 'high';
+/**
+ * Measures real frame rate over a short window after warm-up. Used while the
+ * intro loader covers the screen, so a re-tier is never visible.
+ */
+export class FpsProbe {
+  private frames = 0;
+  private start = 0;
+  private born = 0;
+  constructor(
+    private readonly onResult: (fps: number) => void,
+    private readonly warmupMs = 350,
+    private readonly windowMs = 1100,
+  ) {}
+
+  private done = false;
+
+  tick(now: number): void {
+    if (this.done) return;
+    if (!this.born) this.born = now;
+    if (now - this.born < this.warmupMs) return;
+    if (!this.start) {
+      this.start = now;
+      this.frames = 0;
+      return;
     }
-  } catch {
-    tier = heuristicTier(probe.renderer);
+    this.frames++;
+    const elapsed = now - this.start;
+    if (elapsed >= this.windowMs) {
+      this.done = true;
+      this.onResult((this.frames * 1000) / elapsed);
+    }
   }
-  return { tier, forced: false };
 }
 
 export function stepDown(tier: GpuTier): GpuTier {

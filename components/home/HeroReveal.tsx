@@ -1,13 +1,12 @@
 'use client';
 
-import { useState, type ElementType, type ReactNode } from 'react';
+import type { ElementType, ReactNode } from 'react';
 import { Reveal } from '@/components/motion/Reveal';
-import { willPreload } from './Preloader';
+import { whenLoaderDone } from '@/lib/loader';
 
 /**
- * Reveal that waits for the preloader's split on the first visit of a session,
- * and plays immediately otherwise. Delay is not part of the markup, so there is
- * no hydration mismatch.
+ * Above-the-fold reveal that waits for the intro loader to hand the screen
+ * over on the first visit of a session, and plays immediately otherwise.
  */
 export function HeroReveal({
   as,
@@ -22,9 +21,8 @@ export function HeroReveal({
   delay?: number;
   mode?: 'lines' | 'words' | 'fade';
 }) {
-  const [offset] = useState(() => (willPreload() ? 1.25 : 0));
   return (
-    <Reveal as={as} className={className} delay={delay + offset} immediate mode={mode}>
+    <Reveal as={as} className={className} delay={delay} immediate mode={mode} waitFor={whenLoaderDone}>
       {children}
     </Reveal>
   );

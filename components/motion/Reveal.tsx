@@ -13,6 +13,8 @@ type SplitRevealProps = {
   delay?: number;
   /** Reveal on mount instead of when scrolled into view (above the fold). */
   immediate?: boolean;
+  /** With `immediate`: wait for this before revealing (e.g. the intro loader). */
+  waitFor?: () => Promise<void>;
   id?: string;
 };
 
@@ -33,6 +35,7 @@ export function Reveal({
   id,
   immediate = false,
   mode = 'lines',
+  waitFor,
 }: SplitRevealProps) {
   const ref = useRef<HTMLElement>(null);
 
@@ -91,7 +94,10 @@ export function Reveal({
       };
 
       if (immediate) {
-        whenFonts(play);
+        whenFonts(() => {
+          if (waitFor) void waitFor().then(play);
+          else play();
+        });
         return () => {
           tween?.kill();
           split?.revert();

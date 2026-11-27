@@ -313,6 +313,30 @@ html:not(.dark) .grain {
   margin-bottom: -0.08em;
 }
 
+/* Intro loader (components/loader/Loader.tsx). The cover is in the server
+   HTML so a first visit never flashes the page; it only shows when the head
+   script chose the intro. Without JS it gets out of the way after 4s. */
+.ta-intro-cover {
+  display: none;
+}
+
+html.ta-intro .ta-intro-cover {
+  display: block;
+}
+
+html.ta-intro:not(.motion-js) .ta-intro-cover {
+  animation: intro-failsafe 0.4s ease-out 4s forwards;
+}
+
+@keyframes intro-failsafe {
+  to { opacity: 0; visibility: hidden; }
+}
+
+/* The header logo is drawn by the loader until its TA lands on it. */
+html.ta-intro header [data-mark] {
+  opacity: 0;
+}
+
 /* View transitions between routes (client-side, see components/motion/TransitionLink). */
 @media (prefers-reduced-motion: no-preference) {
   ::view-transition-old(root) {

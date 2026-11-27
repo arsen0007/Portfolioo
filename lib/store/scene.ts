@@ -57,12 +57,26 @@ type SceneState = SceneIntent & {
   /** Hovered project slug on work lists (preview shape + image). */
   hoveredProject: string | null;
 
+  /* ---- Loader <-> engine handshake (components/loader/Loader.tsx) ---- */
+  /** The intro loader is on screen: the engine may warm up, probe and re-tier. */
+  loaderActive: boolean;
+  /** Screen-space dots (x,y pairs in CSS px) the field should be re-seeded from. */
+  handoff: { points: Float32Array; width: number; height: number } | null;
+  /** Shapes pre-generated so far while the loader runs. */
+  prewarm: { done: number; total: number };
+  /** Measured frames per second of the running engine (null until known). */
+  fps: number | null;
+
   setIntent: (intent: Partial<SceneIntent>) => void;
   setTier: (tier: GpuTier) => void;
   setReady: (ready: boolean) => void;
   setScroll: (scroll: number, velocity: number) => void;
   setProgress: (progress: number) => void;
   setHoveredProject: (slug: string | null) => void;
+  setLoaderActive: (active: boolean) => void;
+  setHandoff: (handoff: SceneState['handoff']) => void;
+  setPrewarm: (prewarm: SceneState['prewarm']) => void;
+  setFps: (fps: number | null) => void;
 };
 
 export const DEFAULT_INTENT: SceneIntent = {
@@ -81,6 +95,10 @@ export const useScene = create<SceneState>((set) => ({
   velocity: 0,
   progress: 0,
   hoveredProject: null,
+  loaderActive: false,
+  handoff: null,
+  prewarm: { done: 0, total: 0 },
+  fps: null,
 
   setIntent: (intent) => set(intent),
   setTier: (tier) => set({ tier }),
@@ -88,4 +106,8 @@ export const useScene = create<SceneState>((set) => ({
   setScroll: (scroll, velocity) => set({ scroll, velocity }),
   setProgress: (progress) => set({ progress }),
   setHoveredProject: (hoveredProject) => set({ hoveredProject }),
+  setLoaderActive: (loaderActive) => set({ loaderActive }),
+  setHandoff: (handoff) => set({ handoff }),
+  setPrewarm: (prewarm) => set({ prewarm }),
+  setFps: (fps) => set({ fps }),
 }));

@@ -17,6 +17,7 @@ export default function Scene() {
   const [mode, setMode] = useState<Mode>('pending');
   const [tier, setLocalTier] = useState<'high' | 'mid'>('high');
   const forcedRef = useRef(false);
+  const probedRef = useRef(new Set<string>());
 
   // 1. resolve the tier once
   useEffect(() => {
@@ -66,6 +67,23 @@ export default function Scene() {
         useScene.getState().setTier('low');
         setMode('poster');
       }}
+      onProbe={(fps) => {
+        // Quality-first: while the loader hides it, move up if the device is
+        // genuinely smooth, down if it is not. Each tier is probed once.
+        const s = useScene.getState();
+        if (!s.loaderActive || forcedRef.current) return;
+        if (tier === 'mid' && fps >= 55 && !probedRef.current.has('high')) {
+          probedRef.current.add('high');
+          s.setTier('high');
+          s.setReady(false);
+          setLocalTier('high');
+        } else if (tier === 'high' && fps < 38) {
+          probedRef.current.add('high');
+          s.setTier('mid');
+          s.setReady(false);
+          setLocalTier('mid');
+        }
+      }}
       onSlow={() => {
         const next: GpuTier = stepDown(tier);
         useScene.getState().setTier(next);
@@ -80,15 +98,17 @@ export default function Scene() {
 function GlCanvas({
   tier,
   onFail,
+  onProbe,
   onSlow,
 }: {
   tier: 'high' | 'mid';
   onFail: () => void;
+  onProbe: (fps: number) => void;
   onSlow: () => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const cbs = useRef({ onFail, onSlow });
-  cbs.current = { onFail, onSlow };
+  const cbs = useRef({ onFail, onProbe, onSlow });
+  cbs.current = { onFail, onProbe, onSlow };
 
   useEffect(() => {
     const host = ref.current;
@@ -116,6 +136,7 @@ function GlCanvas({
       forced,
       onFail: () => cbs.current.onFail(),
       onSlow: () => cbs.current.onSlow(),
+      onProbe: (fps) => cbs.current.onProbe(fps),
     })
       .then((e) => {
         if (cancelled) e.dispose();

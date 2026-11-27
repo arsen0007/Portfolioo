@@ -1,7 +1,6 @@
 import { CaseWiseFigure } from '@/components/home/CaseWiseFigure';
 import { HeroReveal } from '@/components/home/HeroReveal';
 import { NumberPin } from '@/components/home/NumberPin';
-import { Preloader } from '@/components/home/Preloader';
 import { ScrubQuote } from '@/components/home/ScrubQuote';
 import { WorkIndex, type WorkItem } from '@/components/home/WorkIndex';
 import '@/components/home/home.css';
@@ -433,7 +432,6 @@ function Closing() {
 export default function HomePage() {
   return (
     <main>
-      <Preloader />
       <Hero />
       <TheNumber />
       <Handoff />
