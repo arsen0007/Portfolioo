@@ -14,7 +14,7 @@ export default function ProjectsPage() {
 
   return (
     <main className="pb-[clamp(3.5rem,9vw,7.5rem)]">
-      <SceneIntentOnMount layout="right" shape="clusters" signal={0.3} />
+      <SceneIntentOnMount intensity={0.5} layout="right" shape="clusters" signal={0.3} />
 
       <Breadcrumb
         items={[

@@ -52,12 +52,9 @@ export function NextCase({ next, position, total }: NextCaseProps) {
         </Container>
       </TransitionLink>
 
-      <Container className="flex flex-col gap-3 border-t border-surfaceBorder py-8 sm:flex-row sm:justify-between">
+      <Container className="flex border-t border-surfaceBorder py-8">
         <ButtonLink href="/projects" size="lg" variant="secondary">
           All case studies
-        </ButtonLink>
-        <ButtonLink href="/contact" size="lg">
-          Start a conversation
         </ButtonLink>
       </Container>
     </section>

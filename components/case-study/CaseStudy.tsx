@@ -146,9 +146,6 @@ export function CaseStudy({ card, content, extras, project }: CaseStudyProps) {
                 )}
                 {card.statusLabel}
               </span>
-              {project.confidential ? (
-                <span className="label text-textMuted">Confidential · case contents are not shown</span>
-              ) : null}
               {project.liveUrl ? (
                 <Magnetic>
                   <ButtonLink href={project.liveUrl} size="lg">
@@ -159,9 +156,9 @@ export function CaseStudy({ card, content, extras, project }: CaseStudyProps) {
             </div>
           </div>
 
-          <dl className="mt-14 grid border-t border-surfaceBorder md:mt-20 md:grid-cols-12 md:gap-x-8">
+          <dl className="mt-14 grid border-t border-surfaceBorder md:mt-20 md:grid-cols-12">
             {spec.map((item) => (
-              <div className={cn('border-b border-surfaceBorder py-5 md:py-6', item.span)} key={item.label}>
+              <div className={cn('border-b border-surfaceBorder py-5 md:py-6 md:pr-8', item.span)} key={item.label}>
                 <dt className="label text-textMuted">{item.label}</dt>
                 <dd className="mt-2 text-small text-textPrimary md:text-base">{item.value}</dd>
               </div>
@@ -217,7 +214,7 @@ export function CaseStudy({ card, content, extras, project }: CaseStudyProps) {
               </div>
               <div className="mt-14 border-t border-surfaceBorder pt-8 md:mt-20">
                 <p className="label text-accent">The product move</p>
-                <p className="mt-5 max-w-[30ch] text-balance font-display text-h2 font-medium text-textPrimary">
+                <p className="mt-5 max-w-[34ch] text-balance font-display text-h3 font-medium text-textPrimary">
                   {story.productMove}
                 </p>
               </div>
@@ -226,7 +223,7 @@ export function CaseStudy({ card, content, extras, project }: CaseStudyProps) {
             <ChapterSection
               id="build"
               index={2}
-              intensity={0.55}
+              intensity={0.4}
               label="What I built"
               title={
                 <>
@@ -301,7 +298,7 @@ export function CaseStudy({ card, content, extras, project }: CaseStudyProps) {
               }
               total={total}
             >
-              <p className="max-w-[34ch] text-balance font-display text-h2 font-medium text-textPrimary">
+              <p className="max-w-[34ch] text-balance font-display text-h3 font-medium text-textPrimary">
                 {story.outcome}
               </p>
               <ul className="mt-14 border-t border-surfaceBorder">

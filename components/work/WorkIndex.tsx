@@ -239,12 +239,12 @@ export function WorkIndex({ items }: { items: WorkItem[] }) {
                   className="relative block overflow-hidden pb-[0.12em] -mb-[0.12em] lg:col-start-2 lg:row-start-1 font-display text-[clamp(2.1rem,5.2vw,5rem)] font-medium leading-[1.02] tracking-[-0.045em] text-textPrimary"
                   style={{ viewTransitionName: `project-title-${item.slug}` }}
                 >
-                  <span className="block transition-transform duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-data-[active=true]/row:-translate-y-[108%]">
+                  <span className="block transition-[transform,opacity] duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-data-[active=true]/row:-translate-y-[108%] group-data-[active=true]/row:opacity-0">
                     {item.name}
                   </span>
                   <span
                     aria-hidden="true"
-                    className="absolute inset-0 block translate-y-[108%] font-serif font-normal italic text-accent transition-transform duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-data-[active=true]/row:translate-y-0"
+                    className="absolute inset-0 block translate-y-[108%] font-serif font-normal italic text-accent opacity-0 transition-[transform,opacity] duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-data-[active=true]/row:translate-y-0 group-data-[active=true]/row:opacity-100"
                   >
                     {item.name}
                   </span>
@@ -267,7 +267,7 @@ export function WorkIndex({ items }: { items: WorkItem[] }) {
                     {item.kind === 'competition' ? 'Competition' : item.statusLabel}
                   </span>
                   <span className="flex items-baseline gap-2">
-                    <span className="font-display text-xl font-medium tabular-nums tracking-[-0.03em] text-textPrimary">
+                    <span className="whitespace-nowrap font-display text-xl font-medium tabular-nums tracking-[-0.03em] text-textPrimary">
                       {item.metric.value}
                     </span>
                     <span className="label text-textMuted">{item.metric.label}</span>
@@ -348,7 +348,7 @@ export function WorkIndex({ items }: { items: WorkItem[] }) {
                       {item.kind === 'competition' ? 'Competition' : item.statusLabel}
                     </span>
                     <span className="flex items-baseline gap-2">
-                      <span className="font-display text-lg font-medium tabular-nums tracking-[-0.03em] text-textPrimary">
+                      <span className="whitespace-nowrap font-display text-lg font-medium tabular-nums tracking-[-0.03em] text-textPrimary">
                         {item.metric.value}
                       </span>
                       <span className="label text-textMuted">{item.metric.label}</span>

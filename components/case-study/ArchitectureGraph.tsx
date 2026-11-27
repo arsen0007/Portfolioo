@@ -117,7 +117,7 @@ export function ArchitectureGraph({ steps }: { steps: string[] }) {
       <ol className="relative grid gap-y-10 md:grid-cols-2 md:gap-x-16 md:gap-y-12">
         {steps.map((step, i) => (
           <li
-            className={`group/node relative ${i % 2 ? 'md:col-start-2' : 'md:col-start-1'} rounded-media border border-surfaceBorderStrong p-5 transition-[border-color,transform] duration-700 data-[lit=true]:border-textSecondary md:p-6`}
+            className={`group/node relative ${i % 2 ? 'md:col-start-2' : 'md:col-start-1'} rounded-media border border-surfaceBorderStrong bg-[color-mix(in_srgb,var(--canvas)_82%,transparent)] p-5 transition-[border-color,transform] duration-700 data-[lit=true]:border-textSecondary md:p-6`}
             data-lit="true"
             key={step}
             ref={(el) => {

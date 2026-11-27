@@ -48,9 +48,12 @@ export function DecisionGrid({ decisions }: { decisions: ProjectDecision[] }) {
   return (
     <ol className="grid border-l border-t border-surfaceBorder md:grid-cols-2" ref={root}>
       {decisions.map((decision, i) => (
-        <li className="border-b border-r border-surfaceBorder" key={decision.title}>
+        <li
+          className={`border-b border-r border-surfaceBorder ${decisions.length % 2 === 1 && i === decisions.length - 1 ? 'md:col-span-2' : ''}`}
+          key={decision.title}
+        >
           <div className="group/card h-full p-6 transition-colors duration-500 hover:bg-surface/60 md:p-8" data-tilt="">
-            <span className="font-display text-h1 font-medium tabular-nums leading-none tracking-[-0.05em] text-textMuted/50 transition-colors duration-500 group-hover/card:text-accent">
+            <span className="font-display text-h1 font-medium tabular-nums leading-none tracking-[-0.05em] text-textMuted transition-colors duration-500 group-hover/card:text-accent">
               {String(i + 1).padStart(2, '0')}
             </span>
             <h4 className="mt-8 font-display text-h3 font-medium text-textPrimary">{decision.title}</h4>
