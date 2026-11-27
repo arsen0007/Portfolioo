@@ -689,8 +689,6 @@ const feedbackGen = simple(0.1, () => {
 
 /* --- portrait & text (async prep) ----------------------------------- */
 
-type PointCloud2D = { pts: Float32Array; count: number };
-let portraitCloud: PointCloud2D | null = null;
 let portraitCdf: Float32Array | null = null;
 let portraitMeta = { w: 1, h: 1 };
 let portraitLum: Float32Array | null = null;
@@ -735,7 +733,6 @@ async function loadPortrait(): Promise<void> {
   portraitCdf = cdf;
   portraitLum = lum;
   portraitMeta = { w: W, h: H };
-  portraitCloud = null;
 }
 
 const portraitGen: Gen = {

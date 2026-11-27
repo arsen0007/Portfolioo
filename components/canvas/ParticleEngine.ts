@@ -113,7 +113,7 @@ async function build(opts: EngineOptions, renderer: THREE.WebGLRenderer): Promis
   const dtVel = gpu.createTexture();
   {
     const rng = mulberry32(7);
-    const a = dtPos.image.data as Float32Array;
+    const a = dtPos.image.data as unknown as Float32Array;
     for (let i = 0; i < total; i++) {
       const g = () => (rng() + rng() + rng() - 1.5) * 2;
       a[i * 4] = g() * 1.6;
@@ -129,12 +129,12 @@ async function build(opts: EngineOptions, renderer: THREE.WebGLRenderer): Promis
     const rng = mulberry32(1337);
     for (let i = 0; i < total * 4; i++) auxData[i] = rng();
   }
-  const auxTex = new THREE.DataTexture(auxData, W, H, THREE.RGBAFormat, THREE.FloatType);
+  const auxTex = new THREE.DataTexture(auxData as unknown as BufferSource, W, H, THREE.RGBAFormat, THREE.FloatType);
   auxTex.minFilter = auxTex.magFilter = THREE.NearestFilter;
   auxTex.needsUpdate = true;
 
   const makeTex = (data: Float32Array) => {
-    const t = new THREE.DataTexture(data, W, H, THREE.RGBAFormat, THREE.FloatType);
+    const t = new THREE.DataTexture(data as unknown as BufferSource, W, H, THREE.RGBAFormat, THREE.FloatType);
     t.minFilter = t.magFilter = THREE.NearestFilter;
     t.needsUpdate = true;
     return t;
@@ -339,7 +339,7 @@ async function build(opts: EngineOptions, renderer: THREE.WebGLRenderer): Promis
   const loop = (now: number) => {
     if (disposed) return;
     raf = requestAnimationFrame(loop);
-    const dt = Math.min(Math.max((now - last) / 1000, 0.001), 1 / 20);
+    const dt = Math.min(Math.max((now - last) / 1000, 0.001), forced ? 0.2 : 1 / 20);
     last = now;
     time += dt;
     watchdog?.tick(now);
@@ -451,7 +451,7 @@ async function build(opts: EngineOptions, renderer: THREE.WebGLRenderer): Promis
       themeTimers.forEach(window.clearTimeout);
       mo.disconnect();
       ro.disconnect();
-      useScene.getState().setReady(false);
+      if (!first) useScene.getState().setReady(false);
       scene.remove(points);
       geo.dispose();
       mat.dispose();

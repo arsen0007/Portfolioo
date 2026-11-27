@@ -8,7 +8,7 @@ export default async function sitemap() {
     lastModified: new Date(),
   }));
 
-  const staticUrls = ['', '/about', '/projects', '/recognition', '/contact'].map((route) => ({
+  const staticUrls = ['', '/about', '/projects', '/recognition', '/contact', '/colophon'].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
   }));
