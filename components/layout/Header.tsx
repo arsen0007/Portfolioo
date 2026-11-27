@@ -95,7 +95,7 @@ export function Header() {
                     <TransitionLink
                       aria-current={active ? 'page' : undefined}
                       className={cn(
-                        'group inline-flex min-h-11 items-baseline gap-1.5 px-3 text-small transition-colors duration-300',
+                        'group inline-flex min-h-11 items-center gap-1.5 px-3 text-small transition-colors duration-300',
                         active ? 'text-textPrimary' : 'text-textSecondary hover:text-textPrimary',
                       )}
                       href={item.href}
